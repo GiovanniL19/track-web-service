@@ -181,7 +181,7 @@ public class Parse {
 
         train.put("operator", service.get("lt4:operator"));
         train.put("operatorCode", service.get("lt4:operatorCode"));
-        train.put("serviceId", service.get("lt4:serviceID"));
+        train.put("serviceID", service.get("lt4:serviceID"));
 
         train.put("callingPoints", this.getCallingPoints(allCallingPoints));
         return train;
