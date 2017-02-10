@@ -12,21 +12,42 @@ import java.util.List;
  * Created by giovannilenguito on 09/02/2017.
  */
 public class CouchDatabase {
-    String DATABASE_NAME = "track";
-    String HOST = "localhost";
-    String PROTOCOL = "http";
-    String USERNAME = "admin";
-    String PASSWORD = "9999567890";
-    int PORT = 5984;
+    /*
+    // For the web service to connect to CouchDB, the database will need to be running on the host provided with the correct username and password.
+    // Developed by Giovanni Lenguito
+    */
+    private final String DATABASE_NAME = "track";
+    private final String LOCAL_HOST = "localhost";
+    private final String PROTOCOL = "http";
+    private final String USERNAME = "admin";
+    private final String PASSWORD = "9999567890";
+    private final int PORT = 5984;
 
     CouchDbClient databaseClient;
 
     //Initialise Instance
     public CouchDatabase(){
-        //Configure Connection
-        CouchDbProperties properties = new CouchDbProperties().setDbName(DATABASE_NAME).setProtocol(PROTOCOL).setHost(HOST).setPort(PORT).setUsername(USERNAME).setPassword(PASSWORD);
-        //Create instance with properties
-        databaseClient = new CouchDbClient(properties);
+        try{
+            //Configure Connection
+            CouchDbProperties properties = new CouchDbProperties().setDbName(DATABASE_NAME).setProtocol(PROTOCOL).setHost(LOCAL_HOST).setPort(PORT).setUsername(USERNAME).setPassword(PASSWORD);
+            //Create instance with properties
+            databaseClient = new CouchDbClient(properties);
+            System.out.println("Connection successful");
+        }catch(Exception ex){
+            System.out.println("Connection failed");
+        }
+    }
+
+    public CouchDatabase(String host, String username, String password, int port, String protocol, String databaseName){
+        try{
+            //Configure Connection
+            CouchDbProperties properties = new CouchDbProperties().setDbName(databaseName).setProtocol(protocol).setHost(host).setPort(port).setUsername(username).setPassword(password);
+            //Create instance with properties
+            databaseClient = new CouchDbClient(properties);
+            System.out.println("Connection successful");
+        }catch(Exception ex){
+            System.out.println("Connection failed");
+        }
     }
 
 
