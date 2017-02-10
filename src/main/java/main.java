@@ -1,13 +1,11 @@
-
-import Handlers.CouchDatabase;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
+
 import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
-
 /**
  * Created by giovannilenguito on 09/02/2017.
  */
@@ -17,7 +15,6 @@ public class main {
     @GET
     @Produces("text/plain")
     public String getMessage() {
-        CouchDatabase database = new CouchDatabase();
         return "Hello, this is the track web service which implements all the logic and CRUD operations.";
     }
 
