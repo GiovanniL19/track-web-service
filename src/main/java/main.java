@@ -20,12 +20,12 @@ public class main {
 
     public static void main(String[] args) throws IOException {
         //Set up the http server
-        HttpServer server = HttpServerFactory.create("http://localhost:9998/");
+        HttpServer server = HttpServerFactory.create("http://localhost:3002/");
         server.start();
 
         //Print messages
         System.out.println("Server running");
-        System.out.println("Visit: http://localhost:9998/");
+        System.out.println("Visit: http://localhost:3002/");
         System.out.println("Hit return to stop...");
         System.in.read();
         System.out.println("Stopping server");

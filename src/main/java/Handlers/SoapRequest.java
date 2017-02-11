@@ -58,12 +58,12 @@ public class SoapRequest {
     }
 
     //To create a soap message to execute, use the appropriate create method below
-    public SOAPMessage createBoardWithDetailsMessage(String numRows, String crs, String filterCrs, String filterType, String timeOffset, String timeWindow) throws Exception{
+    public SOAPMessage createBoardWithDetailsMessage(String request, String numRows, String crs, String filterCrs, String filterType, String timeOffset, String timeWindow) throws Exception{
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
 
         //New Parent Element
-        SOAPElement soapBodyElem = soapBody.addChildElement("GetDepBoardWithDetailsRequest", "ldb");
+        SOAPElement soapBodyElem = soapBody.addChildElement(request, "ldb");
 
         //First new child element
         SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("numRows", "ldb");
