@@ -21,7 +21,6 @@ public class main {
     public static void main(String[] args) throws IOException {
         //Set up the http server
         HttpServer server = HttpServerFactory.create("http://localhost:3002/");
-
         server.start();
 
         //Print messages
