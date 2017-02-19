@@ -14,7 +14,7 @@ import javax.xml.soap.SOAPMessage;
  */
 // The Java class will be hosted at the URI path "/station"
 @Path("/trains")
-public class Trains {
+public class TrainController {
     @GET
     @Produces("application/json")
     public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows) {

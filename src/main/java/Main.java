@@ -1,0 +1,51 @@
+import Controllers.StationController;
+import Controllers.TrainController;
+import Controllers.UserController;
+import Filter.CORSFilter;
+import com.sun.net.httpserver.HttpServer;
+import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.Path;
+/**
+ * Created by giovannilenguito on 09/02/2017.
+ */
+// The Java class will be hosted at the URI path "/"
+@Path("/")
+public class Main {
+    final private static URI SERVER_URI = URI.create("http://localhost:3002/");
+
+    public static void main(String[] args) throws IOException {
+        ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
+
+        HttpServer server = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        System.out.println("Running server on " + SERVER_URI);
+    }
+
+
+    @GET
+    @Produces("text/plain")
+    public String getMessage() {
+        return "Hello, this is the track web service which implements all the logic and CRUD operations.";
+    }
+
+    private static Set<Class<?>> getEndpoints(){
+        final Set<Class<?>> endpoints = new HashSet<Class<?>>();
+        //Add classes with endpoints
+        endpoints.add(CORSFilter.class);
+
+        endpoints.add(Main.class);
+        endpoints.add(StationController.class);
+        endpoints.add(TrainController.class);
+        endpoints.add(UserController.class);
+        return endpoints;
+    }
+
+}

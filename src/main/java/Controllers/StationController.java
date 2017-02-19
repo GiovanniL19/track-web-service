@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
  */
 // The Java class will be hosted at the URI path "/station"
 @Path("/stations")
-public class Stations {
+public class StationController {
     @GET
     @Produces("application/json")
     public Response getDepBoard() {
