@@ -62,10 +62,11 @@ public class Parse {
         JSONObject results = response.getJSONObject("GetStationBoardResult");
         JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
-        try {
-            JSONArray services = trainServices.getJSONArray("lt5:service");
+        JSONArray allServices = new JSONArray();
 
-            JSONArray allServices = new JSONArray();
+        try {
+            System.out.println("Get services");
+            JSONArray services = trainServices.getJSONArray("lt5:service");
 
             for (int i = 0; i < services.length(); i++) {
                 JSONObject service = services.getJSONObject(i);
@@ -136,8 +137,9 @@ public class Parse {
 
             return trains;
         }catch(Exception ex){
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
 
+            System.out.println("Get service");
             JSONObject service = trainServices.getJSONObject("lt5:service");
 
             //Create origin station
@@ -174,7 +176,8 @@ public class Parse {
             try{
                 train.put("platform", service.get("lt4:platform"));
             }catch (Exception pEx){
-                System.out.println(pEx);
+                System.out.println(pEx.getMessage());
+                System.out.println("Setting platform to awaiting");
                 train.put("platform", "Awaiting");
             }
 
@@ -185,7 +188,10 @@ public class Parse {
 
             train.put("callingPoints", this.getCallingPoints(allCallingPoints));
 
-            return train;
+            allServices.put(train);
+            JSONObject trains = new JSONObject();
+            trains.put("trains", allServices);
+            return trains;
         }
     }
 

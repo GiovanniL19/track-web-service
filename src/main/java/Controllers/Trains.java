@@ -32,9 +32,19 @@ public class Trains {
             Parse parse = new Parse();
             JSONObject json = parse.boardServices(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("500: Server Error, please check origin and destination is correct").header("Access-Control-Allow-Origin", "*").build();
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+
+            String message;
+            if(ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
+                message = "No Services Running";
+            }else if(ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")){
+                message = "";
+            }else{
+                message = ex.getMessage();
+            }
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).header("Access-Control-Allow-Origin", "*").build();
         }
     }
 }
