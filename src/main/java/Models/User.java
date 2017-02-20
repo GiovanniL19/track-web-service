@@ -17,16 +17,17 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String image;
 
     //Account activity
-    private int dateCreated;
-    private int lastLogin;
+    private double dateCreated;
+    private double lastLogin;
 
     //List string because these are collections of id
     private List<String> toStations;
     private List<String> fromStations;
-    private List<String> likedRoutes;
-    private List<String> routesHistory;
+    private List<String> starredJourneys;
+    private List<String> journeyHistory;
 
     public String get_id() {
         return _id;
@@ -92,19 +93,27 @@ public class User {
         this.password = password;
     }
 
-    public int getDateCreated() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public double getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(int dateCreated) {
+    public void setDateCreated(double dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public int getLastLogin() {
+    public double getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(int lastLogin) {
+    public void setLastLogin(double lastLogin) {
         this.lastLogin = lastLogin;
     }
 
@@ -124,19 +133,19 @@ public class User {
         this.fromStations = fromStations;
     }
 
-    public List<String> getLikedRoutes() {
-        return likedRoutes;
+    public List<String> getStarredJourneys() {
+        return starredJourneys;
     }
 
-    public void setLikedRoutes(List<String> likedRoutes) {
-        this.likedRoutes = likedRoutes;
+    public void setStarredJourneys(List<String> starredJourneys) {
+        this.starredJourneys = starredJourneys;
     }
 
-    public List<String> getRoutesHistory() {
-        return routesHistory;
+    public List<String> getJourneyHistory() {
+        return journeyHistory;
     }
 
-    public void setRoutesHistory(List<String> routesHistory) {
-        this.routesHistory = routesHistory;
+    public void setJourneyHistory(List<String> journeyHistory) {
+        this.journeyHistory = journeyHistory;
     }
 }

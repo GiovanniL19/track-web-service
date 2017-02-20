@@ -51,9 +51,9 @@ public class CouchDatabase {
     }
 
 
-    //Route CRUD
-    public List<Station> getAllRoutesByUser(String id){
-        List<Station> list = databaseClient.view("routes/routesByUser").includeDocs(true).startKey(id).query(Station.class);
+    //Journeys CRUD
+    public List<Station> getAllJourneysByUser(String id){
+        List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).query(Station.class);
         return list;
     }
 

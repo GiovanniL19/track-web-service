@@ -9,6 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import Models.Station;
+import Models.User;
+import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -49,13 +51,13 @@ public class Parse {
         //Get xml content and puts in source
         Source sourceContent = xml.getSOAPPart().getContent();
 
-        final ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-        final StreamResult result = new StreamResult(streamOut);
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final StreamResult result = new StreamResult(byteArrayOutputStream);
 
         transformer.transform(sourceContent, result);
 
         //Convert result into json
-        JSONObject rawJson = XML.toJSONObject(streamOut.toString());
+        JSONObject rawJson = XML.toJSONObject(byteArrayOutputStream.toString());
         JSONObject envelope = rawJson.getJSONObject("soap:Envelope");
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
@@ -213,5 +215,81 @@ public class Parse {
         response.put("stations", jsonStations);
 
         return response;
+    }
+
+    public User toUser(String data){
+        try {
+            JSONObject requestJson = new JSONObject(data);
+            JSONObject json = requestJson.getJSONObject("user");
+            User user = new User();
+            //Object
+            user.setType(json.getString("type"));
+
+            //Personal information
+            user.setFirstName(json.getString("firstName"));
+            user.setLastName(json.getString("lastName"));
+            user.setEmail(json.getString("email"));
+
+            //Account information
+            user.setDateCreated(json.getInt("dateCreated"));
+            user.setUsername(json.getString("username"));
+            user.setPassword(json.getString("password"));
+
+//            //Get toStations
+//            JSONArray toStations = json.getJSONArray("toStations");
+//
+//            List<String> toStationsArray = null;
+//
+//            for (int i = 0; i <= toStations.length(); i++) {
+//                toStationsArray.add(toStations.getString(i));
+//            }
+//
+//            user.setToStations(toStationsArray);
+//
+//
+//            //Get fromStations
+//            JSONArray fromStations = json.getJSONArray("fromStations");
+//
+//            List<String> fromStationsArray = null;
+//
+//            for (int i = 0; i <= fromStations.length(); i++) {
+//                fromStationsArray.add(fromStations.getString(i));
+//            }
+//
+//            user.setFromStations(fromStationsArray);
+//
+//
+//            //Get journey history
+//            JSONArray journeyHistory = json.getJSONArray("journeyHistory");
+//
+//            List<String> journeyHistoryArray = null;
+//
+//            for (int i = 0; i <= journeyHistory.length(); i++) {
+//                journeyHistoryArray.add(journeyHistory.getString(i));
+//            }
+//
+//            user.setJourneyHistory(journeyHistoryArray);
+//
+//
+//            //Get starred journey
+//            JSONArray starredJourney = json.getJSONArray("starredJourney");
+//
+//            List<String> starredJourneyArray = null;
+//
+//            for (int i = 0; i <= starredJourney.length(); i++) {
+//                starredJourneyArray.add(starredJourney.getString(i));
+//            }
+//
+//            user.setStarredJourneys(starredJourneyArray);
+
+
+            //Return the user
+            System.out.println("Returning parsed user");
+            return user;
+        }catch(Exception ex){
+            //Error
+            System.out.println(ex);
+            return null;
+        }
     }
 }
