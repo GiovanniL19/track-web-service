@@ -217,10 +217,9 @@ public class Parse {
         return response;
     }
 
-    public User toUser(String data){
+    public User toUser(JSONObject data){
         try {
-            JSONObject requestJson = new JSONObject(data);
-            JSONObject json = requestJson.getJSONObject("user");
+            JSONObject json = data.getJSONObject("user");
             User user = new User();
             //Object
             user.setType(json.getString("type"));
