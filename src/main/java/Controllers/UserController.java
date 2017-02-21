@@ -5,8 +5,8 @@ import Handlers.Parse;
 import Models.User;
 import org.json.JSONObject;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -39,5 +39,21 @@ public class UserController {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").header("Access-Control-Allow-Origin", "*").build();
             }
         }
+    }
+
+    @GET
+    @Path("/check/exists/{email}")
+    @Produces("application/json")
+    public Response checkEmail(@PathParam("email") String email){
+        cDb = new CouchDatabase();
+
+        boolean result = false;
+        result = cDb.doesEmailExist(email);
+
+        //Create json response
+        JSONObject response = new JSONObject();
+        response.put("exist", result);
+
+        return Response.ok(response.toString(), MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
     }
 }

@@ -82,12 +82,23 @@ public class CouchDatabase {
 
 
     //User CRUD
+    public boolean doesEmailExist(String email){
+        int found = databaseClient.view("users/usersByUsername").startKey(email).endKey(email).query(Station.class).size();
+        System.out.println(found);
+        if (found >= 1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     public Station getUser(String username, String email, String id){
         if(username != null){
-            List<Station> list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).query(Station.class);
+            List<Station> list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).endKey(username).query(Station.class);
             return list.get(0);
         }else if(email != null){
-            List<Station> list = databaseClient.view("users/usersByEmail").includeDocs(true).startKey(email).query(Station.class);
+            List<Station> list = databaseClient.view("users/usersByEmail").includeDocs(true).startKey(email).endKey(email).query(Station.class);
             return list.get(0);
         }else{
             return databaseClient.find(Station.class, id);
