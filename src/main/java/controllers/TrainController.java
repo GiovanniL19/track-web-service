@@ -1,7 +1,7 @@
-package Controllers;
+package controllers;
 
-import Handlers.Parse;
-import Handlers.SoapRequest;
+import handlers.Parse;
+import handlers.SoapRequest;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -31,7 +31,7 @@ public class TrainController {
             //Parse
             Parse parse = new Parse();
             JSONObject json = parse.boardServices(response, "GetDepBoardWithDetailsResponse");
-            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
+            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
             //ex.printStackTrace();
 
@@ -44,7 +44,7 @@ public class TrainController {
                 message = ex.getMessage();
             }
 
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).header("Access-Control-Allow-Origin", "*").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
     }
 }

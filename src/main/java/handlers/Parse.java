@@ -1,4 +1,4 @@
-package Handlers;
+package handlers;
 
 import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.Source;
@@ -8,9 +8,8 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import Models.Station;
-import Models.User;
-import com.google.gson.JsonArray;
+import models.Station;
+import models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;

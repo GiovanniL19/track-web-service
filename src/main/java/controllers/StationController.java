@@ -1,7 +1,7 @@
-package Controllers;
+package controllers;
 
-import Handlers.CouchDatabase;
-import Handlers.Parse;
+import handlers.CouchDatabase;
+import handlers.Parse;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -24,10 +24,10 @@ public class StationController {
             JSONObject response = parse.stationToJson(cDb.getAllStations());
 
             cDb.closeConnection();
-            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
+            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
         }catch(Exception ex){
             System.out.println(ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").header("Access-Control-Allow-Origin", "*").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
         }
     }
 

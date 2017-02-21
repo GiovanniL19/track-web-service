@@ -1,4 +1,4 @@
-package Filter;
+package filter;
 
 
 import javax.ws.rs.container.ContainerRequestContext;

@@ -56,5 +56,12 @@
             <artifactId>jersey-server</artifactId>
             <version>2.7</version>
         </dependency>
+
+        <!--Security-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.6.0</version>
+        </dependency>
     </dependencies>
 </project>

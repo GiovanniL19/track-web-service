@@ -1,7 +1,7 @@
-package Handlers;
+package handlers;
 
-import Models.Station;
-import Models.User;
+import models.Station;
+import models.User;
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.Response;
@@ -93,15 +93,20 @@ public class CouchDatabase {
 
     }
 
-    public Station getUser(String username, String email, String id){
-        if(username != null){
-            List<Station> list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).endKey(username).query(Station.class);
-            return list.get(0);
-        }else if(email != null){
-            List<Station> list = databaseClient.view("users/usersByEmail").includeDocs(true).startKey(email).endKey(email).query(Station.class);
-            return list.get(0);
+    public User getUser(String username, String email, String id){
+        List<User> list;
+        if(!(username.equals(null))){
+            list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).endKey(username).query(User.class);
+        }else if(!(email.equals(null))){
+            list = databaseClient.view("users/usersByEmail").includeDocs(true).startKey(email).endKey(email).query(User.class);
         }else{
-            return databaseClient.find(Station.class, id);
+            return databaseClient.find(User.class, id);
+        }
+
+        if(list.size() == 0){
+            return null;
+        }else{
+            return list.get(0);
         }
     }
 

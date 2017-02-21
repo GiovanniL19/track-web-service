@@ -1,8 +1,9 @@
-import Controllers.StationController;
-import Controllers.TrainController;
-import Controllers.UserController;
-import Filter.CORSFilter;
+import controllers.StationController;
+import controllers.TrainController;
+import controllers.UserController;
+import filter.CORSFilter;
 import com.sun.net.httpserver.HttpServer;
+import filter.JWTFilter;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -38,9 +39,12 @@ public class Main {
 
     private static Set<Class<?>> getEndpoints(){
         final Set<Class<?>> endpoints = new HashSet<Class<?>>();
-        //Add classes with endpoints
+
+        //Add filters
+        endpoints.add(JWTFilter.class);
         endpoints.add(CORSFilter.class);
 
+        //Add classes with endpoints
         endpoints.add(Main.class);
         endpoints.add(StationController.class);
         endpoints.add(TrainController.class);
