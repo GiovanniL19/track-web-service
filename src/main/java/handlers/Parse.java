@@ -232,6 +232,7 @@ public class Parse {
             user.setDateCreated(json.getInt("dateCreated"));
             user.setUsername(json.getString("username"));
             user.setPassword(json.getString("password"));
+            user.setImage(json.getString("image"));
 
 //            //Get toStations
 //            JSONArray toStations = json.getJSONArray("toStations");

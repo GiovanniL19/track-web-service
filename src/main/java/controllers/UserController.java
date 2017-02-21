@@ -21,7 +21,6 @@ import java.security.Key;
 @Path("/users")
 public class UserController {
     private Parse parse;
-    private KeyGenerator keyGenerator;
 
     private String buildToken(JSONObject credentials) {
         Key key = MacProvider.generateKey();
@@ -41,18 +40,19 @@ public class UserController {
             final User user = cDb.getUser(username, null, null);
             cDb.closeConnection();
 
-            if (user.equals(null)) {
+            if (user == null) {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
             } else {
                 if (user.getPassword().equals(credentials.getString("password"))) {
                     System.out.println("Authentication successful, setting token and sending response...");
+
                     //Create token
                     final String token = buildToken(credentials);
-
                     //Build response
                     JSONObject response = new JSONObject();
                     response.put("token", token);
-                    response.put("user", user);
+                    response.put("user", new JSONObject(user));
+
                     return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
                 }else{
                     return Response.status(Response.Status.OK).entity("Incorrect Password").build();
