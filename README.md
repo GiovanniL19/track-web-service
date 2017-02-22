@@ -4,16 +4,16 @@ Track web service is a collection of endpoints to deal with the Track applicatio
 
 
 ##Dependencies and Frameworks##
-[Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-[Apache Maven](https://maven.apache.org/)
-[ASM Core 3.3.1](https://mvnrepository.com/artifact/asm/asm)
-[LightCouch 0.1.8](https://mvnrepository.com/artifact/org.lightcouch/lightcouch)
-[Json 20140107](https://mvnrepository.com/artifact/org.json/json)
-[Guava: Google Core Libraries For Java 11.0.2](https://mvnrepository.com/artifact/com.google.guava/guava)
-[Jersey Container Jdk Http 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-jdk-http)
-[Jersey Container Servlet Core 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core)
-[Jersey Core Server 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server)
-[JSON Web Token Support For The JVM 0.6.0](https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt)
+[Java 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)<br>
+[Apache Maven](https://maven.apache.org/)<br>
+[ASM Core 3.3.1](https://mvnrepository.com/artifact/asm/asm)<br>
+[LightCouch 0.1.8](https://mvnrepository.com/artifact/org.lightcouch/lightcouch)<br>
+[Json 20140107](https://mvnrepository.com/artifact/org.json/json)<br>
+[Guava: Google Core Libraries For Java 11.0.2](https://mvnrepository.com/artifact/com.google.guava/guava)<br>
+[Jersey Container Jdk Http 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-jdk-http)<br>
+[Jersey Container Servlet Core 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core)<br>
+[Jersey Core Server 2.7](https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server)<br>
+[JSON Web Token Support For The JVM 0.6.0](https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt)<br>
 
 ##Developers##
 Giovanni Lenguito - giovanni16.gl@gmail.com
