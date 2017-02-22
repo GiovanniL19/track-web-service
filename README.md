@@ -1,6 +1,6 @@
 # Track Web Service
 ##Quick Summary##
-Track web service is a collection of endpoints to deal with the Track applications requests. All the logic happens on the JAX-RS rather than the users device.The device (client) acts like a window allowing the user just to see the information they requested. The JAX-RS connects to the [National Rails web service (OpenLDBWS)](https://lite.realtime.nationalrail.co.uk/OpenLDBWS/) making SOAP requests.  
+Track web service is a collection of endpoints to deal with the Track applications requests. All the logic happens on the Java API for RESTful Web Service (JAX-RS) rather than the users device. The device (client) acts like a window allowing the user just to see the information they requested. The JAX-RS connects to the [National Rails web service (OpenLDBWS)](https://lite.realtime.nationalrail.co.uk/OpenLDBWS/) making SOAP requests. All the user and app information is stored on a couch database ([Apache CouchDB](http://couchdb.apache.org/)).
 
 
 ##Dependencies and Frameworks##
