@@ -20,7 +20,7 @@ public class StationController {
 
     @GET
     @Produces("application/json")
-    public Response getDepBoard() {
+    public Response getAllStations() {
 
         try{
             CouchDatabase cDb = new CouchDatabase();
@@ -35,5 +35,4 @@ public class StationController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
         }
     }
-
 }

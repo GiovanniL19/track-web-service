@@ -1,13 +1,14 @@
 package handlers;
 
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
+import controllers.StationController;
 import models.Station;
 import models.User;
 import org.json.JSONArray;
@@ -18,8 +19,63 @@ import org.json.XML;
  * Created by giovannilenguito on 10/02/2017.
  */
 public class Parse {
+    final private static Logger logger = Logger.getLogger(StationController.class.getName());
     private JSONObject train;
 
+    private JSONObject getServices(SOAPMessage xml, String type) throws SOAPException, TransformerException {
+        //Sets up transformer
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+
+        //Get xml content and puts in source
+        Source sourceContent = xml.getSOAPPart().getContent();
+
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final StreamResult result = new StreamResult(byteArrayOutputStream);
+        transformer.transform(sourceContent, result);
+
+        //Convert result into json
+        JSONObject rawJson = XML.toJSONObject(byteArrayOutputStream.toString());
+        System.out.println(rawJson);
+        JSONObject envelope = rawJson.getJSONObject("soap:Envelope");
+        JSONObject body = envelope.getJSONObject("soap:Body");
+        JSONObject response = body.getJSONObject(type);
+        JSONObject results = response.getJSONObject("GetStationBoardResult");
+        JSONObject trainServices = results.getJSONObject("lt5:trainServices");
+
+        return trainServices;
+    };
+    private JSONObject getOrigin(JSONObject service){
+        //Create origin station
+        JSONObject origin = service.getJSONObject("lt5:origin");
+        JSONObject oLocation = origin.getJSONObject("lt4:location");
+
+        JSONObject originFormatted = new JSONObject();
+        originFormatted.put("crs", oLocation.get("lt4:crs").toString());
+        originFormatted.put("name", oLocation.get("lt4:locationName").toString());
+
+        return origin;
+    }
+    private JSONObject getDestination(JSONObject service){
+        //Create destination station
+        JSONObject destinationFormatted = new JSONObject();
+
+        JSONObject destination = service.getJSONObject("lt5:destination");
+        JSONObject dLocation = destination.getJSONObject("lt4:location");
+
+        destinationFormatted.put("crs", dLocation.get("lt4:crs").toString());
+        destinationFormatted.put("name", dLocation.get("lt4:locationName").toString());
+        return destinationFormatted;
+    }
+    private JSONObject getLocation(JSONObject callingPoint){
+        JSONObject locationFormatted = new JSONObject();
+        locationFormatted.put("crs", callingPoint.get("lt4:crs").toString());
+        locationFormatted.put("et", callingPoint.get("lt4:et").toString());
+        locationFormatted.put("st", callingPoint.get("lt4:st").toString());
+        locationFormatted.put("name", callingPoint.get("lt4:locationName").toString());
+
+        return locationFormatted;
+    }
     private JSONArray getCallingPoints(JSONArray allCallingPoints){
         JSONArray callingPoints = new JSONArray();
         for (int j = 0; j < allCallingPoints.length(); j++) {
@@ -41,54 +97,38 @@ public class Parse {
 
         return callingPoints;
     }
+    private JSONArray getPreviousCallingPoints(JSONArray allCallingPoints){
+        JSONArray callingPoints = new JSONArray();
+        for (int j = 0; j < allCallingPoints.length(); j++) {
+            JSONObject location = allCallingPoints.getJSONObject(j);
+            JSONObject locationFormatted = new JSONObject();
+            locationFormatted.put("crs", location.getString("lt4:crs"));
+            try {
+                locationFormatted.put("at", location.getString("lt4:at"));
+            }catch(Exception ex){
+                //Do nothing as no at was provided
+                //logger.warning(ex.toString());
+            }
+            locationFormatted.put("st", location.getString("lt4:st"));
+            locationFormatted.put("name", location.getString("lt4:locationName"));
 
-    public JSONObject boardServices(SOAPMessage xml, String type) throws Exception{
-        //Sets up transformer
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
+            callingPoints.put(locationFormatted);
+        }
 
-        //Get xml content and puts in source
-        Source sourceContent = xml.getSOAPPart().getContent();
+        return callingPoints;
+    }
 
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        final StreamResult result = new StreamResult(byteArrayOutputStream);
-
-        transformer.transform(sourceContent, result);
-
-        //Convert result into json
-        JSONObject rawJson = XML.toJSONObject(byteArrayOutputStream.toString());
-        JSONObject envelope = rawJson.getJSONObject("soap:Envelope");
-        JSONObject body = envelope.getJSONObject("soap:Body");
-        JSONObject response = body.getJSONObject(type);
-        JSONObject results = response.getJSONObject("GetStationBoardResult");
-        JSONObject trainServices = results.getJSONObject("lt5:trainServices");
-
+    public JSONObject departureBoardServices(SOAPMessage xml, String type) throws Exception{
+        JSONObject trainServices = getServices(xml, type);
         JSONArray allServices = new JSONArray();
-
         try {
-            System.out.println("Get services");
+            logger.info("Get departure services");
             JSONArray services = trainServices.getJSONArray("lt5:service");
 
             for (int i = 0; i < services.length(); i++) {
                 JSONObject service = services.getJSONObject(i);
-
-                //Create origin station
-                JSONObject origin = service.getJSONObject("lt5:origin");
-                JSONObject oLocation = origin.getJSONObject("lt4:location");
-
-                JSONObject originFormatted = new JSONObject();
-                originFormatted.put("crs", oLocation.get("lt4:crs").toString());
-                originFormatted.put("name", oLocation.get("lt4:locationName").toString());
-
-                //Create destination station
-                JSONObject destinationFormatted = new JSONObject();
-
-                JSONObject destination = service.getJSONObject("lt5:destination");
-                JSONObject dLocation = destination.getJSONObject("lt4:location");
-
-                destinationFormatted.put("crs", dLocation.get("lt4:crs").toString());
-                destinationFormatted.put("name", dLocation.get("lt4:locationName").toString());
-
+                JSONObject originFormatted = getOrigin(service);
+                JSONObject destinationFormatted = getDestination(service);
 
                 train = new JSONObject();
 
@@ -138,9 +178,123 @@ public class Parse {
 
             return trains;
         }catch(Exception ex){
-            System.out.println(ex.getMessage());
+            logger.info("Get departure service");
+            logger.warning(ex.toString());
 
-            System.out.println("Get service");
+            JSONObject service = trainServices.getJSONObject("lt5:service");
+
+            JSONObject originFormatted = getOrigin(service);
+            JSONObject destinationFormatted = getDestination(service);
+
+            train = new JSONObject();
+            JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
+            JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+            JSONArray allCallingPoints = list.getJSONArray("lt4:callingPoint");
+
+            //Create train json object for client
+            train.put("origin", originFormatted);
+            train.put("destination", destinationFormatted);
+            train.put("std", service.get("lt4:std"));
+            train.put("etd", service.get("lt4:etd"));
+
+            try{
+                train.put("platform", service.get("lt4:platform"));
+            }catch (Exception pEx){
+                logger.warning(pEx.getMessage());
+                logger.info("Setting platform to awaiting");
+                train.put("platform", "Awaiting");
+            }
+
+            train.put("operator", service.get("lt4:operator"));
+            train.put("operatorCode", service.get("lt4:operatorCode"));
+            train.put("id", service.get("lt4:serviceID"));
+            train.put("type", "train");
+
+            train.put("callingPoints", this.getCallingPoints(allCallingPoints));
+
+            allServices.put(train);
+            JSONObject trains = new JSONObject();
+            trains.put("trains", allServices);
+            return trains;
+        }
+    }
+
+    public JSONObject arrivalBoardServices(SOAPMessage xml, String type) throws Exception{
+        JSONObject trainServices = getServices(xml, type);
+        JSONArray allServices = new JSONArray();
+        try {
+            logger.info("Get arrival services");
+            JSONArray services = trainServices.getJSONArray("lt5:service");
+
+            for (int i = 0; i < services.length(); i++) {
+                JSONObject service = services.getJSONObject(i);
+
+                train = new JSONObject();
+                train.put("operatorCode", service.get("lt4:operatorCode"));
+                JSONObject originFormatted = null;
+                JSONObject destinationFormatted = null;
+                try {
+                    originFormatted = getOrigin(service);
+                    destinationFormatted = getDestination(service);
+                }catch(Exception ex){
+                    logger.warning(ex.toString());
+                }
+                train.put("id", service.get("lt4:serviceID"));
+
+                //Create train json object for client
+                train.put("origin", originFormatted);
+                train.put("destination", destinationFormatted);
+
+                train.put("sta", service.get("lt4:sta"));
+                train.put("eta", service.get("lt4:eta"));
+
+                try{
+                    train.put("platform", service.get("lt4:platform"));
+                }catch (Exception pEx){
+                    train.put("platform", "Awaiting");
+                }
+
+                train.put("operator", service.get("lt4:operator"));
+                train.put("type", "train");
+
+                //Set up calling pints
+                try {
+                    JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
+                    JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+                    JSONArray allCallingPoints = list.getJSONArray("lt4:callingPoint");
+                    train.put("callingPoints", this.getPreviousCallingPoints(allCallingPoints));
+                } catch (Exception e) {
+                    try{
+                        JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
+                        JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+                        JSONObject callingPoint = list.getJSONObject("lt4:callingPoint");
+
+                        JSONObject locationFormatted = new JSONObject();
+                        locationFormatted.put("crs", callingPoint.get("lt4:crs").toString());
+                        try {
+                            locationFormatted.put("at", callingPoint.get("lt4:at").toString());
+                        }catch(Exception ex){/*DO NOTHING AS NO AT WAS PROVIDED*/}
+
+                        locationFormatted.put("st", callingPoint.get("lt4:st").toString());
+                        locationFormatted.put("name", callingPoint.get("lt4:locationName").toString());
+
+                        train.put("callingPoints", locationFormatted);
+                    }catch(Exception ex) {
+                        //Do nothing as there was no calling points between stations
+                        //logger.warning(e.toString());
+                    }
+                }
+
+                allServices.put(train);
+            }
+            JSONObject trains = new JSONObject();
+            trains.put("trains", allServices);
+
+            return trains;
+        }catch(Exception ex){
+            logger.info("Get arrival service");
+            logger.warning(ex.toString());
+
             JSONObject service = trainServices.getJSONObject("lt5:service");
 
             //Create origin station
@@ -173,15 +327,7 @@ public class Parse {
             train.put("destination", destinationFormatted);
             train.put("std", service.get("lt4:std"));
             train.put("etd", service.get("lt4:etd"));
-
-            try{
-                train.put("platform", service.get("lt4:platform"));
-            }catch (Exception pEx){
-                System.out.println(pEx.getMessage());
-                System.out.println("Setting platform to awaiting");
-                train.put("platform", "Awaiting");
-            }
-
+            train.put("platform", service.get("lt4:platform"));
             train.put("operator", service.get("lt4:operator"));
             train.put("operatorCode", service.get("lt4:operatorCode"));
             train.put("id", service.get("lt4:serviceID"));
@@ -283,11 +429,11 @@ public class Parse {
 
 
             //Return the user
-            System.out.println("Returning parsed user");
+            logger.info("Returning parsed user");
             return user;
         }catch(Exception ex){
             //Error
-            System.out.println(ex);
+            logger.warning(ex.toString());
             return null;
         }
     }
