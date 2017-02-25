@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
@@ -22,12 +23,13 @@ import javax.ws.rs.Path;
 @Path("/")
 public class Main {
     final private static URI SERVER_URI = URI.create("http://localhost:3002/");
+    final private static Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
         HttpServer server = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
-        System.out.println("Running server on " + SERVER_URI);
+        logger.info("Running server on " + SERVER_URI);
     }
 
 
@@ -38,6 +40,7 @@ public class Main {
     }
 
     private static Set<Class<?>> getEndpoints(){
+        logger.info("Setting up server");
         final Set<Class<?>> endpoints = new HashSet<Class<?>>();
 
         //Add filters

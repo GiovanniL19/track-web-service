@@ -20,8 +20,8 @@ public class User {
     private String image;
 
     //Account activity
-    private double dateCreated;
-    private double lastLogin;
+    private int dateCreated;
+    private int lastLogin;
 
     //List string because these are collections of id
     private List<String> toStations;
@@ -101,19 +101,19 @@ public class User {
         this.image = image;
     }
 
-    public double getDateCreated() {
+    public int getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(double dateCreated) {
+    public void setDateCreated(int dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public double getLastLogin() {
+    public int getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(double lastLogin) {
+    public void setLastLogin(int lastLogin) {
         this.lastLogin = lastLogin;
     }
 

@@ -14,12 +14,16 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.Key;
+import java.security.Timestamp;
+import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * Created by giovannilenguito on 19/02/2017.
  */
 @Path("/users")
 public class UserController {
+    final private static Logger logger = Logger.getLogger(UserController.class.getName());
     private Parse parse;
 
     private String buildToken(JSONObject credentials) {
@@ -30,21 +34,21 @@ public class UserController {
     @POST
     @Path("/auth")
     public Response authenticate(String data) {
-        //Initialise database connection
-        CouchDatabase cDb = new CouchDatabase();
 
         JSONObject credentials = new JSONObject(data);
         try {
+            //Initialise database connection
+            CouchDatabase cDb = new CouchDatabase();
+
             final String username = credentials.getString("username");
             //Get user
             final User user = cDb.getUser(username, null, null);
-            cDb.closeConnection();
 
             if (user == null) {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
             } else {
                 if (user.getPassword().equals(credentials.getString("password"))) {
-                    System.out.println("Authentication successful, setting token and sending response...");
+                    logger.info("Authentication successful, setting token and sending response...");
 
                     //Create token
                     final String token = buildToken(credentials);
@@ -53,13 +57,21 @@ public class UserController {
                     response.put("token", token);
                     response.put("user", new JSONObject(user));
 
+                    //Save last login
+                    int dateTime = (int) (new Date().getTime()/1000);
+                    user.setLastLogin(dateTime);
+                    cDb.putUser(user);
+                    //Close connection to couchdb
+                    cDb.closeConnection();
                     return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
                 }else{
+                    //Close connection to couchdb
+                    cDb.closeConnection();
                     return Response.status(Response.Status.OK).entity("Incorrect Password").build();
                 }
             }
         }catch (Exception ex){
-            System.out.println(ex);
+            logger.warning(ex.toString());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Incorrect request format").build();
         }
     }
@@ -82,7 +94,7 @@ public class UserController {
                 user.put("user", requestJson);
                 return Response.status(Response.Status.CREATED).entity(user.toString()).header("Access-Control-Allow-Origin", "*").build();
             }catch (Exception ex){
-                System.out.println(ex);
+                logger.warning(ex.toString());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").header("Access-Control-Allow-Origin", "*").build();
             }
         }

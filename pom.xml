@@ -41,6 +41,7 @@
         <jersey-container-servlet-core.version>2.7</jersey-container-servlet-core.version>
         <jersey-server.version>2.7</jersey-server.version>
         <jjwt.version>0.6.0</jjwt.version>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <dependencies>
@@ -99,5 +100,14 @@
             <artifactId>jjwt</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+
     </dependencies>
 </project>
