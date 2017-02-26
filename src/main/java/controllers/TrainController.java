@@ -18,30 +18,26 @@ import java.util.logging.Logger;
 public class TrainController {
     final private static Logger logger = Logger.getLogger(StationController.class.getName());
 
-    private String getErrorMessage(Exception ex){
-        logger.warning(ex.toString());
-
-        String message;
-        if(ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
-            message = "No Services Running";
-        }else if(ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")){
-            message = "";
-        }else{
-            message = ex.getMessage();
-        }
-
-        return message;
-    }
-
     @GET
     @Produces("application/json")
-    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows) {
+    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location) {
+        if(type.equalsIgnoreCase("departure")){
+            return getDepartureBoard(location);
+        }else if(type.equalsIgnoreCase("arrival")){
+            return getArrivalBoard(location);
+        }else{
+            return findTrains(crs, filterCrs, rows);
+        }
+    }
+
+
+    public Response findTrains(String crs, String filterCrs, String rows){
         try {
             //Initialise instance
             SoapRequest soapRequest = new SoapRequest();
 
             //Create message
-            SOAPMessage message = soapRequest.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(),"","","");
+            SOAPMessage message = soapRequest.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(), "", "", "");
 
             //Get data from national rail
             SOAPMessage response = soapRequest.execute(message);
@@ -56,11 +52,8 @@ public class TrainController {
         }
     }
 
-
-    @Path("/departure")
-    @GET
-    @Produces("application/json")
-    public Response getDeparture(@QueryParam(value="origin") String crs, @DefaultValue("10") @QueryParam("rows") String rows){
+    public Response getDepartureBoard(String crs){
+        final String rows = "10";
         try {
             //Initialise instance
             SoapRequest soapRequest = new SoapRequest();
@@ -81,10 +74,8 @@ public class TrainController {
         }
     }
 
-    @Path("/arrival")
-    @GET
-    @Produces("application/json")
-    public Response getArrival(@QueryParam(value="destination") String crs, @DefaultValue("10") @QueryParam("rows") String rows){
+    public Response getArrivalBoard(String crs){
+        final String rows = "10";
         try {
             //Initialise instance
             SoapRequest soapRequest = new SoapRequest();
@@ -105,4 +96,18 @@ public class TrainController {
         }
     }
 
+    private String getErrorMessage(Exception ex){
+        logger.warning(ex.toString());
+
+        String message;
+        if(ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
+            message = "No Services Running";
+        }else if(ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")){
+            message = "";
+        }else{
+            message = ex.getMessage();
+        }
+
+        return message;
+    }
 }

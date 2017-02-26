@@ -54,7 +54,7 @@ public class Parse {
         originFormatted.put("crs", oLocation.get("lt4:crs").toString());
         originFormatted.put("name", oLocation.get("lt4:locationName").toString());
 
-        return origin;
+        return originFormatted;
     }
     private JSONObject getDestination(JSONObject service){
         //Create destination station
@@ -66,15 +66,6 @@ public class Parse {
         destinationFormatted.put("crs", dLocation.get("lt4:crs").toString());
         destinationFormatted.put("name", dLocation.get("lt4:locationName").toString());
         return destinationFormatted;
-    }
-    private JSONObject getLocation(JSONObject callingPoint){
-        JSONObject locationFormatted = new JSONObject();
-        locationFormatted.put("crs", callingPoint.get("lt4:crs").toString());
-        locationFormatted.put("et", callingPoint.get("lt4:et").toString());
-        locationFormatted.put("st", callingPoint.get("lt4:st").toString());
-        locationFormatted.put("name", callingPoint.get("lt4:locationName").toString());
-
-        return locationFormatted;
     }
     private JSONArray getCallingPoints(JSONArray allCallingPoints){
         JSONArray callingPoints = new JSONArray();
@@ -233,6 +224,7 @@ public class Parse {
                 train.put("operatorCode", service.get("lt4:operatorCode"));
                 JSONObject originFormatted = null;
                 JSONObject destinationFormatted = null;
+
                 try {
                     originFormatted = getOrigin(service);
                     destinationFormatted = getDestination(service);
