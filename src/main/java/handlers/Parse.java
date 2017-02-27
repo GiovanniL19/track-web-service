@@ -109,6 +109,7 @@ public class Parse {
         return callingPoints;
     }
 
+
     public JSONObject departureBoardServices(SOAPMessage xml, String type) throws Exception{
         JSONObject trainServices = getServices(xml, type);
         JSONArray allServices = new JSONArray();
@@ -209,7 +210,6 @@ public class Parse {
             return trains;
         }
     }
-
     public JSONObject arrivalBoardServices(SOAPMessage xml, String type) throws Exception{
         JSONObject trainServices = getServices(xml, type);
         JSONArray allServices = new JSONArray();
@@ -298,7 +298,6 @@ public class Parse {
             originFormatted.put("name", oLocation.get("lt4:locationName").toString());
 
 
-
             //Create destination station
             JSONObject destination = service.getJSONObject("lt5:destination");
             JSONObject dLocation = destination.getJSONObject("lt4:location");
@@ -333,7 +332,36 @@ public class Parse {
             return trains;
         }
     }
+    public JSONObject stationMessage(SOAPMessage xml, String type) throws Exception{
+        //Sets up transformer
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
 
+        //Get xml content and puts in source
+        Source sourceContent = xml.getSOAPPart().getContent();
+
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final StreamResult result = new StreamResult(byteArrayOutputStream);
+        transformer.transform(sourceContent, result);
+
+        JSONObject messageFormatted = new JSONObject();
+
+        try {
+            //Convert result into json
+            JSONObject rawJson = XML.toJSONObject(byteArrayOutputStream.toString());
+            JSONObject envelope = rawJson.getJSONObject("soap:Envelope");
+            JSONObject body = envelope.getJSONObject("soap:Body");
+            JSONObject response = body.getJSONObject(type);
+            JSONObject results = response.getJSONObject("GetStationBoardResult");
+            JSONObject messages = results.getJSONObject("lt4:nrccMessages");
+
+            messageFormatted.put("message", messages.getString("lt:message"));
+        }catch(Exception ex){
+         logger.warning(ex.toString());
+         messageFormatted.put("message", "");
+        }
+        return messageFormatted;
+    }
     public JSONObject stationToJson(List<Station> stations){
         JSONArray jsonStations = new JSONArray();
 
@@ -353,6 +381,7 @@ public class Parse {
 
         return response;
     }
+
 
     public User toUser(JSONObject data){
         try {
@@ -427,6 +456,21 @@ public class Parse {
             //Error
             logger.warning(ex.toString());
             return null;
+        }
+    }
+    public String toCity(String location){
+        try {
+            JSONObject locationObject = new JSONObject(location);
+            JSONArray results = locationObject.getJSONArray("results");
+            JSONObject firstResult = results.getJSONObject(0);
+            JSONArray address = firstResult.getJSONArray("address_components");
+            JSONObject locality = address.getJSONObject(2);
+            String city = locality.getString("long_name");
+
+            return city;
+        }catch(Exception ex){
+            logger.warning(ex.toString());
+            return "";
         }
     }
 }

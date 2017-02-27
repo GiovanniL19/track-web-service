@@ -1,13 +1,15 @@
 package controllers;
 
 import handlers.CouchDatabase;
+import handlers.GeoLocation;
 import handlers.Parse;
-import models.Station;
+import handlers.SoapRequest;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.soap.SOAPMessage;
 import java.util.logging.Logger;
 
 /**
@@ -35,4 +37,34 @@ public class StationController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
         }
     }
+
+    @GET
+    @Path("/test")
+    @Produces("application/json")
+    public Response test() {
+        GeoLocation geoLocation = new GeoLocation();
+        String city = geoLocation.getCity("53.010151799999996", "-2.1804978");
+        return Response.ok(city, MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("/message")
+    @Produces("application/json")
+    public Response getMessage(@QueryParam(value="station") String crs) {
+        final String rows = "10";
+        try {
+            SoapRequest soapRequest = new SoapRequest();
+            SOAPMessage soapMessage = soapRequest.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
+            SOAPMessage response = soapRequest.execute(soapMessage);
+
+            Parse parse = new Parse();
+            JSONObject json = parse.stationMessage(response, "GetDepBoardWithDetailsResponse");
+            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+        } catch (Exception ex) {
+            logger.warning(ex.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
+        }
+    }
+
+
 }
