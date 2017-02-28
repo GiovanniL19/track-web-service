@@ -1,7 +1,6 @@
 package controllers;
 
 import handlers.CouchDatabase;
-import handlers.GeoLocation;
 import handlers.Parse;
 import handlers.SoapRequest;
 import org.json.JSONObject;
@@ -36,15 +35,6 @@ public class StationController {
             logger.warning(ex.toString());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
         }
-    }
-
-    @GET
-    @Path("/test")
-    @Produces("application/json")
-    public Response test() {
-        GeoLocation geoLocation = new GeoLocation();
-        String city = geoLocation.getCity("53.010151799999996", "-2.1804978");
-        return Response.ok(city, MediaType.APPLICATION_JSON).build();
     }
 
     @GET

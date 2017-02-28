@@ -20,16 +20,20 @@ public class TrainController {
 
     @GET
     @Produces("application/json")
-    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location) {
+    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
         if(type.equalsIgnoreCase("departure")){
             return getDepartureBoard(location);
         }else if(type.equalsIgnoreCase("arrival")){
             return getArrivalBoard(location);
         }else{
+            logger.info("Saving context");
+            //Create context
+            ContextController contextController = new ContextController();
+            contextController.createContext(lng, lat, crs, filterCrs, userID);
+            //Return trains
             return findTrains(crs, filterCrs, rows);
         }
     }
-
 
     public Response findTrains(String crs, String filterCrs, String rows){
         try {

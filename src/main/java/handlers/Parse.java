@@ -36,7 +36,6 @@ public class Parse {
 
         //Convert result into json
         JSONObject rawJson = XML.toJSONObject(byteArrayOutputStream.toString());
-        System.out.println(rawJson);
         JSONObject envelope = rawJson.getJSONObject("soap:Envelope");
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
@@ -355,7 +354,22 @@ public class Parse {
             JSONObject results = response.getJSONObject("GetStationBoardResult");
             JSONObject messages = results.getJSONObject("lt4:nrccMessages");
 
-            messageFormatted.put("message", messages.getString("lt:message"));
+            System.out.println(rawJson);
+            try {
+                messageFormatted.put("message", messages.getString("lt:message"));
+            } catch (Exception ex){
+                logger.warning(ex.toString());
+                JSONArray messageArray = messages.getJSONArray("lt:message");
+                String message = "";
+                for(int i = 0; i < messageArray.length(); i++){
+                    if(i == 0) {
+                        message = messageArray.get(i).toString();
+                    }else {
+                        message = message + " " + messageArray.get(i).toString();
+                    }
+                }
+                messageFormatted.put("message", message);
+            }
         }catch(Exception ex){
          logger.warning(ex.toString());
          messageFormatted.put("message", "");

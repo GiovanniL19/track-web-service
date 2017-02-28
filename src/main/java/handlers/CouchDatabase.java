@@ -1,5 +1,6 @@
 package handlers;
 
+import models.Context;
 import models.Station;
 import models.User;
 import org.lightcouch.CouchDbClient;
@@ -95,9 +96,9 @@ public class CouchDatabase {
 
     public User getUser(String username, String email, String id){
         List<User> list;
-        if(!(username.equals(null))){
+        if(username != null){
             list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).endKey(username).query(User.class);
-        }else if(!(email.equals(null))){
+        }else if(email != null){
             list = databaseClient.view("users/usersByEmail").includeDocs(true).startKey(email).endKey(email).query(User.class);
         }else{
             return databaseClient.find(User.class, id);
@@ -123,6 +124,18 @@ public class CouchDatabase {
     public Response deleteUser(User user){
         //Remove user
         return databaseClient.remove(user);
+    }
+
+
+    //Context Post and Put
+    public Response postContext(Context context){
+        //Save context
+        return databaseClient.save(context);
+    }
+
+    public Response putContext(Context context){
+        //Update context
+        return databaseClient.update(context);
     }
 
     //Close Connection (Needs to be called once response has been sent to client)

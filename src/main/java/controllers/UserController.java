@@ -34,7 +34,6 @@ public class UserController {
     @POST
     @Path("/auth")
     public Response authenticate(String data) {
-
         JSONObject credentials = new JSONObject(data);
         try {
             //Initialise database connection
@@ -55,7 +54,7 @@ public class UserController {
                     //Build response
                     JSONObject response = new JSONObject();
                     response.put("token", token);
-                    response.put("user", new JSONObject(user));
+                    response.put("user", user.get_id());
 
                     //Save last login
                     int dateTime = (int) (new Date().getTime()/1000);
@@ -76,26 +75,52 @@ public class UserController {
         }
     }
 
+    @GET
+    @Path("/{id}")
+    public Response getUser(@PathParam("id") String id) {
+        CouchDatabase couchDatabase = new CouchDatabase();
+        try {
+            User foundUser = couchDatabase.getUser(null, null, id);
+
+            if(foundUser == null){
+                return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+            }else{
+                foundUser.setId(id);
+                JSONObject userJson = new JSONObject(foundUser);
+
+                JSONObject user = new JSONObject();
+                user.put("user", userJson);
+                return Response.status(Response.Status.OK).entity(user.toString()).build();
+            }
+        }catch(Exception ex){
+            logger.info("FAILED");
+            logger.warning(ex.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not get user").build();
+        }finally {
+            couchDatabase.closeConnection();
+        }
+    }
+
     @POST
     public Response postUser(String data) {
         parse = new Parse();
-        CouchDatabase cDb = new CouchDatabase();
+        CouchDatabase couchDatabase = new CouchDatabase();
 
         JSONObject requestJson = new JSONObject(data);
         //Parse user
         User newUser = parse.toUser(requestJson);
         if(newUser == null){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save users").header("Access-Control-Allow-Origin", "*").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save users").build();
         }else{
-            requestJson.put("id", cDb.postUser(newUser).getId());
-            cDb.closeConnection();
+            requestJson.put("id", couchDatabase.postUser(newUser).getId());
+            couchDatabase.closeConnection();
             try{
                 JSONObject user = new JSONObject();
                 user.put("user", requestJson);
-                return Response.status(Response.Status.CREATED).entity(user.toString()).header("Access-Control-Allow-Origin", "*").build();
+                return Response.status(Response.Status.CREATED).entity(user.toString()).build();
             }catch (Exception ex){
                 logger.warning(ex.toString());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").header("Access-Control-Allow-Origin", "*").build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
             }
         }
     }
@@ -104,10 +129,10 @@ public class UserController {
     @Path("/check/exists/{email}")
     @Produces("application/json")
     public Response checkEmail(@PathParam("email") String email){
-        CouchDatabase cDb = new CouchDatabase();
+        CouchDatabase couchDatabase = new CouchDatabase();
 
-        final boolean result = cDb.doesEmailExist(email);
-        cDb.closeConnection();
+        final boolean result = couchDatabase.doesEmailExist(email);
+        couchDatabase.closeConnection();
 
         //Create json response
         JSONObject response = new JSONObject();

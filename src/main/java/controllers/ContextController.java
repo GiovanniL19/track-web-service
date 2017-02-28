@@ -1,29 +1,50 @@
 package controllers;
 
-import handlers.GeoLocation;
+import handlers.CouchDatabase;
+import models.Context;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ejb.Asynchronous;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
  * Created by giovannilenguito on 10/02/2017.
  */
-// The Java class will be hosted at the URI path "/contexts"
-@Path("/contexts")
+
+@Asynchronous
 public class ContextController {
     final private static Logger logger = Logger.getLogger(ContextController.class.getName());
 
-    @POST
-    @Produces("application/json")
-    public Response getMessage(@QueryParam(value="station") String crs) {
-        GeoLocation geoLocation = new GeoLocation();
-        //TODO: Get actualy long and lat values
-        String city = geoLocation.getCity("53.010151799999996", "-2.1804978");
-        //TODO: Create context POJO and save to CouchDB, then send the object created in response
+    public void createContext(String lng, String lat, String from, String to, String userID){
+        logger.info("Creating context object");
+        LocationController locationController = new LocationController();
+        CouchDatabase couchDatabase = new CouchDatabase();
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        Context context = new Context();
 
-        return Response.ok("Saved context", MediaType.APPLICATION_JSON).build();
+        context.setType("context");
+
+        //Get the hour
+        calendar.setTime(date);
+        context.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+
+        //Get city
+        context.setCity(locationController.getCity(lat, lng));
+        context.setLatitude(lat);
+        context.setLongitude(lng);
+
+        //Set stations
+        context.setFromCRS(from);
+        context.setToCRS(to);
+
+        //Set user
+        context.setUser(userID);
+
+        //Save context
+        couchDatabase.postContext(context);
+        logger.info("Saved context");
     }
 
 
