@@ -26,10 +26,12 @@ public class TrainController {
         }else if(type.equalsIgnoreCase("arrival")){
             return getArrivalBoard(location);
         }else{
-            logger.info("Saving context");
             //Create context
-            ContextController contextController = new ContextController();
-            contextController.createContext(lng, lat, crs, filterCrs, userID);
+            if(!lng.equals("") && !lat.equals("")) {
+                logger.info("Saving context");
+                ContextController contextController = new ContextController();
+                contextController.createContext(lng, lat, crs, filterCrs, userID);
+            }
             //Return trains
             return findTrains(crs, filterCrs, rows);
         }

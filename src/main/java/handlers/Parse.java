@@ -40,6 +40,7 @@ public class Parse {
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
         JSONObject results = response.getJSONObject("GetStationBoardResult");
+        System.out.println(rawJson.toString());
         JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
         return trainServices;
@@ -486,5 +487,32 @@ public class Parse {
             logger.warning(ex.toString());
             return "";
         }
+    }
+    public JSONArray toStationsArray(String raw){
+        try {
+            JSONObject json = new JSONObject(raw);
+            JSONArray results = json.getJSONArray("results");
+
+            JSONArray stations = new JSONArray();
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject station = new JSONObject();
+                //Get station from database
+                CouchDatabase couchDatabase = new CouchDatabase();
+                Station foundStation = couchDatabase.getStation(results.getJSONObject(i).getString("name"), null);
+
+                station.put("id", foundStation.getId());
+                station.put("name", foundStation.getName());
+                station.put("crs", foundStation.getCrs());
+                station.put("viewCount", foundStation.getViewCount());
+
+                stations.put(station);
+            }
+
+            return stations;
+        }catch(Exception ex){
+            logger.warning(ex.toString());
+            return null;
+        }
+
     }
 }

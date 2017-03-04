@@ -54,7 +54,7 @@ public class CouchDatabase {
 
     //Journeys CRUD
     public List<Station> getAllJourneysByUser(String id){
-        List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).query(Station.class);
+        List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Station.class);
         return list;
     }
 
@@ -68,7 +68,7 @@ public class CouchDatabase {
 
     public Station getStation(String name, String id){
         if(name != null){
-            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).query(Station.class);
+            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query(Station.class);
             return list.get(0);
         }else{
             return databaseClient.find(Station.class, id);

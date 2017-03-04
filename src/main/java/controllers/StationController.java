@@ -3,6 +3,7 @@ package controllers;
 import handlers.CouchDatabase;
 import handlers.Parse;
 import handlers.SoapRequest;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -21,19 +22,22 @@ public class StationController {
 
     @GET
     @Produces("application/json")
-    public Response getAllStations() {
+    public Response getAllStations(@QueryParam(value="lng") String lng, @QueryParam(value="lat") String lat) {
+        if(lng != null && lat != null){
+            return getNearestStation(lng, lat);
+        }else{
+            try {
+                CouchDatabase cDb = new CouchDatabase();
 
-        try{
-            CouchDatabase cDb = new CouchDatabase();
+                Parse parse = new Parse();
+                JSONObject response = parse.stationToJson(cDb.getAllStations());
 
-            Parse parse = new Parse();
-            JSONObject response = parse.stationToJson(cDb.getAllStations());
-
-            cDb.closeConnection();
-            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
-        }catch(Exception ex){
-            logger.warning(ex.toString());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
+                cDb.closeConnection();
+                return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+            } catch (Exception ex) {
+                logger.warning(ex.toString());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
+            }
         }
     }
 
@@ -56,5 +60,15 @@ public class StationController {
         }
     }
 
-
+    public Response getNearestStation(String longitude, String latitude){
+        LocationController locationController = new LocationController();
+        JSONArray stations = locationController.getNearestStation(longitude, latitude);
+        if(stations == null) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations or no stations nearby").build();
+        }else {
+            JSONObject response = new JSONObject();
+            response.put("stations", stations);
+            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+        }
+    }
 }
