@@ -12,6 +12,7 @@ public class Journey {
     private String longitude;
     private String latitude;
     private int hour;
+    private int count;
 
     private String toCRS;
     private String fromCRS;
@@ -71,6 +72,14 @@ public class Journey {
 
     public void setHour(int hour) {
         this.hour = hour;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getToCRS() {

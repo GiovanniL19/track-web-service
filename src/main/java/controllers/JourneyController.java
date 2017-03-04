@@ -3,6 +3,7 @@ package controllers;
 import handlers.CouchDatabase;
 import models.Journey;
 import models.User;
+import sun.plugin2.main.client.CALayerProvider;
 
 import javax.ejb.Asynchronous;
 import java.util.ArrayList;
@@ -21,54 +22,61 @@ public class JourneyController {
 
     public void createJourney(String lng, String lat, String from, String to, String userID){
         try {
-            logger.info("Creating journey object");
             LocationController locationController = new LocationController();
             CouchDatabase couchDatabase = new CouchDatabase();
+
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
-            Journey journey = new Journey();
-
-            journey.setType("journey");
-
-            //Get the hour
             calendar.setTime(date);
-            journey.setHour(calendar.get(Calendar.HOUR_OF_DAY));
 
-            //Get city
-            journey.setCity(locationController.getCity(lat, lng));
-            journey.setLatitude(lat);
-            journey.setLongitude(lng);
+            int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+            String city = locationController.getCity(lat, lng);
 
-            //Set stations
-            journey.setFromCRS(from);
-            journey.setToCRS(to);
+            String combined = city + hourOfDay + to + from;
+            Journey foundJourney = couchDatabase.findJourney(combined);
+            if(foundJourney != null){
+                foundJourney.setCount(foundJourney.getCount() + 1);
+                couchDatabase.putJourney(foundJourney);
+            }else {
+                Journey journey = new Journey();
+                journey.setType("journey");
+                journey.setHour(hourOfDay);
 
-            //Set user
-            journey.setUser(userID);
+                //Get city
+                journey.setCity(city);
+                journey.setLatitude(lat);
+                journey.setLongitude(lng);
 
-            //Save journey
-            String journeyId = couchDatabase.postJourney(journey).getId().toString();
-            logger.info("Saved journey");
+                //Set stations
+                journey.setFromCRS(from);
+                journey.setToCRS(to);
 
-            if(!userID.isEmpty()) {
-                //Update user
-                User user = couchDatabase.getUser(null, null, userID);
-                //Update user
-                List<String> journeys;
+                //Set user
+                journey.setUser(userID);
 
-                if (user.getJourneyHistory() == null) {
-                    journeys = new ArrayList<String>();
-                } else {
-                    journeys = user.getJourneyHistory();
+                //Save journey
+                String journeyId = couchDatabase.postJourney(journey).getId().toString();
+                logger.info("Saved journey");
+
+                if (!userID.isEmpty()) {
+                    //Update user
+                    User user = couchDatabase.getUser(null, null, userID);
+                    //Update user
+                    List<String> journeys;
+
+                    if (user.getJourneyHistory() == null) {
+                        journeys = new ArrayList<String>();
+                    } else {
+                        journeys = user.getJourneyHistory();
+                    }
+
+                    journeys.add(journeyId);
+                    user.setJourneyHistory(journeys);
+
+                    //Save user
+                    couchDatabase.putUser(user);
                 }
-
-                journeys.add(journeyId);
-                user.setJourneyHistory(journeys);
-
-                //Save user
-                couchDatabase.putUser(user);
             }
-
                 //Close connection
                 couchDatabase.closeConnection();
         }catch(Exception ex){

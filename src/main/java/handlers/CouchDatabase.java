@@ -53,9 +53,29 @@ public class CouchDatabase {
 
 
     //Journeys CRUD
+    public Journey findJourney(String combinedString){
+        List<Journey> list = databaseClient.view("journeys/combined").includeDocs(true).startKey(combinedString).endKey(combinedString).query(Journey.class);
+        if(list.size() != 0) {
+            return list.get(0);
+        }else{
+            return null;
+        }
+    }
+
     public List<Station> getAllJourneysByUser(String id){
         List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Station.class);
         return list;
+    }
+
+    //Journey Post and Put
+    public Response postJourney(Journey journey){
+        //Save journey
+        return databaseClient.save(journey);
+    }
+
+    public Response putJourney(Journey journey){
+        //Update journey
+        return databaseClient.update(journey);
     }
 
 
@@ -124,18 +144,6 @@ public class CouchDatabase {
     public Response deleteUser(User user){
         //Remove user
         return databaseClient.remove(user);
-    }
-
-
-    //Journey Post and Put
-    public Response postJourney(Journey journey){
-        //Save journey
-        return databaseClient.save(journey);
-    }
-
-    public Response putJourney(Journey journey){
-        //Update journey
-        return databaseClient.update(journey);
     }
 
     //Close Connection (Needs to be called once response has been sent to client)
