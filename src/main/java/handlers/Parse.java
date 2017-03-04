@@ -40,7 +40,6 @@ public class Parse {
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
         JSONObject results = response.getJSONObject("GetStationBoardResult");
-        System.out.println(rawJson.toString());
         JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
         return trainServices;
@@ -355,7 +354,6 @@ public class Parse {
             JSONObject results = response.getJSONObject("GetStationBoardResult");
             JSONObject messages = results.getJSONObject("lt4:nrccMessages");
 
-            System.out.println(rawJson);
             try {
                 messageFormatted.put("message", messages.getString("lt:message"));
             } catch (Exception ex){
@@ -416,52 +414,52 @@ public class Parse {
             user.setPassword(json.getString("password"));
             user.setImage(json.getString("image"));
 
-//            //Get toStations
-//            JSONArray toStations = json.getJSONArray("toStations");
-//
-//            List<String> toStationsArray = null;
-//
-//            for (int i = 0; i <= toStations.length(); i++) {
-//                toStationsArray.add(toStations.getString(i));
-//            }
-//
-//            user.setToStations(toStationsArray);
-//
-//
-//            //Get fromStations
-//            JSONArray fromStations = json.getJSONArray("fromStations");
-//
-//            List<String> fromStationsArray = null;
-//
-//            for (int i = 0; i <= fromStations.length(); i++) {
-//                fromStationsArray.add(fromStations.getString(i));
-//            }
-//
-//            user.setFromStations(fromStationsArray);
-//
-//
-//            //Get journey history
-//            JSONArray journeyHistory = json.getJSONArray("journeyHistory");
-//
-//            List<String> journeyHistoryArray = null;
-//
-//            for (int i = 0; i <= journeyHistory.length(); i++) {
-//                journeyHistoryArray.add(journeyHistory.getString(i));
-//            }
-//
-//            user.setJourneyHistory(journeyHistoryArray);
-//
-//
-//            //Get starred journey
-//            JSONArray starredJourney = json.getJSONArray("starredJourney");
-//
-//            List<String> starredJourneyArray = null;
-//
-//            for (int i = 0; i <= starredJourney.length(); i++) {
-//                starredJourneyArray.add(starredJourney.getString(i));
-//            }
-//
-//            user.setStarredJourneys(starredJourneyArray);
+            //Get toStations
+            JSONArray toStations = json.getJSONArray("toStations");
+
+            List<String> toStationsArray = null;
+
+            for (int i = 0; i <= toStations.length(); i++) {
+                toStationsArray.add(toStations.getString(i));
+            }
+
+            user.setToStations(toStationsArray);
+
+
+            //Get fromStations
+            JSONArray fromStations = json.getJSONArray("fromStations");
+
+            List<String> fromStationsArray = null;
+
+            for (int i = 0; i <= fromStations.length(); i++) {
+                fromStationsArray.add(fromStations.getString(i));
+            }
+
+            user.setFromStations(fromStationsArray);
+
+
+            //Get journey history
+            JSONArray journeyHistory = json.getJSONArray("journeyHistory");
+
+            List<String> journeyHistoryArray = null;
+
+            for (int i = 0; i <= journeyHistory.length(); i++) {
+                journeyHistoryArray.add(journeyHistory.getString(i));
+            }
+
+            user.setJourneyHistory(journeyHistoryArray);
+
+
+            //Get starred journey
+            JSONArray starredJourney = json.getJSONArray("starredJourney");
+
+            List<String> starredJourneyArray = null;
+
+            for (int i = 0; i <= starredJourney.length(); i++) {
+                starredJourneyArray.add(starredJourney.getString(i));
+            }
+
+            user.setStarredJourneys(starredJourneyArray);
 
 
             //Return the user

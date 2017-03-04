@@ -27,12 +27,12 @@ public class StationController {
             return getNearestStation(lng, lat);
         }else{
             try {
-                CouchDatabase cDb = new CouchDatabase();
+                CouchDatabase couchDatabase = new CouchDatabase();
 
                 Parse parse = new Parse();
-                JSONObject response = parse.stationToJson(cDb.getAllStations());
+                JSONObject response = parse.stationToJson(couchDatabase.getAllStations());
 
-                cDb.closeConnection();
+                couchDatabase.closeConnection();
                 return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
             } catch (Exception ex) {
                 logger.warning(ex.toString());

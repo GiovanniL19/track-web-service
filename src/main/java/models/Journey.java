@@ -3,7 +3,7 @@ package models;
 /**
  * Created by giovannilenguito on 28/02/2017.
  */
-public class Context {
+public class Journey {
     private String _id;
     private String _rev;
 

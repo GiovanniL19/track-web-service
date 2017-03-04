@@ -29,8 +29,8 @@ public class TrainController {
             //Create context
             if(!lng.equals("") && !lat.equals("")) {
                 logger.info("Saving context");
-                ContextController contextController = new ContextController();
-                contextController.createContext(lng, lat, crs, filterCrs, userID);
+                JourneyController journeyController = new JourneyController();
+                journeyController.createJourney(lng, lat, crs, filterCrs, userID);
             }
             //Return trains
             return findTrains(crs, filterCrs, rows);

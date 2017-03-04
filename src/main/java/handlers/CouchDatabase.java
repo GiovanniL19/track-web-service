@@ -1,6 +1,6 @@
 package handlers;
 
-import models.Context;
+import models.Journey;
 import models.Station;
 import models.User;
 import org.lightcouch.CouchDbClient;
@@ -127,15 +127,15 @@ public class CouchDatabase {
     }
 
 
-    //Context Post and Put
-    public Response postContext(Context context){
-        //Save context
-        return databaseClient.save(context);
+    //Journey Post and Put
+    public Response postJourney(Journey journey){
+        //Save journey
+        return databaseClient.save(journey);
     }
 
-    public Response putContext(Context context){
-        //Update context
-        return databaseClient.update(context);
+    public Response putJourney(Journey journey){
+        //Update journey
+        return databaseClient.update(journey);
     }
 
     //Close Connection (Needs to be called once response has been sent to client)
