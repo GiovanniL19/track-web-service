@@ -78,8 +78,13 @@ public class ParserFactory {
 
             JSONObject locationFormatted = new JSONObject();
             locationFormatted.put("crs", location.get("lt4:crs").toString());
-            locationFormatted.put("et", location.get("lt4:et").toString());
-            locationFormatted.put("st", location.get("lt4:st").toString());
+            if(!location.isNull("lt4:et")) {
+                locationFormatted.put("et", location.get("lt4:et").toString());
+            }
+
+            if(!location.isNull("lt4:st")) {
+                locationFormatted.put("st", location.get("lt4:st").toString());
+            }
             locationFormatted.put("name", location.get("lt4:locationName").toString());
 
             callingPoints.put(locationFormatted);
@@ -250,27 +255,28 @@ public class ParserFactory {
                 train.put("type", "train");
 
                 //Set up calling pints
-                JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
-                JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+                if(!service.isNull("lt5:previousCallingPoints")) {
+                    JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
+                    JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+                    final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
+                    if (callingPointObject instanceof JSONArray) {
+                        JSONArray allCallingPoints = (JSONArray) callingPointObject;
+                        train.put("callingPoints", this.getPreviousCallingPoints(allCallingPoints));
+                    } else {
+                        JSONObject callingPoint = (JSONObject) callingPointObject;
 
-                final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
-                if(callingPointObject instanceof JSONArray) {
-                    JSONArray allCallingPoints = (JSONArray) callingPointObject;
-                    train.put("callingPoints", this.getPreviousCallingPoints(allCallingPoints));
-                }else{
-                    JSONObject callingPoint = (JSONObject) callingPointObject;
+                        JSONObject locationFormatted = new JSONObject();
+                        locationFormatted.put("crs", callingPoint.get("lt4:crs").toString());
 
-                    JSONObject locationFormatted = new JSONObject();
-                    locationFormatted.put("crs", callingPoint.get("lt4:crs").toString());
+                        if (!callingPoint.isNull("lt4:at")) {
+                            locationFormatted.put("at", callingPoint.get("lt4:at").toString());
+                        }
 
-                    if(!callingPoint.isNull("lt4:at")) {
-                        locationFormatted.put("at", callingPoint.get("lt4:at").toString());
+                        locationFormatted.put("st", callingPoint.get("lt4:st").toString());
+                        locationFormatted.put("name", callingPoint.get("lt4:locationName").toString());
+
+                        train.put("callingPoints", locationFormatted);
                     }
-
-                    locationFormatted.put("st", callingPoint.get("lt4:st").toString());
-                    locationFormatted.put("name", callingPoint.get("lt4:locationName").toString());
-
-                    train.put("callingPoints", locationFormatted);
                 }
 
                 allServices.put(train);
@@ -531,7 +537,7 @@ public class ParserFactory {
 
         String message;
         if(ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
-            message = "No Services Running";
+            message = "No Trains Running";
         }else if(ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")){
             message = "";
         }else{
