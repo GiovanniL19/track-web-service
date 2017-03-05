@@ -1,4 +1,4 @@
-package models;
+package uk.co.giovannilenguito.model;
 
 /**
  * Created by giovannilenguito on 10/02/2017.

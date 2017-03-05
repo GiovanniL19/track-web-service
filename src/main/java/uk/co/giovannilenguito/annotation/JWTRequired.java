@@ -1,4 +1,4 @@
-package interfaces;
+package uk.co.giovannilenguito.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

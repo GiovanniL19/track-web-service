@@ -1,4 +1,4 @@
-package models;
+package uk.co.giovannilenguito.model;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import java.util.List;
 public class User {
     //Object information
     private String _id;
+    private String id;
     private String _rev;
     private String type;
 
@@ -20,8 +21,8 @@ public class User {
     private String image;
 
     //Account activity
-    private double dateCreated;
-    private double lastLogin;
+    private int dateCreated;
+    private int lastLogin;
 
     //List string because these are collections of id
     private List<String> toStations;
@@ -35,6 +36,14 @@ public class User {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String get_rev() {
@@ -101,19 +110,19 @@ public class User {
         this.image = image;
     }
 
-    public double getDateCreated() {
+    public int getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(double dateCreated) {
+    public void setDateCreated(int dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public double getLastLogin() {
+    public int getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(double lastLogin) {
+    public void setLastLogin(int lastLogin) {
         this.lastLogin = lastLogin;
     }
 

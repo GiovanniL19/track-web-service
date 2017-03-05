@@ -1,9 +1,11 @@
-import controllers.StationController;
-import controllers.TrainController;
-import controllers.UserController;
-import filter.CORSFilter;
-import com.sun.net.httpserver.HttpServer;
-import filter.JWTFilter;
+package uk.co.giovannilenguito;
+
+import uk.co.giovannilenguito.controller.StationController;
+import uk.co.giovannilenguito.controller.TrainController;
+import uk.co.giovannilenguito.controller.UserController;
+import uk.co.giovannilenguito.filter.ResponseFilter;
+import uk.co.giovannilenguito.filter.RequestFilter;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -22,11 +24,13 @@ import javax.ws.rs.Path;
 @Path("/")
 public class Main {
     final private static URI SERVER_URI = URI.create("http://localhost:3002/");
+    final private static Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
-        HttpServer server = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        LOGGER.info("Running server on " + SERVER_URI);
         System.out.println("Running server on " + SERVER_URI);
     }
 
@@ -38,11 +42,13 @@ public class Main {
     }
 
     private static Set<Class<?>> getEndpoints(){
+        System.out.println("Setting up server");
+        LOGGER.info("Setting up server");
         final Set<Class<?>> endpoints = new HashSet<Class<?>>();
 
-        //Add filters
-        endpoints.add(JWTFilter.class);
-        endpoints.add(CORSFilter.class);
+        //Add uk.co.giovannilenguito.filter
+        endpoints.add(RequestFilter.class);
+        endpoints.add(ResponseFilter.class);
 
         //Add classes with endpoints
         endpoints.add(Main.class);
