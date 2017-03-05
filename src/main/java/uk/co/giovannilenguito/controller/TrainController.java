@@ -19,7 +19,6 @@ public class TrainController {
     final private Logger LOGGER = Logger.getLogger(StationController.class.getName());
 
     @GET
-    @Produces("application/json")
     public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
         if(type.equalsIgnoreCase("departure")){
             return getDepartureBoard(location);

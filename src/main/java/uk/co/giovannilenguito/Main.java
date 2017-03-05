@@ -3,8 +3,8 @@ package uk.co.giovannilenguito;
 import uk.co.giovannilenguito.controller.StationController;
 import uk.co.giovannilenguito.controller.TrainController;
 import uk.co.giovannilenguito.controller.UserController;
-import uk.co.giovannilenguito.filter.CORSFilter;
-import uk.co.giovannilenguito.filter.JWTFilter;
+import uk.co.giovannilenguito.filter.ResponseFilter;
+import uk.co.giovannilenguito.filter.RequestFilter;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -42,12 +42,13 @@ public class Main {
     }
 
     private static Set<Class<?>> getEndpoints(){
+        System.out.println("Setting up server");
         LOGGER.info("Setting up server");
         final Set<Class<?>> endpoints = new HashSet<Class<?>>();
 
         //Add uk.co.giovannilenguito.filter
-        endpoints.add(JWTFilter.class);
-        endpoints.add(CORSFilter.class);
+        endpoints.add(RequestFilter.class);
+        endpoints.add(ResponseFilter.class);
 
         //Add classes with endpoints
         endpoints.add(Main.class);

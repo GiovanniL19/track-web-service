@@ -21,7 +21,6 @@ public class StationController {
     final private Logger LOGGER = Logger.getLogger(StationController.class.getName());
 
     @GET
-    @Produces("application/json")
     public Response getAllStations(@QueryParam(value="lng") String lng, @QueryParam(value="lat") String lat) {
         if(lng != null && lat != null){
             LocationController locationController = new LocationController();
@@ -41,7 +40,7 @@ public class StationController {
                 JSONObject response = parserFactory.stationToJson(databaseHelper.getAllStations());
 
                 databaseHelper.closeConnection();
-                return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+                return Response.status(Response.Status.OK).entity(response.toString()).build();
             } catch (Exception ex) {
                 LOGGER.warn(ex);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
@@ -51,7 +50,6 @@ public class StationController {
 
     @GET
     @Path("/message")
-    @Produces("application/json")
     public Response getMessage(@QueryParam(value="station") String crs) {
         final String rows = "10";
         try {

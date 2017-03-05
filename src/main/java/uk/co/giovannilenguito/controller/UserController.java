@@ -1,18 +1,17 @@
 package uk.co.giovannilenguito.controller;
 
+import uk.co.giovannilenguito.annotation.JWTRequired;
 import uk.co.giovannilenguito.factory.ParserFactory;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.security.Key;
 import java.util.Date;
 
 /**
@@ -24,8 +23,7 @@ public class UserController {
     private ParserFactory parserFactory;
 
     private String buildToken(JSONObject credentials) {
-        Key key = MacProvider.generateKey();
-        return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, key).compact();
+        return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, "track").compact();
     }
 
     @POST
@@ -74,7 +72,7 @@ public class UserController {
 
     @GET
     @Path("/{id}")
-    //@JWTRequired
+    @JWTRequired
     public Response getUser(@PathParam("id") String id) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         try {
