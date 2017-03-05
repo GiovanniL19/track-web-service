@@ -1,11 +1,11 @@
-package handlers;
+package uk.co.giovannilenguito.helper;
 
 import javax.xml.soap.*;
 
 /**
  * Created by giovannilenguito on 10/02/2017.
  */
-public class SoapRequest {
+public class SoapRequestHelper {
     /*
     // REMEMBER
     // In the message body, the parent ldb comes from the OpenLDBWS site.
@@ -25,7 +25,7 @@ public class SoapRequest {
     private SOAPPart soapPart;
     private SOAPEnvelope envelope;
 
-    public SoapRequest() throws Exception {
+    public SoapRequestHelper() throws Exception {
         //Create message
         soapMessage = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage();
         soapMessage.getSOAPPart().getEnvelope().setPrefix(PREFIX);

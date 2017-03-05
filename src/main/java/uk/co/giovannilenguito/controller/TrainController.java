@@ -1,14 +1,14 @@
-package controllers;
+package uk.co.giovannilenguito.controller;
 
-import handlers.Parse;
-import handlers.SoapRequest;
+import uk.co.giovannilenguito.factory.ParserFactory;
+import uk.co.giovannilenguito.helper.SoapRequestHelper;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.soap.SOAPMessage;
-import java.util.logging.Logger;
 
 /**
  * Created by giovannilenguito on 10/02/2017.
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 // The Java class will be hosted at the URI path "/trains"
 @Path("/trains")
 public class TrainController {
-    final private static Logger logger = Logger.getLogger(StationController.class.getName());
+    final private Logger LOGGER = Logger.getLogger(StationController.class.getName());
 
     @GET
     @Produces("application/json")
@@ -28,7 +28,7 @@ public class TrainController {
         }else{
             //Create context
             if(!lng.equals("") && !lat.equals("")) {
-                logger.info("Saving context");
+                LOGGER.info("Saving context");
                 JourneyController journeyController = new JourneyController();
                 journeyController.createJourney(lng, lat, crs, filterCrs, userID);
             }
@@ -40,20 +40,21 @@ public class TrainController {
     public Response findTrains(String crs, String filterCrs, String rows){
         try {
             //Initialise instance
-            SoapRequest soapRequest = new SoapRequest();
+            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
 
             //Create message
-            SOAPMessage message = soapRequest.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(), "", "", "");
+            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(), "", "", "");
 
             //Get data from national rail
-            SOAPMessage response = soapRequest.execute(message);
+            SOAPMessage response = soapRequestHelper.execute(message);
 
-            //Parse
-            Parse parse = new Parse();
-            JSONObject json = parse.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
+            //ParserFactory
+            ParserFactory parserFactory = new ParserFactory();
+            JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
-            String message = getErrorMessage(ex);
+            ParserFactory parserFactory = new ParserFactory();
+            String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
     }
@@ -62,20 +63,22 @@ public class TrainController {
         final String rows = "10";
         try {
             //Initialise instance
-            SoapRequest soapRequest = new SoapRequest();
+            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
 
             //Create message
-            SOAPMessage message = soapRequest.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
+            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
 
             //Get data from national rail
-            SOAPMessage response = soapRequest.execute(message);
+            SOAPMessage response = soapRequestHelper.execute(message);
 
-            //Parse
-            Parse parse = new Parse();
-            JSONObject json = parse.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
+            //ParserFactory
+            ParserFactory parserFactory = new ParserFactory();
+            JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
-            String message = getErrorMessage(ex);
+            LOGGER.warn(ex);
+            ParserFactory parserFactory = new ParserFactory();
+            String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
     }
@@ -84,36 +87,23 @@ public class TrainController {
         final String rows = "10";
         try {
             //Initialise instance
-            SoapRequest soapRequest = new SoapRequest();
+            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
 
             //Create message
-            SOAPMessage message = soapRequest.createBoardWithDetailsMessage("GetArrBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
+            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetArrBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
 
             //Get data from national rail
-            SOAPMessage response = soapRequest.execute(message);
+            SOAPMessage response = soapRequestHelper.execute(message);
 
-            //Parse
-            Parse parse = new Parse();
-            JSONObject json = parse.arrivalBoardServices(response, "GetArrBoardWithDetailsResponse");
+            //ParserFactory
+            ParserFactory parserFactory = new ParserFactory();
+            JSONObject json = parserFactory.arrivalBoardServices(response, "GetArrBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
-            String message = getErrorMessage(ex);
+            LOGGER.warn(ex);
+            ParserFactory parserFactory = new ParserFactory();
+            String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
-    }
-
-    private String getErrorMessage(Exception ex){
-        logger.warning(ex.toString());
-
-        String message;
-        if(ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
-            message = "No Services Running";
-        }else if(ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")){
-            message = "";
-        }else{
-            message = ex.getMessage();
-        }
-
-        return message;
     }
 }

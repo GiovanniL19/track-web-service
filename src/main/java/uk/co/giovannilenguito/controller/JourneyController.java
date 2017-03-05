@@ -1,16 +1,15 @@
-package controllers;
+package uk.co.giovannilenguito.controller;
 
-import handlers.CouchDatabase;
-import models.Journey;
-import models.User;
-import sun.plugin2.main.client.CALayerProvider;
+import uk.co.giovannilenguito.helper.DatabaseHelper;
+import uk.co.giovannilenguito.model.Journey;
+import uk.co.giovannilenguito.model.User;
+import org.apache.log4j.Logger;
 
 import javax.ejb.Asynchronous;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by giovannilenguito on 10/02/2017.
@@ -18,12 +17,12 @@ import java.util.logging.Logger;
 
 @Asynchronous
 public class JourneyController {
-    final private static Logger logger = Logger.getLogger(JourneyController.class.getName());
+    final private Logger LOGGER = Logger.getLogger(JourneyController.class.getName());
 
     public void createJourney(String lng, String lat, String from, String to, String userID){
         try {
             LocationController locationController = new LocationController();
-            CouchDatabase couchDatabase = new CouchDatabase();
+            DatabaseHelper databaseHelper = new DatabaseHelper();
 
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
@@ -33,10 +32,10 @@ public class JourneyController {
             String city = locationController.getCity(lat, lng);
 
             String combined = city + hourOfDay + to + from;
-            Journey foundJourney = couchDatabase.findJourney(combined);
+            Journey foundJourney = databaseHelper.findJourney(combined);
             if(foundJourney != null){
                 foundJourney.setCount(foundJourney.getCount() + 1);
-                couchDatabase.putJourney(foundJourney);
+                databaseHelper.putJourney(foundJourney);
             }else {
                 Journey journey = new Journey();
                 journey.setType("journey");
@@ -55,12 +54,12 @@ public class JourneyController {
                 journey.setUser(userID);
 
                 //Save journey
-                String journeyId = couchDatabase.postJourney(journey).getId().toString();
-                logger.info("Saved journey");
+                String journeyId = databaseHelper.postJourney(journey).getId().toString();
+                LOGGER.info("Saved journey");
 
                 if (!userID.isEmpty()) {
                     //Update user
-                    User user = couchDatabase.getUser(null, null, userID);
+                    User user = databaseHelper.getUser(null, null, userID);
                     //Update user
                     List<String> journeys;
 
@@ -74,16 +73,13 @@ public class JourneyController {
                     user.setJourneyHistory(journeys);
 
                     //Save user
-                    couchDatabase.putUser(user);
+                    databaseHelper.putUser(user);
                 }
             }
                 //Close connection
-                couchDatabase.closeConnection();
+                databaseHelper.closeConnection();
         }catch(Exception ex){
-            System.out.println("Journey controller error:");
-            logger.warning(ex.toString());
+            LOGGER.warn(ex);
         }
     }
-
-
 }

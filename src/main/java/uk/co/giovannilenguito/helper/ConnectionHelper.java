@@ -1,4 +1,6 @@
-package handlers;
+package uk.co.giovannilenguito.helper;
+
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -10,13 +12,11 @@ import java.net.URL;
 /**
  * Created by giovannilenguito on 28/02/2017.
  */
-public class MapsWebService {
+public class ConnectionHelper {
+    final private  Logger LOGGER = Logger.getLogger(ConnectionHelper.class.getName());
     private HttpURLConnection connection;
-    private URL url;
 
-    public MapsWebService(URL url) throws Exception{
-        this.url = url;
-
+    public ConnectionHelper(URL url) throws Exception{
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -45,8 +45,8 @@ public class MapsWebService {
             bufferedReader.close();
 
             return response.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOGGER.warn(ex);
             return null;
         } finally {
             this.disconnect();

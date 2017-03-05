@@ -1,8 +1,9 @@
-package handlers;
+package uk.co.giovannilenguito.helper;
 
-import models.Journey;
-import models.Station;
-import models.User;
+import uk.co.giovannilenguito.model.Journey;
+import uk.co.giovannilenguito.model.Station;
+import uk.co.giovannilenguito.model.User;
+import org.apache.log4j.Logger;
 import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.Response;
@@ -12,7 +13,9 @@ import java.util.List;
 /**
  * Created by giovannilenguito on 09/02/2017.
  */
-public class CouchDatabase {
+public class DatabaseHelper {
+
+    final private static Logger LOGGER = Logger.getLogger(DatabaseHelper.class.getName());
     /*
     // For the web service to connect to CouchDB, the database will need to be running on the host provided with the correct username and password.
     // Developed by Giovanni Lenguito
@@ -27,7 +30,7 @@ public class CouchDatabase {
     CouchDbClient databaseClient;
 
     //Initialise Instance
-    public CouchDatabase(){
+    public DatabaseHelper(){
         try{
             //Configure Connection
             CouchDbProperties properties = new CouchDbProperties().setDbName(DATABASE_NAME).setProtocol(PROTOCOL).setHost(LOCAL_HOST).setPort(PORT).setUsername(USERNAME).setPassword(PASSWORD);
@@ -35,19 +38,19 @@ public class CouchDatabase {
             databaseClient = new CouchDbClient(properties);
             System.out.println("Connection successful");
         }catch(Exception ex){
+            LOGGER.warn(ex);
             System.out.println("Connection failed");
         }
     }
-
-    public CouchDatabase(String host, String username, String password, int port, String protocol, String databaseName){
+    public DatabaseHelper(String host, String username, String password, int port, String protocol, String databaseName){
         try{
             //Configure Connection
             CouchDbProperties properties = new CouchDbProperties().setDbName(databaseName).setProtocol(protocol).setHost(host).setPort(port).setUsername(username).setPassword(password);
             //Create instance with properties
             databaseClient = new CouchDbClient(properties);
-            System.out.println("Connection successful");
+            LOGGER.info("Connection made to database");
         }catch(Exception ex){
-            System.out.println("Connection failed");
+            LOGGER.warn(ex);
         }
     }
 
@@ -67,7 +70,6 @@ public class CouchDatabase {
         return list;
     }
 
-    //Journey Post and Put
     public Response postJourney(Journey journey){
         //Save journey
         return databaseClient.save(journey);
@@ -78,8 +80,6 @@ public class CouchDatabase {
         return databaseClient.update(journey);
     }
 
-
-
     //Station CRUD
     public List<Station> getAllStations(){
         List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);
@@ -89,7 +89,11 @@ public class CouchDatabase {
     public Station getStation(String name, String id){
         if(name != null){
             List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query(Station.class);
-            return list.get(0);
+            if(!list.isEmpty()) {
+                return list.get(0);
+            }else{
+                return null;
+            }
         }else{
             return databaseClient.find(Station.class, id);
         }
@@ -99,8 +103,6 @@ public class CouchDatabase {
         //Update station
         return databaseClient.update(station);
     }
-
-
 
     //User CRUD
     public boolean doesEmailExist(String email){
@@ -148,6 +150,7 @@ public class CouchDatabase {
 
     //Close Connection (Needs to be called once response has been sent to client)
     public void closeConnection(){
+        LOGGER.info("Connection closed to database");
         databaseClient.shutdown();
     }
 }

@@ -1,4 +1,4 @@
-package filter;
+package uk.co.giovannilenguito.filter;
 
 
 import javax.ws.rs.container.ContainerRequestContext;

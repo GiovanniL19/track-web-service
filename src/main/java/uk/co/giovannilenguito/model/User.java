@@ -1,4 +1,4 @@
-package models;
+package uk.co.giovannilenguito.model;
 
 import java.util.List;
 

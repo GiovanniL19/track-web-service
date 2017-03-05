@@ -1,30 +1,27 @@
-package controllers;
+package uk.co.giovannilenguito.controller;
 
-import handlers.CouchDatabase;
-import handlers.Parse;
-import interfaces.JWTRequired;
-import models.User;
+import uk.co.giovannilenguito.factory.ParserFactory;
+import uk.co.giovannilenguito.helper.DatabaseHelper;
+import uk.co.giovannilenguito.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-import javax.crypto.KeyGenerator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.Key;
-import java.security.Timestamp;
 import java.util.Date;
-import java.util.logging.Logger;
 
 /**
  * Created by giovannilenguito on 19/02/2017.
  */
 @Path("/users")
 public class UserController {
-    final private static Logger logger = Logger.getLogger(UserController.class.getName());
-    private Parse parse;
+    final private Logger LOGGER = Logger.getLogger(UserController.class.getName());
+    private ParserFactory parserFactory;
 
     private String buildToken(JSONObject credentials) {
         Key key = MacProvider.generateKey();
@@ -37,7 +34,7 @@ public class UserController {
         JSONObject credentials = new JSONObject(data);
         try {
             //Initialise database connection
-            CouchDatabase cDb = new CouchDatabase();
+            DatabaseHelper cDb = new DatabaseHelper();
 
             final String username = credentials.getString("username");
             //Get user
@@ -47,7 +44,7 @@ public class UserController {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
             } else {
                 if (user.getPassword().equals(credentials.getString("password"))) {
-                    logger.info("Authentication successful, setting token and sending response...");
+                    LOGGER.info("Authentication successful, setting token and sending response...");
 
                     //Create token
                     final String token = buildToken(credentials);
@@ -70,17 +67,18 @@ public class UserController {
                 }
             }
         }catch (Exception ex){
-            logger.warning(ex.toString());
+            LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Incorrect request format").build();
         }
     }
 
     @GET
     @Path("/{id}")
+    //@JWTRequired
     public Response getUser(@PathParam("id") String id) {
-        CouchDatabase couchDatabase = new CouchDatabase();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
         try {
-            User foundUser = couchDatabase.getUser(null, null, id);
+            User foundUser = databaseHelper.getUser(null, null, id);
 
             if(foundUser == null){
                 return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
@@ -93,33 +91,33 @@ public class UserController {
                 return Response.status(Response.Status.OK).entity(user.toString()).build();
             }
         }catch(Exception ex){
-            logger.info("FAILED");
-            logger.warning(ex.toString());
+            LOGGER.info("FAILED");
+            LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not get user").build();
         }finally {
-            couchDatabase.closeConnection();
+            databaseHelper.closeConnection();
         }
     }
 
     @POST
     public Response postUser(String data) {
-        parse = new Parse();
-        CouchDatabase couchDatabase = new CouchDatabase();
+        parserFactory = new ParserFactory();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
 
         JSONObject requestJson = new JSONObject(data);
-        //Parse user
-        User newUser = parse.toUser(requestJson);
+        //ParserFactory user
+        User newUser = parserFactory.toUser(requestJson);
         if(newUser == null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save users").build();
         }else{
-            requestJson.put("id", couchDatabase.postUser(newUser).getId());
-            couchDatabase.closeConnection();
+            requestJson.put("id", databaseHelper.postUser(newUser).getId());
+            databaseHelper.closeConnection();
             try{
                 JSONObject user = new JSONObject();
                 user.put("user", requestJson);
                 return Response.status(Response.Status.CREATED).entity(user.toString()).build();
             }catch (Exception ex){
-                logger.warning(ex.toString());
+                LOGGER.warn(ex);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
             }
         }
@@ -129,10 +127,10 @@ public class UserController {
     @Path("/check/exists/{email}")
     @Produces("application/json")
     public Response checkEmail(@PathParam("email") String email){
-        CouchDatabase couchDatabase = new CouchDatabase();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
 
-        final boolean result = couchDatabase.doesEmailExist(email);
-        couchDatabase.closeConnection();
+        final boolean result = databaseHelper.doesEmailExist(email);
+        databaseHelper.closeConnection();
 
         //Create json response
         JSONObject response = new JSONObject();

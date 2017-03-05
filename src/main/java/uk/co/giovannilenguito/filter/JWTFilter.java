@@ -1,7 +1,7 @@
-package filter;
+package uk.co.giovannilenguito.filter;
 
 import com.google.common.net.HttpHeaders;
-import interfaces.JWTRequired;
+import uk.co.giovannilenguito.annotation.JWTRequired;
 import io.jsonwebtoken.Jwts;
 
 import javax.annotation.Priority;
