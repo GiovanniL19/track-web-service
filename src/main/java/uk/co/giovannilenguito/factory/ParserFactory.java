@@ -7,7 +7,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import uk.co.giovannilenguito.controller.StationController;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Station;
 import uk.co.giovannilenguito.model.User;
@@ -21,7 +20,7 @@ import org.json.XML;
  * Created by giovannilenguito on 10/02/2017.
  */
 public class ParserFactory {
-    final private Logger LOGGER = Logger.getLogger(StationController.class.getName());
+    final private Logger LOGGER = Logger.getLogger(ParserFactory.class.getName());
     private JSONObject train;
 
     private JSONObject getServices(SOAPMessage xml, String type) throws SOAPException, TransformerException {

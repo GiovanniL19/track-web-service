@@ -16,7 +16,7 @@ import javax.xml.soap.SOAPMessage;
 // The Java class will be hosted at the URI path "/trains"
 @Path("/trains")
 public class TrainController {
-    final private Logger LOGGER = Logger.getLogger(StationController.class.getName());
+    final private Logger LOGGER = Logger.getLogger(TrainController.class.getName());
 
     @GET
     public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {

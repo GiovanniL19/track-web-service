@@ -42,6 +42,7 @@ public class DatabaseHelper {
             System.out.println("Connection failed");
         }
     }
+
     public DatabaseHelper(String host, String username, String password, int port, String protocol, String databaseName){
         try{
             //Configure Connection
@@ -53,7 +54,6 @@ public class DatabaseHelper {
             LOGGER.warn(ex);
         }
     }
-
 
     //Journeys CRUD
     public Journey findJourney(String combinedString){
