@@ -1,5 +1,6 @@
 package uk.co.giovannilenguito;
 
+import com.sun.net.httpserver.HttpServer;
 import uk.co.giovannilenguito.controller.StationController;
 import uk.co.giovannilenguito.controller.TrainController;
 import uk.co.giovannilenguito.controller.UserController;
@@ -29,7 +30,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
-        JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        HttpServer httpServer = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
         LOGGER.info("Running server on " + SERVER_URI);
         System.out.println("Running server on " + SERVER_URI);
     }

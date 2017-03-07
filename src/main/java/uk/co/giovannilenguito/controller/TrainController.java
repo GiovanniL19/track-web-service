@@ -60,6 +60,9 @@ public class TrainController {
 
     public Response getDepartureBoard(String crs){
         final String rows = "10";
+        //ParserFactory
+        ParserFactory parserFactory = new ParserFactory();
+
         try {
             //Initialise instance
             SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
@@ -70,13 +73,10 @@ public class TrainController {
             //Get data from national rail
             SOAPMessage response = soapRequestHelper.execute(message);
 
-            //ParserFactory
-            ParserFactory parserFactory = new ParserFactory();
             JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
             LOGGER.warn(ex);
-            ParserFactory parserFactory = new ParserFactory();
             String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
