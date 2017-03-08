@@ -4,6 +4,7 @@ package uk.co.giovannilenguito.model;
  * Created by giovannilenguito on 28/02/2017.
  */
 public class Journey {
+    private String id;
     private String _id;
     private String _rev;
 
@@ -12,11 +13,20 @@ public class Journey {
     private String longitude;
     private String latitude;
     private int hour;
+    private String day;
     private int count;
 
     private String toCRS;
     private String fromCRS;
     private String user;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String get_id() {
         return _id;
@@ -72,6 +82,14 @@ public class Journey {
 
     public void setHour(int hour) {
         this.hour = hour;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public int getCount() {

@@ -18,7 +18,7 @@ public class DatabaseHelper {
     final private static Logger LOGGER = Logger.getLogger(DatabaseHelper.class.getName());
     /*
     // For the web service to connect to CouchDB, the database will need to be running on the host provided with the correct username and password.
-    // Developed by Giovanni Lenguito
+    //
     */
     private final String DATABASE_NAME = "track";
     private final String LOCAL_HOST = "localhost";
@@ -43,16 +43,10 @@ public class DatabaseHelper {
         }
     }
 
-    public DatabaseHelper(String host, String username, String password, int port, String protocol, String databaseName){
-        try{
-            //Configure Connection
-            CouchDbProperties properties = new CouchDbProperties().setDbName(databaseName).setProtocol(protocol).setHost(host).setPort(port).setUsername(username).setPassword(password);
-            //Create instance with properties
-            databaseClient = new CouchDbClient(properties);
-            LOGGER.info("Connection made to database");
-        }catch(Exception ex){
-            LOGGER.warn(ex);
-        }
+    //Close Connection (Needs to be called once response has been sent to client)
+    public void closeConnection(){
+        LOGGER.info("Database connection closed");
+        databaseClient.shutdown();
     }
 
     //Journeys CRUD
@@ -65,8 +59,33 @@ public class DatabaseHelper {
         }
     }
 
-    public List<Station> getAllJourneysByUser(String id){
-        List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Station.class);
+    public List<Journey> getAllJourneysByUser(String id){
+        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Journey.class);
+        return list;
+    }
+
+    public List<Journey> getAllJourneysByKey(String user_id, String city, int hour, String day){
+        List<Journey> list;
+
+        if(user_id == null) {
+            String startKey = city + hour + day;
+            int secondHour = hour + 1;
+            if(secondHour == 25){
+                secondHour = 0;
+            }
+            String endKey = city + secondHour  + day;
+            list = databaseClient.view("journeys/journeyByCityHour").includeDocs(true).startKey(startKey).endKey(endKey).query(Journey.class);
+        }else{
+            int secondHour = hour + 1;
+            if(secondHour == 25){
+                secondHour = 0;
+            }
+
+            String startKey = user_id + city + hour + day;
+            String endKey = user_id + city + secondHour + day;
+
+            list = databaseClient.view("journeys/journeyByUserCityHour").includeDocs(true).startKey(startKey).endKey(endKey).query(Journey.class);
+        }
         return list;
     }
 
@@ -148,9 +167,12 @@ public class DatabaseHelper {
         return databaseClient.remove(user);
     }
 
-    //Close Connection (Needs to be called once response has been sent to client)
-    public void closeConnection(){
-        LOGGER.info("Connection closed to database");
-        databaseClient.shutdown();
+
+    //USED FOR DEBUGGING
+    public void deleteAllJourneys(){
+        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).query(Journey.class);
+        for(int i = 0; i < list.size(); i++){
+            databaseClient.remove(list.get(i));
+        }
     }
 }

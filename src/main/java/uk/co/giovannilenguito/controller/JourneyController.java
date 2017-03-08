@@ -19,6 +19,27 @@ import java.util.List;
 public class JourneyController {
     final private Logger LOGGER = Logger.getLogger(JourneyController.class.getName());
 
+    private String getDayOfWeek(int day){
+        switch (day) {
+            case 1:
+                return "Sunday";
+            case 2:
+                return "Monday";
+            case 3:
+                return "Tuesday";
+            case 4:
+                return "Wednesday";
+            case 5:
+                return "Thursday";
+            case 6:
+                return "Friday";
+            case 7:
+                return "Saturday";
+            default:
+                return null;
+        }
+    }
+
     public void createJourney(String lng, String lat, String from, String to, String userID){
         try {
             LocationController locationController = new LocationController();
@@ -29,6 +50,7 @@ public class JourneyController {
             calendar.setTime(date);
 
             int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+            String day = getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
             String city = locationController.getCity(lat, lng);
 
             String combined = city + hourOfDay + to + from;
@@ -40,6 +62,7 @@ public class JourneyController {
                 Journey journey = new Journey();
                 journey.setType("journey");
                 journey.setHour(hourOfDay);
+                journey.setDay(day);
 
                 //Get city
                 journey.setCity(city);

@@ -13,7 +13,7 @@ public class LocationController {
     final private Logger LOGGER = Logger.getLogger(LocationController.class.getName());
 
     final private String API_KEY = "AIzaSyCo-EDpiiMlqgbVjY3K_xCiWo-ubsvPYRg";
-    final private String RADIUS = "16094";
+    final private String RADIUS = "10000";
 
     public String getCity(String lat, String lng){
         ConnectionHelper connectionHelper = null;
