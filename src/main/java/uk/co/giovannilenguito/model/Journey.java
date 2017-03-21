@@ -4,6 +4,8 @@ package uk.co.giovannilenguito.model;
  * Created by giovannilenguito on 28/02/2017.
  */
 public class Journey {
+    private String id;
+    private String rev;
     private String _id;
     private String _rev;
 
@@ -12,11 +14,33 @@ public class Journey {
     private String longitude;
     private String latitude;
     private int hour;
+    private String day;
     private int count;
 
+    private String toName;
+    private String fromName;
     private String toCRS;
     private String fromCRS;
     private String user;
+
+    private Station to;
+    private Station from;
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRev() {
+        return _rev;
+    }
+
+    public void setRev(String rev) {
+        this.rev = rev;
+    }
 
     public String get_id() {
         return _id;
@@ -74,12 +98,36 @@ public class Journey {
         this.hour = hour;
     }
 
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
     public int getCount() {
         return count;
     }
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
     }
 
     public String getToCRS() {
@@ -104,5 +152,21 @@ public class Journey {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Station getTo() {
+        return to;
+    }
+
+    public void setTo(Station to) {
+        this.to = to;
+    }
+
+    public Station getFrom() {
+        return from;
+    }
+
+    public void setFrom(Station from) {
+        this.from = from;
     }
 }

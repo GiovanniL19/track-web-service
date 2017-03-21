@@ -8,7 +8,9 @@ import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.Response;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by giovannilenguito on 09/02/2017.
@@ -18,7 +20,7 @@ public class DatabaseHelper {
     final private static Logger LOGGER = Logger.getLogger(DatabaseHelper.class.getName());
     /*
     // For the web service to connect to CouchDB, the database will need to be running on the host provided with the correct username and password.
-    // Developed by Giovanni Lenguito
+    //
     */
     private final String DATABASE_NAME = "track";
     private final String LOCAL_HOST = "localhost";
@@ -42,18 +44,12 @@ public class DatabaseHelper {
             System.out.println("Connection failed");
         }
     }
-    public DatabaseHelper(String host, String username, String password, int port, String protocol, String databaseName){
-        try{
-            //Configure Connection
-            CouchDbProperties properties = new CouchDbProperties().setDbName(databaseName).setProtocol(protocol).setHost(host).setPort(port).setUsername(username).setPassword(password);
-            //Create instance with properties
-            databaseClient = new CouchDbClient(properties);
-            LOGGER.info("Connection made to database");
-        }catch(Exception ex){
-            LOGGER.warn(ex);
-        }
-    }
 
+    //Close Connection (Needs to be called once response has been sent to client)
+    public void closeConnection(){
+        LOGGER.info("Database connection closed");
+        databaseClient.shutdown();
+    }
 
     //Journeys CRUD
     public Journey findJourney(String combinedString){
@@ -65,8 +61,51 @@ public class DatabaseHelper {
         }
     }
 
-    public List<Station> getAllJourneysByUser(String id){
-        List<Station> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Station.class);
+    public List<Journey> getAllJourneysByUser(String id){
+        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Journey.class);
+        return list;
+    }
+
+    public List<Journey> getAllJourneysByKey(String user_id, String city, int hour, String day){
+        List<Journey> list = new ArrayList<>();
+        List<Journey> list1;
+        List<Journey> list2;
+
+        String key;
+        String secondKey;
+
+        if(user_id.equals("null")){
+            key = city + hour + day;
+            int secondHour = 0;
+            if(hour + 1 == 25){
+                secondHour = 0;
+            }else{
+                secondHour = hour + 1;
+            }
+
+            secondKey = city + secondHour + day;
+
+            list1 = databaseClient.view("journeys/journeyByCityHourDay").includeDocs(true).startKey(key).endKey(key).query(Journey.class);
+
+            list2 = databaseClient.view("journeys/journeyByCityHourDay").includeDocs(true).startKey(secondKey).endKey(secondKey).query(Journey.class);
+            Stream.of(list1, list2).forEach(list::addAll);
+        }else{
+            key = user_id + city + hour + day;
+            int secondHour = 0;
+            if(hour + 1 == 25){
+                secondHour = 0;
+            }else{
+                secondHour = hour + 1;
+            }
+
+            secondKey = user_id + city + secondHour + day;
+
+            list1 = databaseClient.view("journeys/journeyByUserCityHourDay").includeDocs(true).startKey(key).endKey(key).query(Journey.class);
+
+            list2 = databaseClient.view("journeys/journeyByUserCityHourDay").includeDocs(true).startKey(secondKey).endKey(secondKey).query(Journey.class);
+            Stream.of(list1, list2).forEach(list::addAll);
+        }
+
         return list;
     }
 
@@ -80,15 +119,33 @@ public class DatabaseHelper {
         return databaseClient.update(journey);
     }
 
+    public Journey getJourney(String id){
+        //Get journey
+        return databaseClient.find(Journey.class, id);
+    }
+
+    public Response deleteJourney(Journey journey){
+        //Delete journey
+        return databaseClient.remove(journey);
+    }
+
     //Station CRUD
     public List<Station> getAllStations(){
         List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);
         return list;
     }
 
-    public Station getStation(String name, String id){
+    public Station getStation(String name, String id, String crs){
+        Station station = new Station();
         if(name != null){
-            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query(Station.class);
+            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query((Class) station.getClass());
+            if(!list.isEmpty()) {
+                return list.get(0);
+            }else{
+                return null;
+            }
+        }else if(crs != null){
+            List<Station> list = databaseClient.view("stations/stationsByCrs").includeDocs(true).startKey(crs).endKey(crs).query((Class) station.getClass());
             if(!list.isEmpty()) {
                 return list.get(0);
             }else{
@@ -138,9 +195,9 @@ public class DatabaseHelper {
         return databaseClient.save(user);
     }
 
-    public Response putUser(User user){
+    public String putUser(User user){
         //Update user
-        return databaseClient.update(user);
+        return databaseClient.update(user).getRev();
     }
 
     public Response deleteUser(User user){
@@ -148,9 +205,12 @@ public class DatabaseHelper {
         return databaseClient.remove(user);
     }
 
-    //Close Connection (Needs to be called once response has been sent to client)
-    public void closeConnection(){
-        LOGGER.info("Connection closed to database");
-        databaseClient.shutdown();
+
+    //USED FOR DEBUGGING
+    public void deleteAllJourneys(){
+        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).query(Journey.class);
+        for(int i = 0; i < list.size(); i++){
+            databaseClient.remove(list.get(i));
+        }
     }
 }

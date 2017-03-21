@@ -1,13 +1,13 @@
 package uk.co.giovannilenguito;
 
-import uk.co.giovannilenguito.controller.StationController;
-import uk.co.giovannilenguito.controller.TrainController;
-import uk.co.giovannilenguito.controller.UserController;
+import com.sun.net.httpserver.HttpServer;
+import uk.co.giovannilenguito.controller.*;
 import uk.co.giovannilenguito.filter.ResponseFilter;
 import uk.co.giovannilenguito.filter.RequestFilter;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import uk.co.giovannilenguito.helper.DatabaseHelper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -29,7 +29,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
-        JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        HttpServer httpServer = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
         LOGGER.info("Running server on " + SERVER_URI);
         System.out.println("Running server on " + SERVER_URI);
     }
@@ -40,6 +40,7 @@ public class Main {
     public String getMessage() {
         return "Hello, this is the track web service which implements all the logic and CRUD operations.";
     }
+
 
     private static Set<Class<?>> getEndpoints(){
         System.out.println("Setting up server");
@@ -52,6 +53,7 @@ public class Main {
 
         //Add classes with endpoints
         endpoints.add(Main.class);
+        endpoints.add(JourneyController.class);
         endpoints.add(StationController.class);
         endpoints.add(TrainController.class);
         endpoints.add(UserController.class);
