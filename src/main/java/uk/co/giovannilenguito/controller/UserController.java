@@ -132,15 +132,12 @@ public class UserController {
 
         User user = databaseHelper.getUser(null, null, id);
         org.lightcouch.Response response = databaseHelper.deleteUser(user);
-
+        databaseHelper.closeConnection();
         if(response.getError() == null){
-            databaseHelper.closeConnection();
             return Response.status(Response.Status.OK).entity("{}").build();
         }else{
-            databaseHelper.closeConnection();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response.getError()).build();
         }
-
     }
 
     @POST

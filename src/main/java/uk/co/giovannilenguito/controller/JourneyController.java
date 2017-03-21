@@ -169,6 +169,22 @@ public class JourneyController {
         }
     }
 
+    @DELETE
+    @Path("{id}")
+    public Response deleteJourney(@PathParam("id") String id) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+
+        Journey journey = databaseHelper.getJourney(id);
+        org.lightcouch.Response response = databaseHelper.deleteJourney(journey);
+        databaseHelper.closeConnection();
+
+        if(response.getError() == null){
+            return Response.status(Response.Status.OK).entity("{}").build();
+        }else{
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response.getError()).build();
+        }
+    }
+
     @POST
     public Response postJourney(String data) {
         ParserFactory parserFactory = new ParserFactory();

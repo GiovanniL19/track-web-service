@@ -5,6 +5,7 @@ package uk.co.giovannilenguito.model;
  */
 public class Journey {
     private String id;
+    private String rev;
     private String _id;
     private String _rev;
 
@@ -31,6 +32,14 @@ public class Journey {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRev() {
+        return _rev;
+    }
+
+    public void setRev(String rev) {
+        this.rev = rev;
     }
 
     public String get_id() {

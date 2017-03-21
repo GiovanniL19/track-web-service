@@ -124,6 +124,11 @@ public class DatabaseHelper {
         return databaseClient.find(Journey.class, id);
     }
 
+    public Response deleteJourney(Journey journey){
+        //Delete journey
+        return databaseClient.remove(journey);
+    }
+
     //Station CRUD
     public List<Station> getAllStations(){
         List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);
