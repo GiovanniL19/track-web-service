@@ -119,6 +119,11 @@ public class DatabaseHelper {
         return databaseClient.update(journey);
     }
 
+    public Journey getJourney(String id){
+        //Get journey
+        return databaseClient.find(Journey.class, id);
+    }
+
     //Station CRUD
     public List<Station> getAllStations(){
         List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);

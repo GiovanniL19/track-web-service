@@ -109,7 +109,6 @@ public class UserController {
         User userObject = parserFactory.toUser(user, id);
 
         String rev = databaseHelper.putUser(userObject);
-        databaseHelper.closeConnection();
         if(rev != null){
             userObject.set_rev(rev);
             userObject.setRev(rev);
@@ -117,8 +116,10 @@ public class UserController {
             JSONObject response = new JSONObject();
             JSONObject updatedUser = new JSONObject(userObject);
             response.put("user", updatedUser);
+            databaseHelper.closeConnection();
             return Response.status(Response.Status.OK).entity(response.toString()).build();
         }else{
+            databaseHelper.closeConnection();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to update user").build();
         }
 

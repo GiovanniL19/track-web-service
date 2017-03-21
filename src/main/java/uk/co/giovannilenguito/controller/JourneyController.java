@@ -2,6 +2,7 @@ package uk.co.giovannilenguito.controller;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import uk.co.giovannilenguito.factory.ParserFactory;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
 import uk.co.giovannilenguito.model.User;
@@ -150,5 +151,46 @@ public class JourneyController {
         databaseHelper.deleteAllJourneys();
         databaseHelper.closeConnection();
         return "All journeys deleted";
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getJourney(@PathParam("id") String id) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Journey journey = databaseHelper.getJourney(id);
+
+        if(journey != null){
+            JSONObject response = new JSONObject();
+            response.put("journey", new JSONObject(journey));
+
+            return Response.status(Response.Status.CREATED).entity(response.toString()).build();
+        }else{
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
+        }
+    }
+
+    @POST
+    public Response postJourney(String data) {
+        ParserFactory parserFactory = new ParserFactory();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        JSONObject dataJson = new JSONObject(data);
+        Journey journey = parserFactory.toJourney(dataJson);
+
+        journey.setType("liked");
+        org.lightcouch.Response databaseResponse = databaseHelper.postJourney(journey);
+        journey.setId(databaseResponse.getId());
+        journey.set_id(databaseResponse.getId());
+
+        JSONObject response = new JSONObject();
+        response.put("journey", new JSONObject(journey));
+
+        databaseHelper.closeConnection();
+        if(databaseResponse.getError() == null){
+            return Response.status(Response.Status.CREATED).entity(response.toString()).build();
+        }else{
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
+        }
+
+
     }
 }

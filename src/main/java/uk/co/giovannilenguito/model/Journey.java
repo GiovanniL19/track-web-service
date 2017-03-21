@@ -16,9 +16,14 @@ public class Journey {
     private String day;
     private int count;
 
+    private String toName;
+    private String fromName;
     private String toCRS;
     private String fromCRS;
     private String user;
+
+    private Station to;
+    private Station from;
 
     public String getId() {
         return _id;
@@ -100,6 +105,22 @@ public class Journey {
         this.count = count;
     }
 
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
     public String getToCRS() {
         return toCRS;
     }
@@ -122,5 +143,21 @@ public class Journey {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Station getTo() {
+        return to;
+    }
+
+    public void setTo(Station to) {
+        this.to = to;
+    }
+
+    public Station getFrom() {
+        return from;
+    }
+
+    public void setFrom(Station from) {
+        this.from = from;
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.giovannilenguito.helper.DatabaseHelper;
+import uk.co.giovannilenguito.model.Journey;
 import uk.co.giovannilenguito.model.Station;
 import uk.co.giovannilenguito.model.User;
 import org.apache.log4j.Logger;
@@ -504,7 +505,12 @@ public class ParserFactory {
             user.setPassword(json.getString("password"));
 
             if(json.has("image")) {
-                user.setImage(json.getString("image"));
+                final Object imageObject = new JSONTokener(json.get("image").toString()).nextValue();
+                if(imageObject instanceof String) {
+                    if(!(imageObject.equals("null"))){
+                        user.setImage(json.getString("image"));
+                    }
+                }
             }
 
 
@@ -546,20 +552,51 @@ public class ParserFactory {
             }
 
             //Get starred journey
-            if(json.has("starredJourney")) {
-                JSONArray starredJourney = json.getJSONArray("starredJourney");
-                List<String> starredJourneyArray = new ArrayList<>();
+            if(json.has("starredJourneys")) {
+                JSONArray starredJourneys = json.getJSONArray("starredJourneys");
+                List<String> starredJourneysArray = new ArrayList<>();
 
-                for (int i = 0; i < starredJourney.length(); i++) {
-                    starredJourneyArray.add(starredJourney.getString(i));
+                for (int i = 0; i < starredJourneys.length(); i++) {
+                    starredJourneysArray.add(starredJourneys.getString(i));
                 }
 
-                user.setStarredJourneys(starredJourneyArray);
+                user.setStarredJourneys(starredJourneysArray);
             }
 
             //Return the user
             LOGGER.info("Returning parsed user");
             return user;
+        }catch(Exception ex){
+            //Error
+            LOGGER.warn(ex);
+            return null;
+        }
+    }
+
+    public Journey toJourney(JSONObject data){
+        try {
+            JSONObject json = data.getJSONObject("journey");
+            JSONObject to = json.getJSONObject("to");
+            JSONObject from = json.getJSONObject("from");
+
+            Journey journey = new Journey();
+            Station toObject = new Station();
+            toObject.setCrs(to.getString("crs"));
+            toObject.setName(to.getString("name"));
+
+            Station fromObject = new Station();
+            fromObject.setCrs(from.getString("crs"));
+            fromObject.setName(from.getString("name"));
+
+            journey.setTo(toObject);
+            journey.setFrom(fromObject);
+
+            journey.setType(json.getString("type"));
+            journey.setUser(json.getString("starred"));
+
+            //Return the user
+            LOGGER.info("Returning parsed journey");
+            return journey;
         }catch(Exception ex){
             //Error
             LOGGER.warn(ex);
