@@ -36,7 +36,19 @@ public class RecommendationController {
         //Get top 5 results by count property
         for (int i = 0; i < numberOfObjects; i++) {
             if(i < journeys.size()) {
+                JSONObject toStation;
+                JSONObject fromStation;
+
+                DatabaseHelper databaseHelper = new DatabaseHelper();
+                toStation = new JSONObject(databaseHelper.getStation(null, null, journeys.get(i).getToCRS()));
+                fromStation = new JSONObject(databaseHelper.getStation(null, null, journeys.get(i).getFromCRS()));
+
+                //Close connection
+                databaseHelper.closeConnection();
+
                 JSONObject journey = new JSONObject(journeys.get(i));
+                journey.put("to", toStation);
+                journey.put("from", fromStation);
                 response.put(journey);
             }
         }

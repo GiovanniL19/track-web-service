@@ -8,7 +8,9 @@ import org.lightcouch.CouchDbClient;
 import org.lightcouch.CouchDbProperties;
 import org.lightcouch.Response;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by giovannilenguito on 09/02/2017.
@@ -65,27 +67,45 @@ public class DatabaseHelper {
     }
 
     public List<Journey> getAllJourneysByKey(String user_id, String city, int hour, String day){
-        List<Journey> list;
+        List<Journey> list = new ArrayList<>();
+        List<Journey> list1;
+        List<Journey> list2;
 
-        if(user_id == null) {
-            String startKey = city + hour + day;
-            int secondHour = hour + 1;
-            if(secondHour == 25){
+        String key;
+        String secondKey;
+
+        if(user_id.equals("null")){
+            key = city + hour + day;
+            int secondHour = 0;
+            if(hour + 1 == 25){
                 secondHour = 0;
+            }else{
+                secondHour = hour + 1;
             }
-            String endKey = city + secondHour  + day;
-            list = databaseClient.view("journeys/journeyByCityHour").includeDocs(true).startKey(startKey).endKey(endKey).query(Journey.class);
+
+            secondKey = city + secondHour + day;
+
+            list1 = databaseClient.view("journeys/journeyByCityHourDay").includeDocs(true).startKey(key).endKey(key).query(Journey.class);
+
+            list2 = databaseClient.view("journeys/journeyByCityHourDay").includeDocs(true).startKey(secondKey).endKey(secondKey).query(Journey.class);
+            Stream.of(list1, list2).forEach(list::addAll);
         }else{
-            int secondHour = hour + 1;
-            if(secondHour == 25){
+            key = user_id + city + hour + day;
+            int secondHour = 0;
+            if(hour + 1 == 25){
                 secondHour = 0;
+            }else{
+                secondHour = hour + 1;
             }
 
-            String startKey = user_id + city + hour + day;
-            String endKey = user_id + city + secondHour + day;
+            secondKey = user_id + city + secondHour + day;
 
-            list = databaseClient.view("journeys/journeyByUserCityHour").includeDocs(true).startKey(startKey).endKey(endKey).query(Journey.class);
+            list1 = databaseClient.view("journeys/journeyByUserCityHourDay").includeDocs(true).startKey(key).endKey(key).query(Journey.class);
+
+            list2 = databaseClient.view("journeys/journeyByUserCityHourDay").includeDocs(true).startKey(secondKey).endKey(secondKey).query(Journey.class);
+            Stream.of(list1, list2).forEach(list::addAll);
         }
+
         return list;
     }
 
@@ -105,9 +125,17 @@ public class DatabaseHelper {
         return list;
     }
 
-    public Station getStation(String name, String id){
+    public Station getStation(String name, String id, String crs){
+        Station station = new Station();
         if(name != null){
-            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query(Station.class);
+            List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).startKey(name).endKey(name).query((Class) station.getClass());
+            if(!list.isEmpty()) {
+                return list.get(0);
+            }else{
+                return null;
+            }
+        }else if(crs != null){
+            List<Station> list = databaseClient.view("stations/stationsByCrs").includeDocs(true).startKey(crs).endKey(crs).query((Class) station.getClass());
             if(!list.isEmpty()) {
                 return list.get(0);
             }else{
@@ -157,9 +185,9 @@ public class DatabaseHelper {
         return databaseClient.save(user);
     }
 
-    public Response putUser(User user){
+    public String putUser(User user){
         //Update user
-        return databaseClient.update(user);
+        return databaseClient.update(user).getRev();
     }
 
     public Response deleteUser(User user){

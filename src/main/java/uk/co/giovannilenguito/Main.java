@@ -1,10 +1,7 @@
 package uk.co.giovannilenguito;
 
 import com.sun.net.httpserver.HttpServer;
-import uk.co.giovannilenguito.controller.RecommendationController;
-import uk.co.giovannilenguito.controller.StationController;
-import uk.co.giovannilenguito.controller.TrainController;
-import uk.co.giovannilenguito.controller.UserController;
+import uk.co.giovannilenguito.controller.*;
 import uk.co.giovannilenguito.filter.ResponseFilter;
 import uk.co.giovannilenguito.filter.RequestFilter;
 import org.apache.log4j.Logger;
@@ -41,22 +38,10 @@ public class Main {
     @GET
     @Produces("text/plain")
     public String getMessage() {
-        RecommendationController recommendationController = new RecommendationController();
-        return recommendationController.getTodayByUser(null, "Broxbourne", 14, "Wednesday").toString();
-
-        //return "Hello, this is the track web service which implements all the logic and CRUD operations.";
+        return "Hello, this is the track web service which implements all the logic and CRUD operations.";
     }
 
-    @GET
-    @Path("delete/all/journeys")
-    @Produces("text/plain")
-    public String deleteAllJourneys() {
-        //FOR DEBUGGING
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.deleteAllJourneys();
-        databaseHelper.closeConnection();
-        return "All journeys deleted";
-    }
+
     private static Set<Class<?>> getEndpoints(){
         System.out.println("Setting up server");
         LOGGER.info("Setting up server");
@@ -68,6 +53,7 @@ public class Main {
 
         //Add classes with endpoints
         endpoints.add(Main.class);
+        endpoints.add(JourneyController.class);
         endpoints.add(StationController.class);
         endpoints.add(TrainController.class);
         endpoints.add(UserController.class);

@@ -5,6 +5,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.giovannilenguito.helper.DatabaseHelper;
@@ -44,7 +45,7 @@ public class ParserFactory {
         JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
         return trainServices;
-    };
+    }
 
     private JSONObject getOrigin(JSONObject service){
         //Create origin station
@@ -475,11 +476,21 @@ public class ParserFactory {
         return response;
     }
 
-    public User toUser(JSONObject data){
+    public User toUser(JSONObject data, String id){
         try {
             JSONObject json = data.getJSONObject("user");
             User user = new User();
-            //Object
+
+            if(id != null) {
+                user.set_id(id);
+                user.setId(id);
+            }
+
+            final Object revObject = new JSONTokener(json.get("rev").toString()).nextValue();
+            if(revObject instanceof String) {
+                user.set_rev((String) revObject);
+            }
+
             user.setType(json.getString("type"));
 
             //Personal information
@@ -491,55 +502,60 @@ public class ParserFactory {
             user.setDateCreated(json.getInt("dateCreated"));
             user.setUsername(json.getString("username"));
             user.setPassword(json.getString("password"));
-            user.setImage(json.getString("image"));
 
-            //Get toStations
-            JSONArray toStations = json.getJSONArray("toStations");
-
-            List<String> toStationsArray = null;
-
-            for (int i = 0; i <= toStations.length(); i++) {
-                toStationsArray.add(toStations.getString(i));
+            if(json.has("image")) {
+                user.setImage(json.getString("image"));
             }
 
-            user.setToStations(toStationsArray);
+
+            //Get toStations
+            if(json.has("toStations")) {
+                JSONArray toStations = json.getJSONArray("toStations");
+                List<String> toStationsArray = new ArrayList<>();
+
+                for (int i = 0; i < toStations.length(); i++) {
+                    toStationsArray.add(toStations.getString(i));
+                }
+
+                user.setToStations(toStationsArray);
+            }
 
 
             //Get fromStations
-            JSONArray fromStations = json.getJSONArray("fromStations");
+            if(json.has("fromStations")) {
+                JSONArray fromStations = json.getJSONArray("fromStations");
+                List<String> fromStationsArray = new ArrayList<>();
+                for (int i = 0; i < fromStations.length(); i++) {
+                    fromStationsArray.add(fromStations.getString(i));
+                }
 
-            List<String> fromStationsArray = null;
+                user.setToStations(fromStationsArray);
 
-            for (int i = 0; i <= fromStations.length(); i++) {
-                fromStationsArray.add(fromStations.getString(i));
             }
-
-            user.setFromStations(fromStationsArray);
-
 
             //Get journey history
-            JSONArray journeyHistory = json.getJSONArray("journeyHistory");
+            if(json.has("journeyHistory")) {
+                JSONArray journeyHistory = json.getJSONArray("journeyHistory");
+                List<String> journeyHistoryArray = new ArrayList<>();
 
-            List<String> journeyHistoryArray = null;
+                for (int i = 0; i < journeyHistory.length(); i++) {
+                    journeyHistoryArray.add(journeyHistory.getString(i));
+                }
 
-            for (int i = 0; i <= journeyHistory.length(); i++) {
-                journeyHistoryArray.add(journeyHistory.getString(i));
+                user.setJourneyHistory(journeyHistoryArray);
             }
-
-            user.setJourneyHistory(journeyHistoryArray);
-
 
             //Get starred journey
-            JSONArray starredJourney = json.getJSONArray("starredJourney");
+            if(json.has("starredJourney")) {
+                JSONArray starredJourney = json.getJSONArray("starredJourney");
+                List<String> starredJourneyArray = new ArrayList<>();
 
-            List<String> starredJourneyArray = null;
+                for (int i = 0; i < starredJourney.length(); i++) {
+                    starredJourneyArray.add(starredJourney.getString(i));
+                }
 
-            for (int i = 0; i <= starredJourney.length(); i++) {
-                starredJourneyArray.add(starredJourney.getString(i));
+                user.setStarredJourneys(starredJourneyArray);
             }
-
-            user.setStarredJourneys(starredJourneyArray);
-
 
             //Return the user
             LOGGER.info("Returning parsed user");
@@ -577,7 +593,7 @@ public class ParserFactory {
                 JSONObject station = new JSONObject();
                 //Get station from database
                 DatabaseHelper databaseHelper = new DatabaseHelper();
-                Station foundStation = databaseHelper.getStation(results.getJSONObject(i).getString("name"), null);
+                Station foundStation = databaseHelper.getStation(results.getJSONObject(i).getString("name"), null, null);
 
                 if(foundStation != null) {
                     station.put("id", foundStation.getId());

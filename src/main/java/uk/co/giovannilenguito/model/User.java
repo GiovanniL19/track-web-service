@@ -10,6 +10,7 @@ public class User {
     private String _id;
     private String id;
     private String _rev;
+    private String rev;
     private String type;
 
     //User information
@@ -52,6 +53,14 @@ public class User {
 
     public void set_rev(String _rev) {
         this._rev = _rev;
+    }
+
+    public String getRev() {
+        return rev;
+    }
+
+    public void setRev(String rev) {
+        this.rev = rev;
     }
 
     public String getType() {

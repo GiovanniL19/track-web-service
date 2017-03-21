@@ -82,6 +82,8 @@ public class UserController {
                 return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
             }else{
                 foundUser.setId(id);
+                foundUser.setRev(foundUser.get_rev());
+
                 JSONObject userJson = new JSONObject(foundUser);
 
                 JSONObject user = new JSONObject();
@@ -97,6 +99,49 @@ public class UserController {
         }
     }
 
+    @PUT
+    @Path("{id}")
+    public Response putUser(String data, @PathParam("id") String id) {
+        JSONObject user = new JSONObject(data);
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        ParserFactory parserFactory = new ParserFactory();
+
+        User userObject = parserFactory.toUser(user, id);
+
+        String rev = databaseHelper.putUser(userObject);
+        databaseHelper.closeConnection();
+        if(rev != null){
+            userObject.set_rev(rev);
+            userObject.setRev(rev);
+
+            JSONObject response = new JSONObject();
+            JSONObject updatedUser = new JSONObject(userObject);
+            response.put("user", updatedUser);
+            return Response.status(Response.Status.OK).entity(response.toString()).build();
+        }else{
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to update user").build();
+        }
+
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteUser(@PathParam("id") String id) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+
+        User user = databaseHelper.getUser(null, null, id);
+        org.lightcouch.Response response = databaseHelper.deleteUser(user);
+
+        if(response.getError() == null){
+            databaseHelper.closeConnection();
+            return Response.status(Response.Status.OK).entity("{}").build();
+        }else{
+            databaseHelper.closeConnection();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response.getError()).build();
+        }
+
+    }
+
     @POST
     public Response postUser(String data) {
         parserFactory = new ParserFactory();
@@ -104,9 +149,9 @@ public class UserController {
 
         JSONObject requestJson = new JSONObject(data);
         //ParserFactory user
-        User newUser = parserFactory.toUser(requestJson);
+        User newUser = parserFactory.toUser(requestJson, null);
         if(newUser == null){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save users").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save user").build();
         }else{
             requestJson.put("id", databaseHelper.postUser(newUser).getId());
             databaseHelper.closeConnection();
@@ -134,6 +179,6 @@ public class UserController {
         JSONObject response = new JSONObject();
         response.put("exist", result);
 
-        return Response.ok(response.toString(), MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*").build();
+        return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
     }
 }
