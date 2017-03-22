@@ -119,9 +119,20 @@ public class DatabaseHelper {
         return databaseClient.update(journey);
     }
 
-    public Journey getJourney(String id){
+    public Journey getJourney(String id, String key){
         //Get journey
-        return databaseClient.find(Journey.class, id);
+        List<Journey> list;
+        if(key != null){
+            list = databaseClient.view("likedJourneys/combined").includeDocs(true).startKey(key).endKey(key).query(Journey.class);
+        }else{
+            return databaseClient.find(Journey.class, id);
+        }
+
+        if(list.size() == 0){
+            return null;
+        }else{
+            return list.get(0);
+        }
     }
 
     public Response deleteJourney(Journey journey){

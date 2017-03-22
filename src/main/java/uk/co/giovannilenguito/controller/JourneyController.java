@@ -157,7 +157,7 @@ public class JourneyController {
     @Path("{id}")
     public Response getJourney(@PathParam("id") String id) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
-        Journey journey = databaseHelper.getJourney(id);
+        Journey journey = databaseHelper.getJourney(id, null);
 
         if(journey != null){
             JSONObject response = new JSONObject();
@@ -169,12 +169,31 @@ public class JourneyController {
         }
     }
 
+    @GET
+    @Path("check/{from}/{to}/{user}")
+    public Response checkJourneyExistence(@PathParam("from") String from, @PathParam("to") String to, @PathParam("user") String user) {
+        String key = from + to + user;
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Journey journey = databaseHelper.getJourney(null, key);
+        databaseHelper.closeConnection();
+
+        JSONObject response = new JSONObject();
+        if(journey != null){
+            response.put("found", true);
+            response.put("id", journey.getId());
+            return Response.status(Response.Status.OK).entity(response.toString()).build();
+        }else{
+            response.put("found", false);
+            return Response.status(Response.Status.OK).entity(response.toString()).build();
+        }
+    }
+
     @DELETE
     @Path("{id}")
     public Response deleteJourney(@PathParam("id") String id) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
 
-        Journey journey = databaseHelper.getJourney(id);
+        Journey journey = databaseHelper.getJourney(id, null);
         org.lightcouch.Response response = databaseHelper.deleteJourney(journey);
         databaseHelper.closeConnection();
 
