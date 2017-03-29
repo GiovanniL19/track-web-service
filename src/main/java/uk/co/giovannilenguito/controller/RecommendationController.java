@@ -68,18 +68,4 @@ public class RecommendationController {
         //return json array of journeys (routes)
         return buildResponse(5, journeys);
     }
-
-    public JSONArray getGenericJourneysToday(String city, int hour, String day){
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-
-        //Get from couchdb all documents with match user id, city and hour key
-        List<Journey> journeys = databaseHelper.getAllJourneysByKey(null, city, hour, day);
-
-        //Sort array high count to low
-        journeys = sortArray(journeys);
-
-        databaseHelper.closeConnection();
-        //return json array of journeys (routes)
-        return buildResponse(5, journeys);
-    }
 }

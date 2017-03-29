@@ -8,9 +8,7 @@ import java.util.List;
 public class User {
     //Object information
     private String _id;
-    private String id;
     private String _rev;
-    private String rev;
     private String type;
 
     //User information
@@ -40,11 +38,11 @@ public class User {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String get_rev() {
@@ -56,11 +54,11 @@ public class User {
     }
 
     public String getRev() {
-        return rev;
+        return _rev;
     }
 
     public void setRev(String rev) {
-        this.rev = rev;
+        this._rev = rev;
     }
 
     public String getType() {

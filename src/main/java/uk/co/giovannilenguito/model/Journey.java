@@ -4,8 +4,6 @@ package uk.co.giovannilenguito.model;
  * Created by giovannilenguito on 28/02/2017.
  */
 public class Journey {
-    private String id;
-    private String rev;
     private String _id;
     private String _rev;
 
@@ -31,7 +29,7 @@ public class Journey {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getRev() {
@@ -39,7 +37,7 @@ public class Journey {
     }
 
     public void setRev(String rev) {
-        this.rev = rev;
+        this._rev = rev;
     }
 
     public String get_id() {

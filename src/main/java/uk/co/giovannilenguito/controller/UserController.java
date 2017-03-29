@@ -102,9 +102,10 @@ public class UserController {
     @PUT
     @Path("{id}")
     public Response putUser(String data, @PathParam("id") String id) {
+        parserFactory = new ParserFactory();
+
         JSONObject user = new JSONObject(data);
         DatabaseHelper databaseHelper = new DatabaseHelper();
-        ParserFactory parserFactory = new ParserFactory();
 
         User userObject = parserFactory.toUser(user, id);
 

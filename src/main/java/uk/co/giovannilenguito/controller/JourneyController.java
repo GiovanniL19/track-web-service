@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.giovannilenguito.factory.ParserFactory;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
+import uk.co.giovannilenguito.helper.LocationHelper;
 import uk.co.giovannilenguito.model.Journey;
 import uk.co.giovannilenguito.model.User;
 import org.apache.log4j.Logger;
@@ -24,6 +25,7 @@ import java.util.List;
 @Path("/journeys")
 public class JourneyController {
     final private Logger LOGGER = Logger.getLogger(JourneyController.class.getName());
+    private ParserFactory parserFactory;
 
     private String getDayOfWeek(){
         Date date = new Date();
@@ -62,12 +64,12 @@ public class JourneyController {
     @Asynchronous
     public void createJourney(String lng, String lat, String from, String to, String userID){
         try {
-            LocationController locationController = new LocationController();
+            LocationHelper locationHelper = new LocationHelper();
             DatabaseHelper databaseHelper = new DatabaseHelper();
 
             int hour = getHourOfDay();
             String day = getDayOfWeek();
-            String city = locationController.getCity(lat, lng);
+            String city = locationHelper.getCity(lat, lng);
 
             String combined = city + hour + day + to + from;
             Journey foundJourney = databaseHelper.findJourney(combined);
@@ -127,9 +129,9 @@ public class JourneyController {
     public Response getRecommendations(@DefaultValue("") @QueryParam(value="user") String user, @QueryParam(value="longitude") String longitude, @QueryParam(value="latitude") String latitude){
         try{
             RecommendationController recommendationController = new RecommendationController();
-            LocationController locationController = new LocationController();
+            LocationHelper locationHelper = new LocationHelper();
 
-            String city = locationController.getCity(latitude, longitude);
+            String city = locationHelper.getCity(latitude, longitude);
 
             JSONArray journeys = recommendationController.getTodayByUser(user, city, getHourOfDay(), getDayOfWeek());
 
@@ -143,15 +145,6 @@ public class JourneyController {
         }
     }
 
-    @GET
-    @Path("delete/all")
-    public String deleteAllJourneys() {
-        //FOR DEBUGGING
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.deleteAllJourneys();
-        databaseHelper.closeConnection();
-        return "All journeys deleted";
-    }
 
     @GET
     @Path("{id}")
@@ -206,7 +199,7 @@ public class JourneyController {
 
     @POST
     public Response postJourney(String data) {
-        ParserFactory parserFactory = new ParserFactory();
+        parserFactory = new ParserFactory();
         DatabaseHelper databaseHelper = new DatabaseHelper();
         JSONObject dataJson = new JSONObject(data);
         Journey journey = parserFactory.toJourney(dataJson);
@@ -220,12 +213,21 @@ public class JourneyController {
         response.put("journey", new JSONObject(journey));
 
         databaseHelper.closeConnection();
-        if(databaseResponse.getError() == null){
+        if (databaseResponse.getError() == null) {
             return Response.status(Response.Status.CREATED).entity(response.toString()).build();
-        }else{
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
         }
-
-
     }
+
+//    //DEBUGGING ONLY
+//    @GET
+//    @Path("delete/all")
+//    public String deleteAllJourneys() {
+//        //FOR DEBUGGING
+//        DatabaseHelper databaseHelper = new DatabaseHelper();
+//        databaseHelper.deleteAllJourneys();
+//        databaseHelper.closeConnection();
+//        return "All journeys deleted";
+//    }
 }
