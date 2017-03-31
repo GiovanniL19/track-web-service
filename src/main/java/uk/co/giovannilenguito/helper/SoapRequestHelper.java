@@ -103,30 +103,4 @@ public class SoapRequestHelper {
         //Return
         return soapMessage;
     }
-
-    public SOAPMessage createServiceDetailsMessage(String serviceID) throws Exception{
-        // SOAP Body
-        SOAPBody soapBody = envelope.getBody();
-
-        //New Parent Element
-        SOAPElement soapBodyElem = soapBody.addChildElement("GetServiceDetailsRequest", "ldb");
-
-        //First new child element
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("serviceID", "ldb");
-        //Value of child element
-        soapBodyElem1.addTextNode(serviceID);
-
-
-        SOAPHeader soapHeader = envelope.getHeader();
-        //New header Element
-        SOAPElement accessTokenElm = soapHeader.addChildElement("AccessToken", "typ");
-        //New header Element
-        SOAPElement tokenElm = accessTokenElm.addChildElement("TokenValue", "typ");
-        tokenElm.addTextNode(LDBWS_TOKEN);
-
-        //Save message
-        soapMessage.saveChanges();
-        //Return
-        return soapMessage;
-    }
 }

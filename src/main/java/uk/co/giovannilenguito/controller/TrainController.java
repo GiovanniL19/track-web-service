@@ -17,6 +17,9 @@ import javax.xml.soap.SOAPMessage;
 @Path("/trains")
 public class TrainController {
     final private Logger LOGGER = Logger.getLogger(TrainController.class.getName());
+    final private String ROWS = "10";
+    private ParserFactory parserFactory;
+    private SoapRequestHelper soapRequestHelper;
 
     @GET
     public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
@@ -37,9 +40,11 @@ public class TrainController {
     }
 
     public Response findTrains(String crs, String filterCrs, String rows){
+        parserFactory = new ParserFactory();
+
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
             SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(), "", "", "");
@@ -47,28 +52,23 @@ public class TrainController {
             //Get data from national rail
             SOAPMessage response = soapRequestHelper.execute(message);
 
-            //ParserFactory
-            ParserFactory parserFactory = new ParserFactory();
             JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
-            ParserFactory parserFactory = new ParserFactory();
             String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
     }
 
     public Response getDepartureBoard(String crs){
-        final String rows = "10";
-        //ParserFactory
-        ParserFactory parserFactory = new ParserFactory();
+        parserFactory = new ParserFactory();
 
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
-            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
+            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
 
             //Get data from national rail
             SOAPMessage response = soapRequestHelper.execute(message);
@@ -83,24 +83,21 @@ public class TrainController {
     }
 
     public Response getArrivalBoard(String crs){
-        final String rows = "10";
+        parserFactory = new ParserFactory();
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
-            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetArrBoardWithDetailsRequest", rows, crs.toUpperCase(), "","","","");
+            SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetArrBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
 
             //Get data from national rail
             SOAPMessage response = soapRequestHelper.execute(message);
 
-            //ParserFactory
-            ParserFactory parserFactory = new ParserFactory();
             JSONObject json = parserFactory.arrivalBoardServices(response, "GetArrBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
             LOGGER.warn(ex);
-            ParserFactory parserFactory = new ParserFactory();
             String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }

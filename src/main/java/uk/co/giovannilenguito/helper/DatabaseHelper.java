@@ -167,11 +167,6 @@ public class DatabaseHelper {
         }
     }
 
-    public Response putStation(Station station){
-        //Update station
-        return databaseClient.update(station);
-    }
-
     //User CRUD
     public boolean doesEmailExist(String email){
         int found = databaseClient.view("users/usersByUsername").startKey(email).endKey(email).query(Station.class).size();
@@ -218,10 +213,10 @@ public class DatabaseHelper {
 
 
     //USED FOR DEBUGGING
-    public void deleteAllJourneys(){
-        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).query(Journey.class);
-        for(int i = 0; i < list.size(); i++){
-            databaseClient.remove(list.get(i));
-        }
-    }
+//    public void deleteAllJourneys(){
+//        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).query(Journey.class);
+//        for(int i = 0; i < list.size(); i++){
+//            databaseClient.remove(list.get(i));
+//        }
+//    }
 }

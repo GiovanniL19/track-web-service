@@ -25,11 +25,12 @@ import javax.ws.rs.Path;
 public class Main {
     final private static URI SERVER_URI = URI.create("http://localhost:3002/");
     final private static Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static HttpServer httpServer;
 
     public static void main(String[] args) throws IOException {
         ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
-        HttpServer httpServer = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+        httpServer = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
         LOGGER.info("Running server on " + SERVER_URI);
         System.out.println("Running server on " + SERVER_URI);
     }
@@ -37,7 +38,7 @@ public class Main {
 
     @GET
     @Produces("text/plain")
-    public String getMessage() {
+    public String getWelcomeMessage() {
         return "Hello, this is the track web service which implements all the logic and CRUD operations.";
     }
 
