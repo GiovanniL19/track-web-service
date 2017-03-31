@@ -14,9 +14,10 @@ public class LocationHelper {
     final private String API_KEY = "AIzaSyCo-EDpiiMlqgbVjY3K_xCiWo-ubsvPYRg";
     final private String RADIUS = "10000";
     private ParserFactory parserFactory;
+    private ConnectionHelper connectionHelper;
+
 
     public String getCity(String lat, String lng){
-        ConnectionHelper connectionHelper = null;
         parserFactory = new ParserFactory();
         try {
             //Make connection
@@ -36,7 +37,6 @@ public class LocationHelper {
     }
 
     public JSONArray getNearestStation(String longitude, String latitude){
-        ConnectionHelper connectionHelper = null;
         parserFactory = new ParserFactory();
         try {
             //Make connection

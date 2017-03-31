@@ -23,6 +23,7 @@ public class StationController {
     final private String ROWS = "10";
     private ParserFactory parserFactory;
     private LocationHelper locationHelper;
+    private SoapRequestHelper soapRequestHelper;
 
     private Response getNearbyStations(String lng, String lat){
         locationHelper = new LocationHelper();
@@ -66,7 +67,7 @@ public class StationController {
         parserFactory = new ParserFactory();
 
         try {
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
             SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
             SOAPMessage response = soapRequestHelper.execute(soapMessage);
 

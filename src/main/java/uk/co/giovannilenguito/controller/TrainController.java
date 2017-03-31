@@ -19,6 +19,7 @@ public class TrainController {
     final private Logger LOGGER = Logger.getLogger(TrainController.class.getName());
     final private String ROWS = "10";
     private ParserFactory parserFactory;
+    private SoapRequestHelper soapRequestHelper;
 
     @GET
     public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
@@ -43,7 +44,7 @@ public class TrainController {
 
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
             SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", rows, crs.toUpperCase(), filterCrs.equalsIgnoreCase("*") ? "" : filterCrs.toUpperCase(), "", "", "");
@@ -64,7 +65,7 @@ public class TrainController {
 
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
             SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
@@ -85,7 +86,7 @@ public class TrainController {
         parserFactory = new ParserFactory();
         try {
             //Initialise instance
-            SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+            soapRequestHelper = new SoapRequestHelper();
 
             //Create message
             SOAPMessage message = soapRequestHelper.createBoardWithDetailsMessage("GetArrBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");

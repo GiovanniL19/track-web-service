@@ -2,6 +2,7 @@ package uk.co.giovannilenguito.controller;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import uk.co.giovannilenguito.annotation.JWTRequired;
 import uk.co.giovannilenguito.factory.ParserFactory;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.helper.LocationHelper;
@@ -26,6 +27,9 @@ import java.util.List;
 public class JourneyController {
     final private Logger LOGGER = Logger.getLogger(JourneyController.class.getName());
     private ParserFactory parserFactory;
+    private RecommendationController recommendationController;
+    private DatabaseHelper databaseHelper;
+    private LocationHelper locationHelper;
 
     private String getDayOfWeek(){
         Date date = new Date();
@@ -64,8 +68,8 @@ public class JourneyController {
     @Asynchronous
     public void createJourney(String lng, String lat, String from, String to, String userID){
         try {
-            LocationHelper locationHelper = new LocationHelper();
-            DatabaseHelper databaseHelper = new DatabaseHelper();
+            locationHelper = new LocationHelper();
+            databaseHelper = new DatabaseHelper();
 
             int hour = getHourOfDay();
             String day = getDayOfWeek();
@@ -124,12 +128,11 @@ public class JourneyController {
         }
     }
 
-
     @GET
     public Response getRecommendations(@DefaultValue("") @QueryParam(value="user") String user, @QueryParam(value="longitude") String longitude, @QueryParam(value="latitude") String latitude){
         try{
-            RecommendationController recommendationController = new RecommendationController();
-            LocationHelper locationHelper = new LocationHelper();
+            recommendationController = new RecommendationController();
+            locationHelper = new LocationHelper();
 
             String city = locationHelper.getCity(latitude, longitude);
 
@@ -145,11 +148,10 @@ public class JourneyController {
         }
     }
 
-
     @GET
     @Path("{id}")
     public Response getJourney(@PathParam("id") String id) {
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
         Journey journey = databaseHelper.getJourney(id, null);
 
         if(journey != null){
@@ -166,7 +168,7 @@ public class JourneyController {
     @Path("check/{from}/{to}/{user}")
     public Response checkJourneyExistence(@PathParam("from") String from, @PathParam("to") String to, @PathParam("user") String user) {
         String key = from + to + user;
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
         Journey journey = databaseHelper.getJourney(null, key);
         databaseHelper.closeConnection();
 
@@ -184,7 +186,7 @@ public class JourneyController {
     @DELETE
     @Path("{id}")
     public Response deleteJourney(@PathParam("id") String id) {
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
 
         Journey journey = databaseHelper.getJourney(id, null);
         org.lightcouch.Response response = databaseHelper.deleteJourney(journey);
@@ -200,7 +202,7 @@ public class JourneyController {
     @POST
     public Response postJourney(String data) {
         parserFactory = new ParserFactory();
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
         JSONObject dataJson = new JSONObject(data);
         Journey journey = parserFactory.toJourney(dataJson);
 
@@ -225,7 +227,7 @@ public class JourneyController {
 //    @Path("delete/all")
 //    public String deleteAllJourneys() {
 //        //FOR DEBUGGING
-//        DatabaseHelper databaseHelper = new DatabaseHelper();
+//        databaseHelper = new DatabaseHelper();
 //        databaseHelper.deleteAllJourneys();
 //        databaseHelper.closeConnection();
 //        return "All journeys deleted";

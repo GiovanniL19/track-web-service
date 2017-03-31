@@ -21,6 +21,7 @@ import java.util.Date;
 public class UserController {
     final private Logger LOGGER = Logger.getLogger(UserController.class.getName());
     private ParserFactory parserFactory;
+    private DatabaseHelper databaseHelper;
 
     private String buildToken(JSONObject credentials) {
         return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, "track").compact();
@@ -32,17 +33,24 @@ public class UserController {
         JSONObject credentials = new JSONObject(data);
         try {
             //Initialise database connection
-            DatabaseHelper cDb = new DatabaseHelper();
+            databaseHelper = new DatabaseHelper();
 
             final String username = credentials.getString("username");
             //Get user
-            final User user = cDb.getUser(username, null, null);
+            final User user = databaseHelper.getUser(username, null, null);
 
             if (user == null) {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
             } else {
                 if (user.getPassword().equals(credentials.getString("password"))) {
                     LOGGER.info("Authentication successful, setting token and sending response...");
+
+                    //Save last login
+                    int dateTime = (int) (new Date().getTime()/1000);
+                    user.setLastLogin(dateTime);
+                    databaseHelper.putUser(user);
+                    //Close connection to couchdb
+                    databaseHelper.closeConnection();
 
                     //Create token
                     final String token = buildToken(credentials);
@@ -51,16 +59,10 @@ public class UserController {
                     response.put("token", token);
                     response.put("user", user.get_id());
 
-                    //Save last login
-                    int dateTime = (int) (new Date().getTime()/1000);
-                    user.setLastLogin(dateTime);
-                    cDb.putUser(user);
-                    //Close connection to couchdb
-                    cDb.closeConnection();
                     return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
                 }else{
                     //Close connection to couchdb
-                    cDb.closeConnection();
+                    databaseHelper.closeConnection();
                     return Response.status(Response.Status.OK).entity("Incorrect Password").build();
                 }
             }
@@ -74,7 +76,7 @@ public class UserController {
     @Path("/{id}")
     @JWTRequired
     public Response getUser(@PathParam("id") String id) {
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
         try {
             User foundUser = databaseHelper.getUser(null, null, id);
 
@@ -105,7 +107,7 @@ public class UserController {
         parserFactory = new ParserFactory();
 
         JSONObject user = new JSONObject(data);
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
 
         User userObject = parserFactory.toUser(user, id);
 
@@ -129,7 +131,7 @@ public class UserController {
     @DELETE
     @Path("{id}")
     public Response deleteUser(@PathParam("id") String id) {
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
 
         User user = databaseHelper.getUser(null, null, id);
         org.lightcouch.Response response = databaseHelper.deleteUser(user);
@@ -144,7 +146,7 @@ public class UserController {
     @POST
     public Response postUser(String data) {
         parserFactory = new ParserFactory();
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
 
         JSONObject requestJson = new JSONObject(data);
         //ParserFactory user
@@ -169,7 +171,7 @@ public class UserController {
     @Path("/check/exists/{email}")
     @Produces("application/json")
     public Response checkEmail(@PathParam("email") String email){
-        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper = new DatabaseHelper();
 
         final boolean result = databaseHelper.doesEmailExist(email);
         databaseHelper.closeConnection();
