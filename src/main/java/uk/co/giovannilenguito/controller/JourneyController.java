@@ -31,6 +31,10 @@ public class JourneyController {
     private DatabaseHelper databaseHelper;
     private LocationHelper locationHelper;
 
+    public JourneyController() {
+        parserFactory = new ParserFactory();
+    }
+
     private String getDayOfWeek(){
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -129,6 +133,7 @@ public class JourneyController {
     }
 
     @GET
+    @JWTRequired
     public Response getRecommendations(@DefaultValue("") @QueryParam(value="user") String user, @QueryParam(value="longitude") String longitude, @QueryParam(value="latitude") String latitude){
         try{
             recommendationController = new RecommendationController();
@@ -138,10 +143,7 @@ public class JourneyController {
 
             JSONArray journeys = recommendationController.getTodayByUser(user, city, getHourOfDay(), getDayOfWeek());
 
-            JSONObject response = new JSONObject();
-            response.put("journeys", journeys);
-
-            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+            return Response.ok(parserFactory.journeysResponse(journeys), MediaType.APPLICATION_JSON).build();
         }catch(Exception ex){
             LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not get recommended journeys").build();
@@ -155,10 +157,7 @@ public class JourneyController {
         Journey journey = databaseHelper.getJourney(id, null);
 
         if(journey != null){
-            JSONObject response = new JSONObject();
-            response.put("journey", new JSONObject(journey));
-
-            return Response.status(Response.Status.CREATED).entity(response.toString()).build();
+            return Response.status(Response.Status.CREATED).entity(parserFactory.journeyResponse(journey)).build();
         }else{
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
         }
@@ -172,19 +171,16 @@ public class JourneyController {
         Journey journey = databaseHelper.getJourney(null, key);
         databaseHelper.closeConnection();
 
-        JSONObject response = new JSONObject();
         if(journey != null){
-            response.put("found", true);
-            response.put("id", journey.getId());
-            return Response.status(Response.Status.OK).entity(response.toString()).build();
+            return Response.status(Response.Status.OK).entity(parserFactory.checkResponse(journey, true)).build();
         }else{
-            response.put("found", false);
-            return Response.status(Response.Status.OK).entity(response.toString()).build();
+            return Response.status(Response.Status.OK).entity(parserFactory.checkResponse(journey, false)).build();
         }
     }
 
     @DELETE
     @Path("{id}")
+    @JWTRequired
     public Response deleteJourney(@PathParam("id") String id) {
         databaseHelper = new DatabaseHelper();
 
@@ -200,8 +196,8 @@ public class JourneyController {
     }
 
     @POST
+    @JWTRequired
     public Response postJourney(String data) {
-        parserFactory = new ParserFactory();
         databaseHelper = new DatabaseHelper();
         JSONObject dataJson = new JSONObject(data);
         Journey journey = parserFactory.toJourney(dataJson);
@@ -211,12 +207,9 @@ public class JourneyController {
         journey.setId(databaseResponse.getId());
         journey.set_id(databaseResponse.getId());
 
-        JSONObject response = new JSONObject();
-        response.put("journey", new JSONObject(journey));
-
         databaseHelper.closeConnection();
         if (databaseResponse.getError() == null) {
-            return Response.status(Response.Status.CREATED).entity(response.toString()).build();
+            return Response.status(Response.Status.CREATED).entity(parserFactory.journeyResponse(journey)).build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
         }

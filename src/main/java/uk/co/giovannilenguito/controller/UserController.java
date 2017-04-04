@@ -27,6 +27,10 @@ public class UserController {
         return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, "track").compact();
     }
 
+    public UserController() {
+        parserFactory = new ParserFactory();
+    }
+
     @POST
     @Path("/auth")
     public Response authenticate(String data) {
@@ -49,19 +53,13 @@ public class UserController {
                     int dateTime = (int) (new Date().getTime()/1000);
                     user.setLastLogin(dateTime);
                     databaseHelper.putUser(user);
-                    //Close connection to couchdb
                     databaseHelper.closeConnection();
 
                     //Create token
                     final String token = buildToken(credentials);
-                    //Build response
-                    JSONObject response = new JSONObject();
-                    response.put("token", token);
-                    response.put("user", user.get_id());
 
-                    return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+                    return Response.ok(parserFactory.toToken(token, user), MediaType.APPLICATION_JSON).build();
                 }else{
-                    //Close connection to couchdb
                     databaseHelper.closeConnection();
                     return Response.status(Response.Status.OK).entity("Incorrect Password").build();
                 }
@@ -86,11 +84,7 @@ public class UserController {
                 foundUser.setId(id);
                 foundUser.setRev(foundUser.get_rev());
 
-                JSONObject userJson = new JSONObject(foundUser);
-
-                JSONObject user = new JSONObject();
-                user.put("user", userJson);
-                return Response.status(Response.Status.OK).entity(user.toString()).build();
+                return Response.status(Response.Status.OK).entity(parserFactory.userResponse(foundUser)).build();
             }
         }catch(Exception ex){
             LOGGER.info("FAILED");
@@ -104,8 +98,6 @@ public class UserController {
     @PUT
     @Path("{id}")
     public Response putUser(String data, @PathParam("id") String id) {
-        parserFactory = new ParserFactory();
-
         JSONObject user = new JSONObject(data);
         databaseHelper = new DatabaseHelper();
 
@@ -116,11 +108,7 @@ public class UserController {
             userObject.set_rev(rev);
             userObject.setRev(rev);
 
-            JSONObject response = new JSONObject();
-            JSONObject updatedUser = new JSONObject(userObject);
-            response.put("user", updatedUser);
-            databaseHelper.closeConnection();
-            return Response.status(Response.Status.OK).entity(response.toString()).build();
+            return Response.status(Response.Status.OK).entity(parserFactory.userResponse(userObject)).build();
         }else{
             databaseHelper.closeConnection();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to update user").build();
@@ -145,7 +133,6 @@ public class UserController {
 
     @POST
     public Response postUser(String data) {
-        parserFactory = new ParserFactory();
         databaseHelper = new DatabaseHelper();
 
         JSONObject requestJson = new JSONObject(data);
@@ -154,12 +141,13 @@ public class UserController {
         if(newUser == null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save user").build();
         }else{
-            requestJson.put("id", databaseHelper.postUser(newUser).getId());
+            String id = databaseHelper.postUser(newUser).getId();
+            newUser.set_id(id);
+            newUser.setId(id);
+
             databaseHelper.closeConnection();
             try{
-                JSONObject user = new JSONObject();
-                user.put("user", requestJson);
-                return Response.status(Response.Status.CREATED).entity(user.toString()).build();
+                return Response.status(Response.Status.CREATED).entity(parserFactory.userResponse(newUser)).build();
             }catch (Exception ex){
                 LOGGER.warn(ex);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
@@ -176,10 +164,6 @@ public class UserController {
         final boolean result = databaseHelper.doesEmailExist(email);
         databaseHelper.closeConnection();
 
-        //Create json response
-        JSONObject response = new JSONObject();
-        response.put("exist", result);
-
-        return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(parserFactory.existResponse(result), MediaType.APPLICATION_JSON).build();
     }
 }
