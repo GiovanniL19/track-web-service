@@ -7,7 +7,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
 import uk.co.giovannilenguito.model.Station;
@@ -460,7 +459,7 @@ public class ParserFactory {
         return messageFormatted;
     }
 
-    public JSONObject stationToJson(List<Station> stations){
+    public JSONObject stationsToJson(List<Station> stations){
         JSONArray jsonStations = new JSONArray();
 
         for(int i = 0; i < stations.size(); i++){
@@ -652,6 +651,16 @@ public class ParserFactory {
 
     }
 
+
+    public String toToken(String token, User user){
+        JSONObject response = new JSONObject();
+        response.put("token", token);
+        response.put("user", user.get_id());
+
+        return response.toString();
+    }
+
+    //Parse Error messages
     public String errorMessage(Exception ex){
         LOGGER.warn(ex);
 
@@ -665,5 +674,47 @@ public class ParserFactory {
         }
 
         return message;
+    }
+
+
+    //Build responses for endpoints
+    public String journeysResponse(JSONArray journeys){
+        JSONObject response = new JSONObject();
+        response.put("journeys", journeys);
+        return response.toString();
+    }
+
+    public String journeyResponse(Journey journey){
+        JSONObject response = new JSONObject();
+        response.put("journeys", new JSONObject(journey));
+        return response.toString();
+    }
+
+    public String checkResponse(Journey journey, Boolean found){
+        JSONObject response = new JSONObject();
+        response.put("found", found);
+        if(journey != null) {
+            response.put("id", journey.getId());
+        }
+        return response.toString();
+    }
+
+    public String stationsResponse(JSONArray stations){
+        JSONObject response = new JSONObject();
+        response.put("stations", stations);
+        return response.toString();
+    }
+
+    public String userResponse(User user){
+        JSONObject response = new JSONObject();
+        response.put("user", new JSONObject(user));
+        return response.toString();
+    }
+
+    public String existResponse(boolean result){
+        JSONObject response = new JSONObject();
+        response.put("exist", result);
+
+        return response.toString();
     }
 }

@@ -25,26 +25,26 @@ public class StationController {
     private LocationHelper locationHelper;
     private SoapRequestHelper soapRequestHelper;
 
+    public StationController() {
+        parserFactory = new ParserFactory();
+    }
+
     private Response getNearbyStations(String lng, String lat){
         locationHelper = new LocationHelper();
         JSONArray stations = locationHelper.getNearestStation(lng, lat);
         if(stations != null){
-            JSONObject response = new JSONObject();
-            response.put("stations", stations);
-            return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+            return Response.ok(parserFactory.stationsResponse(stations), MediaType.APPLICATION_JSON).build();
         }else{
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not retrieve stations").build();
         }
     }
 
     private Response getAllStations(){
-        parserFactory = new ParserFactory();
-
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper();
-            JSONObject response = parserFactory.stationToJson(databaseHelper.getAllStations());
-
+            JSONObject response = parserFactory.stationsToJson(databaseHelper.getAllStations());
             databaseHelper.closeConnection();
+
             return Response.status(Response.Status.OK).entity(response.toString()).build();
         } catch (Exception ex) {
             LOGGER.warn(ex);
@@ -64,8 +64,6 @@ public class StationController {
     @GET
     @Path("/message")
     public Response getMessage(@QueryParam(value="station") String crs) {
-        parserFactory = new ParserFactory();
-
         try {
             soapRequestHelper = new SoapRequestHelper();
             SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
