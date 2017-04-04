@@ -1,10 +1,14 @@
 package uk.co.giovannilenguito.controller;
 
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
+import uk.co.giovannilenguito.factory.ParserFactory;
+import uk.co.giovannilenguito.helper.SoapRequestHelper;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.soap.SOAPMessage;
 import java.lang.reflect.Method;
 
 /**
@@ -26,7 +30,7 @@ public class StationControllerTest {
         Response responseAllStations = (Response) getAllStations.invoke(stationController, null);
 
 
-        Response expectedResponse = Response.ok(responseNearbyStations.toString(), MediaType.APPLICATION_JSON).build();
+        Response expectedResponse = Response.ok(MediaType.APPLICATION_JSON).build();
 
         Assert.assertEquals(expectedResponse.getStatus(), responseNearbyStations.getStatus());
         Assert.assertEquals(expectedResponse.getStatus(), responseAllStations.getStatus());
@@ -34,6 +38,15 @@ public class StationControllerTest {
 
     @Test
     public void getMessage() throws Exception {
+        SoapRequestHelper soapRequestHelper = new SoapRequestHelper();
+        ParserFactory parserFactory = new ParserFactory();
+
+
+        SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", "10", "EUS", "","","","");
+        SOAPMessage response = soapRequestHelper.execute(soapMessage);
+
+        JSONObject json = parserFactory.stationMessage(response, "GetDepBoardWithDetailsResponse");
+        Assert.assertNotNull(json);
     }
 
 }

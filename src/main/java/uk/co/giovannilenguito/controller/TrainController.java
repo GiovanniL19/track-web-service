@@ -18,28 +18,11 @@ import javax.xml.soap.SOAPMessage;
 public class TrainController {
     final private Logger LOGGER = Logger.getLogger(TrainController.class.getName());
     final private String ROWS = "10";
+
     private ParserFactory parserFactory;
     private SoapRequestHelper soapRequestHelper;
 
-    @GET
-    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
-        if(type.equalsIgnoreCase("departure")){
-            return getDepartureBoard(location);
-        }else if(type.equalsIgnoreCase("arrival")){
-            return getArrivalBoard(location);
-        }else{
-            //Create context
-            if(!lng.equals("") && !lat.equals("")) {
-                LOGGER.info("Saving context");
-                JourneyController journeyController = new JourneyController();
-                journeyController.createJourney(lng, lat, crs, filterCrs, userID);
-            }
-            //Return trains
-            return findTrains(crs, filterCrs, rows);
-        }
-    }
-
-    public Response findTrains(String crs, String filterCrs, String rows){
+    private Response findTrains(String crs, String filterCrs, String rows){
         parserFactory = new ParserFactory();
 
         try {
@@ -60,7 +43,7 @@ public class TrainController {
         }
     }
 
-    public Response getDepartureBoard(String crs){
+    private Response getDepartureBoard(String crs){
         parserFactory = new ParserFactory();
 
         try {
@@ -82,7 +65,7 @@ public class TrainController {
         }
     }
 
-    public Response getArrivalBoard(String crs){
+    private Response getArrivalBoard(String crs){
         parserFactory = new ParserFactory();
         try {
             //Initialise instance
@@ -100,6 +83,24 @@ public class TrainController {
             LOGGER.warn(ex);
             String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
+        }
+    }
+
+    @GET
+    public Response getTrains(@QueryParam(value="origin") String crs, @QueryParam("destination") String filterCrs, @DefaultValue("10") @QueryParam("rows") String rows, @DefaultValue("") @QueryParam("type") String type, @DefaultValue("") @QueryParam("location") String location, @QueryParam("lng") String lng, @QueryParam("lat") String lat,  @QueryParam("user") String userID) {
+        if(type.equalsIgnoreCase("departure")){
+            return getDepartureBoard(location);
+        }else if(type.equalsIgnoreCase("arrival")){
+            return getArrivalBoard(location);
+        }else{
+            //Create context
+            if(!lng.equals("") && !lat.equals("")) {
+                LOGGER.info("Saving context");
+                JourneyController journeyController = new JourneyController();
+                journeyController.createJourney(lng, lat, crs, filterCrs, userID);
+            }
+            //Return trains
+            return findTrains(crs, filterCrs, rows);
         }
     }
 }

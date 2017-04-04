@@ -25,6 +25,7 @@ public class ParserFactory {
     final private Logger LOGGER = Logger.getLogger(ParserFactory.class.getName());
     private JSONObject train;
 
+    //Private methods
     private JSONObject getServices(SOAPMessage xml, String type) throws SOAPException, TransformerException {
         //Sets up transformer
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -160,6 +161,8 @@ public class ParserFactory {
         return callingPoints;
     }
 
+
+    //Public methods
     public JSONObject departureBoardServices(SOAPMessage xml, String type) throws Exception{
         JSONObject trainServices = getServices(xml, type);
         JSONArray allServices = new JSONArray();
