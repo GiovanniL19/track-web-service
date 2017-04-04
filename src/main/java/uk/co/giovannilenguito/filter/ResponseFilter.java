@@ -13,7 +13,7 @@ import javax.ws.rs.ext.Provider;
 public class ResponseFilter implements ContainerResponseFilter {
 
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext containerResponseContext) {
+    public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext containerResponseContext) {
         /*
         Sets headers in response to the OPTIONS request:
         "For browser to know that it's allowed to talk from js to another server it first need to do pre-flight

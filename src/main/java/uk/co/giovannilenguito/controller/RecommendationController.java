@@ -16,23 +16,16 @@ public class RecommendationController {
     /*
     // Recommendation and Prediction Engine
     // Uses data mining techniques on all users
-    //
-    //
     */
 
-    private List<Journey> sortArray(List<Journey> journeys){
-        Collections.sort(journeys, new Comparator<Journey>(){
-            @Override
-            public int compare(Journey o1, Journey o2) {
-                return Integer.valueOf(o2.getCount()).compareTo(o1.getCount());
-            }
-        });
-
+    private List<Journey> sortArray(final List<Journey> journeys){
+        Collections.sort(journeys, (o1, o2) -> Integer.valueOf(o2.getCount()).compareTo(o1.getCount()));
         return journeys;
     }
 
-    private JSONArray buildResponse(int numberOfObjects, List<Journey> journeys){
+    private JSONArray buildResponse(final int numberOfObjects, final List<Journey> journeys){
         JSONArray response = new JSONArray();
+
         //Get top 5 results by count property
         for (int i = 0; i < numberOfObjects; i++) {
             if(i < journeys.size()) {

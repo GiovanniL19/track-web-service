@@ -13,17 +13,19 @@ public class LocationHelper {
 
     final private String API_KEY = "AIzaSyCo-EDpiiMlqgbVjY3K_xCiWo-ubsvPYRg";
     final private String RADIUS = "10000";
+
     private ParserFactory parserFactory;
     private ConnectionHelper connectionHelper;
 
 
-    public String getCity(String lat, String lng){
+    public String getCity(final String lat, final String lng){
         parserFactory = new ParserFactory();
         try {
             //Make connection
             connectionHelper = new ConnectionHelper(new URL("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=" + API_KEY));
             //Make request
-            String response = connectionHelper.get();
+
+            final String response = connectionHelper.get();
             //ParserFactory response
             return parserFactory.toCity(response);
         } catch (Exception ex) {
@@ -36,15 +38,16 @@ public class LocationHelper {
         }
     }
 
-    public JSONArray getNearestStation(String longitude, String latitude){
+    public JSONArray getNearestStation(final String longitude, final String latitude){
         parserFactory = new ParserFactory();
         try {
             //Make connection
             connectionHelper = new ConnectionHelper(new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" + RADIUS + "&type=train_station&key=" + API_KEY));
+
             //Make request
-            String connectionResponse = connectionHelper.get();
+            final String connectionResponse = connectionHelper.get();
             //ParserFactory response
-            return parserFactory.toStationsArray(connectionResponse);
+            return parserFactory.destinationStationsToJSONArray(connectionResponse);
         } catch (Exception ex) {
             LOGGER.warn(ex);
             return null;

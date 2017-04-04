@@ -27,16 +27,16 @@ public class ConnectionHelper {
     public String get(){
         try {
             //Make request
-            DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+            final DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.close();
 
 
             //Get response
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder response = new StringBuilder();
-            String line;
+            final InputStream inputStream = connection.getInputStream();
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            final StringBuilder response = new StringBuilder();
 
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 response.append(line);
                 response.append('\r');

@@ -43,13 +43,13 @@ public class SoapRequestHelper {
     }
 
     //Call this method to get a response from the web service
-    public SOAPMessage execute(SOAPMessage message) throws Exception{
+    public SOAPMessage execute(final SOAPMessage message) throws Exception{
         //SOAP Connection
-        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-        SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+        final SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        final SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
         //Send SOAP message to server and get response
-        SOAPMessage soapResponse = soapConnection.call(message, LDBWS_URL);
+        final SOAPMessage soapResponse = soapConnection.call(message, LDBWS_URL);
 
         //Close connection
         soapConnection.close();
@@ -58,48 +58,49 @@ public class SoapRequestHelper {
     }
 
     //To create a soap message to execute, use the appropriate create method below
-    public SOAPMessage createBoardWithDetailsMessage(String request, String numRows, String crs, String filterCrs, String filterType, String timeOffset, String timeWindow) throws Exception{
+    public SOAPMessage createBoardWithDetailsMessage(final String request, final String numRows, final String crs, final String filterCrs, final String filterType, final String timeOffset, final String timeWindow) throws Exception{
         // SOAP Body
-        SOAPBody soapBody = envelope.getBody();
+        final SOAPBody soapBody = envelope.getBody();
 
         //New Parent Element
-        SOAPElement soapBodyElem = soapBody.addChildElement(request, "ldb");
+        final SOAPElement soapBodyElem = soapBody.addChildElement(request, "ldb");
 
         //First new child element
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("numRows", "ldb");
+        final SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("numRows", "ldb");
         //Value of child element
         soapBodyElem1.addTextNode(numRows);
         //New child element
-        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("crs", "ldb");
+        final SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("crs", "ldb");
         //Value of child element
         soapBodyElem2.addTextNode(crs);
         //New child element
-        SOAPElement soapBodyElemFC = soapBodyElem.addChildElement("filterCrs", "ldb");
+        final SOAPElement soapBodyElemFC = soapBodyElem.addChildElement("filterCrs", "ldb");
         //Value of child element
         soapBodyElemFC.addTextNode(filterCrs);
         //New child element
-        SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("filterType", "ldb");
+        final SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("filterType", "ldb");
         //Value of child element
         soapBodyElem3.addTextNode(filterType);
         //New child element
-        SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("timeOffset", "ldb");
+        final SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("timeOffset", "ldb");
         //Value of child element
         soapBodyElem4.addTextNode(timeOffset);
         //New child element
-        SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("timeWindow", "ldb");
+        final SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("timeWindow", "ldb");
         //Value of child element
         soapBodyElem5.addTextNode(timeWindow);
 
 
-        SOAPHeader soapHeader = envelope.getHeader();
+        final SOAPHeader soapHeader = envelope.getHeader();
         //New header Element
-        SOAPElement accessTokenElm = soapHeader.addChildElement("AccessToken", "typ");
+        final SOAPElement accessTokenElm = soapHeader.addChildElement("AccessToken", "typ");
         //New header Element
-        SOAPElement tokenElm = accessTokenElm.addChildElement("TokenValue", "typ");
+        final SOAPElement tokenElm = accessTokenElm.addChildElement("TokenValue", "typ");
         tokenElm.addTextNode(LDBWS_TOKEN);
 
         //Save message
         soapMessage.saveChanges();
+
         //Return
         return soapMessage;
     }

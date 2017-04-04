@@ -33,15 +33,14 @@ public class UserController {
 
     @POST
     @Path("/auth")
-    public Response authenticate(String data) {
-        JSONObject credentials = new JSONObject(data);
-        try {
-            //Initialise database connection
-            databaseHelper = new DatabaseHelper();
+    public Response authenticate(final String data) {
+        databaseHelper = new DatabaseHelper();
+        final JSONObject credentials = new JSONObject(data);
 
+        try {
             final String username = credentials.getString("username");
             //Get user
-            final User user = databaseHelper.getUser(username, null, null);
+            User user = databaseHelper.getUser(username, null, null);
 
             if (user == null) {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
@@ -50,10 +49,9 @@ public class UserController {
                     LOGGER.info("Authentication successful, setting token and sending response...");
 
                     //Save last login
-                    int dateTime = (int) (new Date().getTime()/1000);
+                    final int dateTime = (int) (new Date().getTime()/1000);
                     user.setLastLogin(dateTime);
                     databaseHelper.putUser(user);
-                    databaseHelper.closeConnection();
 
                     //Create token
                     final String token = buildToken(credentials);
@@ -67,14 +65,17 @@ public class UserController {
         }catch (Exception ex){
             LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Incorrect request format").build();
+        } finally {
+            databaseHelper.closeConnection();
         }
     }
 
     @GET
     @Path("/{id}")
     @JWTRequired
-    public Response getUser(@PathParam("id") String id) {
+    public Response getUser(@PathParam("id") final String id) {
         databaseHelper = new DatabaseHelper();
+
         try {
             User foundUser = databaseHelper.getUser(null, null, id);
 
@@ -97,20 +98,23 @@ public class UserController {
 
     @PUT
     @Path("{id}")
-    public Response putUser(String data, @PathParam("id") String id) {
+    public Response putUser(String data, @PathParam("id") final String id) {
         JSONObject user = new JSONObject(data);
+        user.put("id", id);
+
         databaseHelper = new DatabaseHelper();
 
         User userObject = parserFactory.toUser(user, id);
 
         String rev = databaseHelper.putUser(userObject);
-        if(rev != null){
+        databaseHelper.closeConnection();
+
+        if(!rev.equals(userObject.getRev())){
             userObject.set_rev(rev);
             userObject.setRev(rev);
 
             return Response.status(Response.Status.OK).entity(parserFactory.userResponse(userObject)).build();
         }else{
-            databaseHelper.closeConnection();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to update user").build();
         }
 
@@ -118,11 +122,12 @@ public class UserController {
 
     @DELETE
     @Path("{id}")
-    public Response deleteUser(@PathParam("id") String id) {
+    public Response deleteUser(@PathParam("id") final String id) {
         databaseHelper = new DatabaseHelper();
 
-        User user = databaseHelper.getUser(null, null, id);
-        org.lightcouch.Response response = databaseHelper.deleteUser(user);
+        final User user = databaseHelper.getUser(null, null, id);
+        final org.lightcouch.Response response = databaseHelper.deleteUser(user);
+
         databaseHelper.closeConnection();
         if(response.getError() == null){
             return Response.status(Response.Status.OK).entity("{}").build();
@@ -132,25 +137,27 @@ public class UserController {
     }
 
     @POST
-    public Response postUser(String data) {
+    public Response postUser(final String data) {
         databaseHelper = new DatabaseHelper();
 
-        JSONObject requestJson = new JSONObject(data);
+        final JSONObject requestJson = new JSONObject(data);
+
         //ParserFactory user
         User newUser = parserFactory.toUser(requestJson, null);
         if(newUser == null){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save user").build();
         }else{
-            String id = databaseHelper.postUser(newUser).getId();
+            final String id = databaseHelper.postUser(newUser).getId();
             newUser.set_id(id);
             newUser.setId(id);
 
-            databaseHelper.closeConnection();
             try{
                 return Response.status(Response.Status.CREATED).entity(parserFactory.userResponse(newUser)).build();
             }catch (Exception ex){
                 LOGGER.warn(ex);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
+            } finally {
+                databaseHelper.closeConnection();
             }
         }
     }
@@ -158,7 +165,7 @@ public class UserController {
     @GET
     @Path("/check/exists/{email}")
     @Produces("application/json")
-    public Response checkEmail(@PathParam("email") String email){
+    public Response checkEmail(@PathParam("email") final String email){
         databaseHelper = new DatabaseHelper();
 
         final boolean result = databaseHelper.doesEmailExist(email);

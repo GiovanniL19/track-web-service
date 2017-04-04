@@ -6,6 +6,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
@@ -462,13 +463,15 @@ public class ParserFactory {
     public JSONObject stationsToJson(List<Station> stations){
         JSONArray jsonStations = new JSONArray();
 
-        for(int i = 0; i < stations.size(); i++){
+        for(Iterator<Station> iterator = stations.iterator(); iterator.hasNext();){
+            Station iteration = iterator.next();
+
             JSONObject station = new JSONObject();
-            station.put("id", stations.get(i).get_id());
-            station.put("type", stations.get(i).getType());
-            station.put("name", stations.get(i).getName());
-            station.put("crs", stations.get(i).getCrs());
-            station.put("viewCount", stations.get(i).getViewCount());
+            station.put("id", iteration.get_id());
+            station.put("type", iteration.getType());
+            station.put("name", iteration.getName());
+            station.put("crs", iteration.getCrs());
+            station.put("viewCount", iteration.getViewCount());
 
             jsonStations.put(station);
         }
@@ -479,6 +482,52 @@ public class ParserFactory {
         return response;
     }
 
+    public JSONArray destinationStationsToJSONArray(String raw){
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        try {
+            JSONObject json = new JSONObject(raw);
+            JSONArray results = json.getJSONArray("results");
+
+            JSONArray stations = new JSONArray();
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject station = new JSONObject();
+                //Get station from database
+                Station foundStation = databaseHelper.getStation(results.getJSONObject(i).getString("name"), null, null);
+
+                if(foundStation != null) {
+                    station.put("id", foundStation.getId());
+                    station.put("name", foundStation.getName());
+                    station.put("crs", foundStation.getCrs());
+                    station.put("viewCount", foundStation.getViewCount());
+                    stations.put(station);
+                }
+            }
+
+            return stations;
+        }catch(Exception ex){
+            LOGGER.warn(ex);
+            return null;
+        }
+
+    }
+
+    public String toCity(String location){
+        try {
+            JSONObject locationObject = new JSONObject(location);
+            JSONArray results = locationObject.getJSONArray("results");
+            JSONObject firstResult = results.getJSONObject(0);
+            JSONArray address = firstResult.getJSONArray("address_components");
+            JSONObject locality = address.getJSONObject(2);
+            String city = locality.getString("long_name");
+
+            return city;
+        }catch(Exception ex){
+            LOGGER.warn(ex);
+            return "";
+        }
+    }
+
+    //To POJOs
     public User toUser(JSONObject data, String id){
         try {
             JSONObject json = data.getJSONObject("user");
@@ -519,13 +568,13 @@ public class ParserFactory {
             //Get toStations
             if(json.has("toStations")) {
                 JSONArray toStations = json.getJSONArray("toStations");
-                List<String> toStationsArray = new ArrayList<>();
+                List<String> destinationStations = new ArrayList<>();
 
                 for (int i = 0; i < toStations.length(); i++) {
-                    toStationsArray.add(toStations.getString(i));
+                    destinationStations.add(toStations.getString(i));
                 }
 
-                user.setToStations(toStationsArray);
+                user.setToStations(destinationStations);
             }
 
 
@@ -606,52 +655,7 @@ public class ParserFactory {
         }
     }
 
-    public String toCity(String location){
-        try {
-            JSONObject locationObject = new JSONObject(location);
-            JSONArray results = locationObject.getJSONArray("results");
-            JSONObject firstResult = results.getJSONObject(0);
-            JSONArray address = firstResult.getJSONArray("address_components");
-            JSONObject locality = address.getJSONObject(2);
-            String city = locality.getString("long_name");
-
-            return city;
-        }catch(Exception ex){
-            LOGGER.warn(ex);
-            return "";
-        }
-    }
-
-    public JSONArray toStationsArray(String raw){
-        try {
-            JSONObject json = new JSONObject(raw);
-            JSONArray results = json.getJSONArray("results");
-
-            JSONArray stations = new JSONArray();
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject station = new JSONObject();
-                //Get station from database
-                DatabaseHelper databaseHelper = new DatabaseHelper();
-                Station foundStation = databaseHelper.getStation(results.getJSONObject(i).getString("name"), null, null);
-
-                if(foundStation != null) {
-                    station.put("id", foundStation.getId());
-                    station.put("name", foundStation.getName());
-                    station.put("crs", foundStation.getCrs());
-                    station.put("viewCount", foundStation.getViewCount());
-                    stations.put(station);
-                }
-            }
-
-            return stations;
-        }catch(Exception ex){
-            LOGGER.warn(ex);
-            return null;
-        }
-
-    }
-
-
+    //JSON Token to String
     public String toToken(String token, User user){
         JSONObject response = new JSONObject();
         response.put("token", token);

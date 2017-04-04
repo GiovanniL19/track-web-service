@@ -28,9 +28,10 @@ public class Main {
     private static HttpServer httpServer;
 
     public static void main(String[] args) throws IOException {
-        ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
+        final ResourceConfig resourceConfig = new ResourceConfig(getEndpoints());
 
         httpServer = JdkHttpServerFactory.createHttpServer(SERVER_URI, resourceConfig);
+
         LOGGER.info("Running server on " + SERVER_URI);
         System.out.println("Running server on " + SERVER_URI);
     }
@@ -46,6 +47,7 @@ public class Main {
     private static Set<Class<?>> getEndpoints(){
         System.out.println("Setting up server");
         LOGGER.info("Setting up server");
+
         final Set<Class<?>> endpoints = new HashSet<Class<?>>();
 
         //Add uk.co.giovannilenguito.filter
