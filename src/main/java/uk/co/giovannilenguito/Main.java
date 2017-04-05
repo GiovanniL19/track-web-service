@@ -17,6 +17,7 @@ import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
+
 /**
  * Created by giovannilenguito on 09/02/2017.
  */
@@ -44,7 +45,7 @@ public class Main {
     }
 
 
-    private static Set<Class<?>> getEndpoints(){
+    private static Set<Class<?>> getEndpoints() {
         System.out.println("Setting up server");
         LOGGER.info("Setting up server");
 

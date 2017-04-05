@@ -320,7 +320,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getSingleDepartingService(final JSONObject service) {
+    private JSONObject getSingleDepartingTrain(final JSONObject service) {
         //When only one service has been found:
 
         //Initialise all Services JSON Array
@@ -340,7 +340,7 @@ public class ParserFactory {
 
             //Get all calling points and put in trains json object
             JSONArray callingPoints = new JSONArray();
-            allCallingPoints.put(this.getCallingPoints(allCallingPoints));
+            callingPoints.put(this.getCallingPoints(allCallingPoints));
             train.put("callingPoints", callingPoints);
         }
 
@@ -496,7 +496,7 @@ public class ParserFactory {
             return this.getMultipleDepartingTrains((JSONArray) serviceObject);
         } else {
             //If service object is an object, it contains a single train
-            return this.getSingleDepartingService((JSONObject) serviceObject);
+            return this.getSingleDepartingTrain((JSONObject) serviceObject);
         }
     }
 

@@ -38,7 +38,7 @@ public class ParserFactoryTest {
     @Before
     public void setUp() throws Exception {
         ParserFactory parserFactory = new ParserFactory();
-        File xmlFile1 = new File("src/test/java/uk/co/giovannilenguito/data/getTrainsXML1.xml");
+        File xmlFile1 = new File("src/test/java/uk/co/giovannilenguito/data/getMultipleTrainsXML.xml");
 
         Reader fileReader = new FileReader(xmlFile1);
 
