@@ -36,12 +36,16 @@ public class JourneyController {
         parserFactory = new ParserFactory();
     }
 
-    private String getDayOfWeek(){
+    private String getDayOfWeek() {
+        //Gets date from calendar
         final Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+
+        //Get day of week from calendar
         final int day = calendar.get(Calendar.DAY_OF_WEEK);
 
+        //Returns day are string
         switch (day) {
             case 1:
                 return "Sunday";
@@ -62,18 +66,22 @@ public class JourneyController {
         }
     }
 
-    private int getHourOfDay(){
+    private int getHourOfDay() {
+        //Get date
         final Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
+        //return hour of day
         return calendar.get(Calendar.HOUR_OF_DAY);
     }
 
     @Asynchronous
-    public void createJourney(final String lng, final String lat, final String from, final String to, final String userID){
+    public void createJourney(final String lng, final String lat, final String from, final String to, final String userID) {
         locationHelper = new LocationHelper();
         databaseHelper = new DatabaseHelper();
+
+        //Creates new journey
         try {
             int hour = getHourOfDay();
             final String day = getDayOfWeek();
@@ -83,10 +91,12 @@ public class JourneyController {
 
             Journey foundJourney = databaseHelper.findJourney(combined);
 
-            if(foundJourney != null){
+            if (foundJourney != null) {
+                //If journey already exists, add one to the count
                 foundJourney.setCount(foundJourney.getCount() + 1);
                 databaseHelper.putJourney(foundJourney);
-            }else {
+            } else {
+                //Create new journey POJO
                 Journey journey = new Journey();
                 journey.setType("journey");
                 journey.setHour(hour);
@@ -108,6 +118,7 @@ public class JourneyController {
                 final String journeyId = databaseHelper.postJourney(journey).getId().toString();
                 LOGGER.info("Saved journey");
 
+                //Add new journey to users history
                 if (!userID.isEmpty()) {
                     //Update user
                     User user = databaseHelper.getUser(null, null, userID);
@@ -127,9 +138,9 @@ public class JourneyController {
                     databaseHelper.putUser(user);
                 }
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOGGER.warn(ex);
-        }finally{
+        } finally {
             //Close connection
             databaseHelper.closeConnection();
         }
@@ -138,19 +149,20 @@ public class JourneyController {
     @GET
     @JWTRequired
     public Response getRecommendations(@DefaultValue("")
-                                           @QueryParam(value="user") final String user,
-                                       @QueryParam(value="longitude") final String longitude,
-                                       @QueryParam(value="latitude") final String latitude){
-        try{
+                                       @QueryParam(value = "user") final String user,
+                                       @QueryParam(value = "longitude") final String longitude,
+                                       @QueryParam(value = "latitude") final String latitude) {
+        try {
             recommendationController = new RecommendationController();
             locationHelper = new LocationHelper();
 
             final String city = locationHelper.getCity(latitude, longitude);
 
+            //Get recommended journeys
             final JSONArray journeys = recommendationController.getToday(user, city, getHourOfDay(), getDayOfWeek(), false);
 
             return Response.ok(parserFactory.journeysResponse(journeys), MediaType.APPLICATION_JSON).build();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not get recommended journeys").build();
         }
@@ -160,12 +172,14 @@ public class JourneyController {
     @Path("{id}")
     public Response getJourney(@PathParam("id") final String id) {
         databaseHelper = new DatabaseHelper();
+
+        //Get journey by id
         final Journey journey = databaseHelper.getJourney(id, null);
         databaseHelper.closeConnection();
 
-        if(journey != null){
+        if (journey != null) {
             return Response.status(Response.Status.CREATED).entity(parserFactory.journeyResponse(journey)).build();
-        }else{
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
         }
     }
@@ -177,14 +191,16 @@ public class JourneyController {
                                           @PathParam("user") final String user) {
         databaseHelper = new DatabaseHelper();
 
+        //Makes key and fixes capitals
         final String key = StringUtils.capitalize(from) + StringUtils.capitalize(to) + user;
 
+        //Gets journey by key
         Journey journey = databaseHelper.getJourney(null, key);
         databaseHelper.closeConnection();
 
-        if(journey != null){
+        if (journey != null) {
             return Response.status(Response.Status.OK).entity(parserFactory.checkResponse(journey, true)).build();
-        }else{
+        } else {
             return Response.status(Response.Status.OK).entity(parserFactory.checkResponse(journey, false)).build();
         }
     }
@@ -195,13 +211,16 @@ public class JourneyController {
     public Response deleteJourney(@PathParam("id") final String id) {
         databaseHelper = new DatabaseHelper();
 
+        //Gets journey
         final Journey journey = databaseHelper.getJourney(id, null);
+
+        //Deletes journey
         final org.lightcouch.Response response = databaseHelper.deleteJourney(journey);
 
         databaseHelper.closeConnection();
-        if(response.getError() == null){
+        if (response.getError() == null) {
             return Response.status(Response.Status.OK).entity("{}").build();
-        }else{
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response.getError()).build();
         }
     }
@@ -212,10 +231,13 @@ public class JourneyController {
         databaseHelper = new DatabaseHelper();
 
         final JSONObject dataJson = new JSONObject(data);
+        //Parse json to pojo
         Journey journey = parserFactory.toJourney(dataJson);
 
+        //Post new journey
         final org.lightcouch.Response databaseResponse = databaseHelper.postJourney(journey);
 
+        //Update and send response
         journey.setType("liked");
         journey.setId(databaseResponse.getId());
         journey.set_id(databaseResponse.getId());

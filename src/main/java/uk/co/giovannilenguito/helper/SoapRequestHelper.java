@@ -7,10 +7,13 @@ import javax.xml.soap.*;
  */
 public class SoapRequestHelper {
     /*
-    // REMEMBER
-    // In the message body, the parent ldb comes from the OpenLDBWS site.
-    // However, ass the word Request on the end for the message.
-    // To get trains for a route, use the 'crs' as the origin and 'filterCrs' as the destination
+    * SOAP Request Helper
+    * Communication to the National Rails' Darwin Real Time SOAP Web Service
+    *
+    * Remember
+    * In the message body, the parent ldb comes from the OpenLDBWS site.
+    * However, ass the word Request on the end for the message.
+    * To get trains for a route, use the 'crs' as the origin and 'filterCrs' as the destination
     */
 
     private final String LDBWS_URL = "https://lite.realtime.nationalrail.co.uk/OpenLDBWS/ldb9.asmx";
@@ -43,7 +46,7 @@ public class SoapRequestHelper {
     }
 
     //Call this method to get a response from the web service
-    public SOAPMessage execute(final SOAPMessage message) throws Exception{
+    public SOAPMessage execute(final SOAPMessage message) throws Exception {
         //SOAP Connection
         final SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
         final SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -58,7 +61,7 @@ public class SoapRequestHelper {
     }
 
     //To create a soap message to execute, use the appropriate create method below
-    public SOAPMessage createBoardWithDetailsMessage(final String request, final String numRows, final String crs, final String filterCrs, final String filterType, final String timeOffset, final String timeWindow) throws Exception{
+    public SOAPMessage createBoardWithDetailsMessage(final String request, final String numRows, final String crs, final String filterCrs, final String filterType, final String timeOffset, final String timeWindow) throws Exception {
         // SOAP Body
         final SOAPBody soapBody = envelope.getBody();
 

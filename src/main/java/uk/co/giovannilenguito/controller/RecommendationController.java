@@ -14,25 +14,27 @@ import java.util.List;
  */
 public class RecommendationController {
     /*
-    // Recommendation and Prediction Engine
-    // Uses data mining techniques on all users
+    * Recommendation and Prediction Engine
+    * Uses data mining techniques on all users
+    *
+    * By Giovanni Lenguito
     */
 
-    private List<Journey> sortArray(final List<Journey> journeys){
+    private List<Journey> sortArray(final List<Journey> journeys) {
         Collections.sort(journeys, (o1, o2) -> Integer.valueOf(o2.getCount()).compareTo(o1.getCount()));
         return journeys;
     }
 
-    private JSONArray buildResponse(final int numberOfObjects, final List<Journey> journeys){
+    private JSONArray buildResponse(final int numberOfObjects, final List<Journey> journeys) {
         JSONArray response = new JSONArray();
 
         //Get top 5 results by count property
         for (int i = 0; i < numberOfObjects; i++) {
-            if(i < journeys.size()) {
+            if (i < journeys.size()) {
                 JSONObject toStation;
                 JSONObject fromStation;
 
-                DatabaseHelper databaseHelper = new DatabaseHelper();
+                final DatabaseHelper databaseHelper = new DatabaseHelper();
                 toStation = new JSONObject(databaseHelper.getStation(null, null, journeys.get(i).getToCRS()));
                 fromStation = new JSONObject(databaseHelper.getStation(null, null, journeys.get(i).getFromCRS()));
 
@@ -48,15 +50,15 @@ public class RecommendationController {
         return response;
     }
 
-    public JSONArray getToday(String user_id, String city, int hour, String day, boolean byUser){
+    public JSONArray getToday(String user_id, String city, int hour, String day, boolean byUser) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
 
         List<Journey> journeys;
 
-        if(byUser){
+        if (byUser) {
             //Get from couchdb all documents with match user id, city and hour key
             journeys = databaseHelper.getAllJourneysByKey(user_id, city, hour, day);
-        }else{
+        } else {
             //Get from couchdb all documents with match, city and hour key
             journeys = databaseHelper.getAllJourneysByKey(null, city, hour, day);
         }

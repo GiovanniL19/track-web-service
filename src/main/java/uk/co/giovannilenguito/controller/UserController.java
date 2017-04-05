@@ -23,12 +23,13 @@ public class UserController {
     private ParserFactory parserFactory;
     private DatabaseHelper databaseHelper;
 
-    private String buildToken(JSONObject credentials) {
-        return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, "track").compact();
-    }
-
     public UserController() {
         parserFactory = new ParserFactory();
+    }
+
+    private String buildToken(final JSONObject credentials) {
+        //Build JWT (JSON Web Token)
+        return Jwts.builder().setSubject(credentials.getString("username")).signWith(SignatureAlgorithm.HS512, "track").compact();
     }
 
     @POST
@@ -36,20 +37,22 @@ public class UserController {
     public Response authenticate(final String data) {
         databaseHelper = new DatabaseHelper();
         final JSONObject credentials = new JSONObject(data);
-
+        //Authenticate the user credientials
         try {
             final String username = credentials.getString("username");
             //Get user
             User user = databaseHelper.getUser(username, null, null);
 
+            //If no user found, user will be null
             if (user == null) {
                 return Response.status(Response.Status.OK).entity("Incorrect Username").build();
             } else {
+                //Check user password matches
                 if (user.getPassword().equals(credentials.getString("password"))) {
                     LOGGER.info("Authentication successful, setting token and sending response...");
 
                     //Save last login
-                    final int dateTime = (int) (new Date().getTime()/1000);
+                    final int dateTime = (int) (new Date().getTime() / 1000);
                     user.setLastLogin(dateTime);
                     databaseHelper.putUser(user);
 
@@ -57,12 +60,12 @@ public class UserController {
                     final String token = buildToken(credentials);
 
                     return Response.ok(parserFactory.toToken(token, user), MediaType.APPLICATION_JSON).build();
-                }else{
+                } else {
                     databaseHelper.closeConnection();
                     return Response.status(Response.Status.OK).entity("Incorrect Password").build();
                 }
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Incorrect request format").build();
         } finally {
@@ -76,22 +79,22 @@ public class UserController {
     public Response getUser(@PathParam("id") final String id) {
         databaseHelper = new DatabaseHelper();
 
+        //Get user
         try {
             User foundUser = databaseHelper.getUser(null, null, id);
 
-            if(foundUser == null){
+            if (foundUser == null) {
                 return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
-            }else{
+            } else {
                 foundUser.setId(id);
                 foundUser.setRev(foundUser.get_rev());
 
                 return Response.status(Response.Status.OK).entity(parserFactory.userResponse(foundUser)).build();
             }
-        }catch(Exception ex){
-            LOGGER.info("FAILED");
+        } catch (Exception ex) {
             LOGGER.warn(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not get user").build();
-        }finally {
+        } finally {
             databaseHelper.closeConnection();
         }
     }
@@ -103,24 +106,24 @@ public class UserController {
         user.put("id", id);
 
         databaseHelper = new DatabaseHelper();
-        //Get latests rev
-
-        //Set latest rev
         User userObject = parserFactory.toUser(user, id);
 
+        //Get user
         User foundUser = databaseHelper.getUser(null, null, id);
+
+        //Set latest rev (revision)
         userObject.set_rev(foundUser.get_rev());
         userObject.setRev(foundUser.getRev());
 
         String rev = databaseHelper.putUser(userObject);
         databaseHelper.closeConnection();
 
-        if(!rev.equals(userObject.getRev())){
+        if (!rev.equals(userObject.getRev())) {
             userObject.set_rev(rev);
             userObject.setRev(rev);
 
             return Response.status(Response.Status.OK).entity(parserFactory.userResponse(userObject)).build();
-        }else{
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to update user").build();
         }
 
@@ -135,9 +138,9 @@ public class UserController {
         final org.lightcouch.Response response = databaseHelper.deleteUser(user);
 
         databaseHelper.closeConnection();
-        if(response.getError() == null){
+        if (response.getError() == null) {
             return Response.status(Response.Status.OK).entity("{}").build();
-        }else{
+        } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response.getError()).build();
         }
     }
@@ -148,18 +151,19 @@ public class UserController {
 
         final JSONObject requestJson = new JSONObject(data);
 
-        //ParserFactory user
+        //Parse json user to POJO
         User newUser = parserFactory.toUser(requestJson, null);
-        if(newUser == null){
+        if (newUser == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Could not save user").build();
-        }else{
+        } else {
+            //Save user
             final String id = databaseHelper.postUser(newUser).getId();
             newUser.set_id(id);
             newUser.setId(id);
 
-            try{
+            try {
                 return Response.status(Response.Status.CREATED).entity(parserFactory.userResponse(newUser)).build();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 LOGGER.warn(ex);
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("There was an error").build();
             } finally {
@@ -171,7 +175,7 @@ public class UserController {
     @GET
     @Path("/check/exists/{email}")
     @Produces("application/json")
-    public Response checkEmail(@PathParam("email") final String email){
+    public Response checkEmail(@PathParam("email") final String email) {
         databaseHelper = new DatabaseHelper();
 
         final boolean result = databaseHelper.doesEmailExist(email);

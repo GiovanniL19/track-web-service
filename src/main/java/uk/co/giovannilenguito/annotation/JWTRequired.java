@@ -11,4 +11,11 @@ import java.lang.annotation.Target;
 @javax.ws.rs.NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface JWTRequired {}
+public @interface JWTRequired {
+    /*
+    *JWTRequired
+    * Protects endpoints from users without a token
+    *
+    * By Giovanni Lenguito
+    */
+}

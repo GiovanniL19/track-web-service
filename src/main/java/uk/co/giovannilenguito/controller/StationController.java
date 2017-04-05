@@ -33,6 +33,7 @@ public class StationController {
     private Response getNearbyStations(final String lng, final String lat){
         locationHelper = new LocationHelper();
 
+        //Get nearest station
         final JSONArray stations = locationHelper.getNearestStation(lng, lat);
         if(stations != null){
             return Response.ok(parserFactory.stationsResponse(stations), MediaType.APPLICATION_JSON).build();
@@ -44,6 +45,7 @@ public class StationController {
     private Response getAllStations(){
         DatabaseHelper databaseHelper = new DatabaseHelper();
         try {
+            //Get all stations from database
             final JSONObject response = parserFactory.stationsToJson(databaseHelper.getAllStations());
             return Response.status(Response.Status.OK).entity(response.toString()).build();
         } catch (Exception ex) {
@@ -57,8 +59,10 @@ public class StationController {
     @GET
     public Response getStations(@QueryParam(value="lng") final String lng, @QueryParam(value="lat") final String lat) {
         if(lng != null && lat != null){
+            //Get nearby stations
             return getNearbyStations(lng, lat);
         }else{
+            //Get all stations
             return getAllStations();
         }
     }
@@ -67,6 +71,7 @@ public class StationController {
     @Path("/message")
     public Response getMessage(@QueryParam(value="station") String crs) {
         try {
+            //Get station message
             soapRequestHelper = new SoapRequestHelper();
             final SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
             final SOAPMessage response = soapRequestHelper.execute(soapMessage);

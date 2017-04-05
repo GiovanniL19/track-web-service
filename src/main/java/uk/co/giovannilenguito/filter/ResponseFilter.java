@@ -15,10 +15,10 @@ public class ResponseFilter implements ContainerResponseFilter {
     @Override
     public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext containerResponseContext) {
         /*
-        Sets headers in response to the OPTIONS request:
-        "For browser to know that it's allowed to talk from js to another server it first need to do pre-flight
-        request (options request) and see if server supports it."
-         */
+        * Sets headers in response to the OPTIONS request:
+        * "For browsers to know that it's allowed to talk from js to another server it first need to do pre-flight
+        * request (options request) and see if server supports it."
+        */
 
         containerResponseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
         containerResponseContext.getHeaders().add("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
