@@ -38,10 +38,8 @@ public class DatabaseHelper {
             CouchDbProperties properties = new CouchDbProperties().setDbName(DATABASE_NAME).setProtocol(PROTOCOL).setHost(LOCAL_HOST).setPort(PORT).setUsername(USERNAME).setPassword(PASSWORD);
             //Create instance with properties
             databaseClient = new CouchDbClient(properties);
-            System.out.println("Connection successful");
         }catch(Exception ex){
             LOGGER.warn(ex);
-            System.out.println("Connection failed");
         }
     }
 
@@ -52,7 +50,7 @@ public class DatabaseHelper {
     }
 
     //Journeys CRUD
-    public Journey findJourney(String combinedString){
+    public Journey findJourney(final String combinedString){
         List<Journey> list = databaseClient.view("journeys/combined").includeDocs(true).startKey(combinedString).endKey(combinedString).query(Journey.class);
         if(list.size() != 0) {
             return list.get(0);
@@ -61,12 +59,7 @@ public class DatabaseHelper {
         }
     }
 
-    public List<Journey> getAllJourneysByUser(String id){
-        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).startKey(id).endKey(id).query(Journey.class);
-        return list;
-    }
-
-    public List<Journey> getAllJourneysByKey(String user_id, String city, int hour, String day){
+    public List<Journey> getAllJourneysByKey(final String user_id, final String city, final int hour, final String day){
         List<Journey> list = new ArrayList<>();
         List<Journey> list1;
         List<Journey> list2;
@@ -74,7 +67,7 @@ public class DatabaseHelper {
         String key;
         String secondKey;
 
-        if(user_id.equals("null")){
+        if(user_id == null){
             key = city + hour + day;
             int secondHour = 0;
             if(hour + 1 == 25){
@@ -109,17 +102,17 @@ public class DatabaseHelper {
         return list;
     }
 
-    public Response postJourney(Journey journey){
+    public Response postJourney(final Journey journey){
         //Save journey
         return databaseClient.save(journey);
     }
 
-    public Response putJourney(Journey journey){
+    public Response putJourney(final Journey journey){
         //Update journey
         return databaseClient.update(journey);
     }
 
-    public Journey getJourney(String id, String key){
+    public Journey getJourney(final String id, final String key){
         //Get journey
         List<Journey> list;
         if(key != null){
@@ -135,14 +128,14 @@ public class DatabaseHelper {
         }
     }
 
-    public Response deleteJourney(Journey journey){
+    public Response deleteJourney(final Journey journey){
         //Delete journey
         return databaseClient.remove(journey);
     }
 
     //Station CRUD
     public List<Station> getAllStations(){
-        List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);
+        final List<Station> list = databaseClient.view("stations/stationsByName").includeDocs(true).query(Station.class);
         return list;
     }
 
@@ -168,18 +161,13 @@ public class DatabaseHelper {
     }
 
     //User CRUD
-    public boolean doesEmailExist(String email){
+    public boolean doesEmailExist(final String email){
         int found = databaseClient.view("users/usersByUsername").startKey(email).endKey(email).query(Station.class).size();
-        System.out.println(found);
-        if (found >= 1){
-            return true;
-        }else{
-            return false;
-        }
+        return found >= 1;
 
     }
 
-    public User getUser(String username, String email, String id){
+    public User getUser(final String username, final String email, final String id){
         List<User> list;
         if(username != null){
             list = databaseClient.view("users/usersByUsername").includeDocs(true).startKey(username).endKey(username).query(User.class);
@@ -196,27 +184,18 @@ public class DatabaseHelper {
         }
     }
 
-    public Response postUser(User user){
+    public Response postUser(final User user){
         //Save user
         return databaseClient.save(user);
     }
 
-    public String putUser(User user){
+    public String putUser(final User user){
         //Update user
         return databaseClient.update(user).getRev();
     }
 
-    public Response deleteUser(User user){
+    public Response deleteUser(final User user){
         //Remove user
         return databaseClient.remove(user);
     }
-
-
-    //USED FOR DEBUGGING
-//    public void deleteAllJourneys(){
-//        List<Journey> list = databaseClient.view("journeys/journeysByUser").includeDocs(true).query(Journey.class);
-//        for(int i = 0; i < list.size(); i++){
-//            databaseClient.remove(list.get(i));
-//        }
-//    }
 }

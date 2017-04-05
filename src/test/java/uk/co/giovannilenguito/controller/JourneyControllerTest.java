@@ -25,18 +25,18 @@ public class JourneyControllerTest {
         journey.setType("journey");
 
         //Reflection
-        Method getHour = journeyController.getClass().getDeclaredMethod("getHourOfDay", null);
+        Method getHour = journeyController.getClass().getDeclaredMethod("getHourOfDay");
         getHour.setAccessible(true);
 
-        int hourOfDay = (int) getHour.invoke(journeyController, null);
+        int hourOfDay = (int) getHour.invoke(journeyController);
 
         journey.setHour(hourOfDay);
 
         //Reflection
-        Method getDayOfWeek = journeyController.getClass().getDeclaredMethod("getDayOfWeek", null);
+        Method getDayOfWeek = journeyController.getClass().getDeclaredMethod("getDayOfWeek");
         getDayOfWeek.setAccessible(true);
 
-        String dayOfWeek = (String) getDayOfWeek.invoke(journeyController, null);
+        String dayOfWeek = (String) getDayOfWeek.invoke(journeyController);
         journey.setDay(dayOfWeek);
 
 
@@ -50,7 +50,7 @@ public class JourneyControllerTest {
     public void getRecommendations() throws Exception {
         RecommendationController recommendationController = new RecommendationController();
 
-        JSONArray journeys = recommendationController.getTodayByUser("null", "Bonhill Street", 10, "Friday");
+        JSONArray journeys = recommendationController.getToday("null", "Bonhill Street", 10, "Friday", false);
         Assert.assertEquals(1, journeys.length());
     }
 

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <GetDepBoardWithDetailsResponse xmlns="http://thalesgroup.com/RTTI/2016-02-16/ldb/">
+            <GetStationBoardResult xmlns:lt3="http://thalesgroup.com/RTTI/2015-05-14/ldb/types"
+                                   xmlns:lt5="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+                                   xmlns:lt4="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+                                   xmlns:lt="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+                                   xmlns:lt2="http://thalesgroup.com/RTTI/2014-02-20/ldb/types">
+                <lt4:generatedAt>2017-04-05T09:58:08.7365399+01:00</lt4:generatedAt>
+                <lt4:locationName>London Euston</lt4:locationName>
+                <lt4:crs>EUS</lt4:crs>
+                <lt4:filterLocationName>Stafford</lt4:filterLocationName>
+                <lt4:filtercrs>STA</lt4:filtercrs>
+                <lt4:nrccMessages>
+                    <lt:message>&lt;P&gt;Until mid-2017,&amp;nbsp;there will be a reduced escalator service at Euston
+                        London Underground station. During this time crowd control measures will be in place, please
+                        follow staff direction, and allow extra time for your journey. Alternatively please use nearby
+                        Kings Cross St Pancras (for the Victoria line and Northern line via Bank) or Warren Street (for
+                        the Northern line via Charing Cross).&lt;/P&gt;
+                        &lt;P&gt;During this time the passageway leading from platforms 8-11 at London Euston to Euston
+                        London Underground station, will close&amp;nbsp;during busy times. For interchange between these
+                        services, customers must go via the National Rail concourse.&lt;/P&gt;
+                    </lt:message>
+                </lt4:nrccMessages>
+                <lt4:platformAvailable>true</lt4:platformAvailable>
+                <lt5:trainServices>
+                    <lt5:service>
+                        <lt4:std>10:07</lt4:std>
+                        <lt4:etd>On time</lt4:etd>
+                        <lt4:platform>16</lt4:platform>
+                        <lt4:operator>Virgin Trains</lt4:operator>
+                        <lt4:operatorCode>VT</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:serviceID>voCH7e6eIo+mfo2RZf7voA==</lt4:serviceID>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>London Euston</lt4:locationName>
+                                <lt4:crs>EUS</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>Liverpool Lime Street</lt4:locationName>
+                                <lt4:crs>LIV</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:subsequentCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stafford</lt4:locationName>
+                                    <lt4:crs>STA</lt4:crs>
+                                    <lt4:st>11:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Crewe</lt4:locationName>
+                                    <lt4:crs>CRE</lt4:crs>
+                                    <lt4:st>11:41</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Runcorn</lt4:locationName>
+                                    <lt4:crs>RUN</lt4:crs>
+                                    <lt4:st>12:00</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Liverpool Lime Street</lt4:locationName>
+                                    <lt4:crs>LIV</lt4:crs>
+                                    <lt4:st>12:21</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:subsequentCallingPoints>
+                    </lt5:service>
+                    <lt5:service>
+                        <lt4:std>10:46</lt4:std>
+                        <lt4:etd>On time</lt4:etd>
+                        <lt4:operator>London Midland</lt4:operator>
+                        <lt4:operatorCode>LM</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:serviceID>n0LyC65WdW0KkeAzc8+pkg==</lt4:serviceID>
+                        <lt5:rsid>LM102500</lt5:rsid>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>London Euston</lt4:locationName>
+                                <lt4:crs>EUS</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>Crewe</lt4:locationName>
+                                <lt4:crs>CRE</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:subsequentCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Milton Keynes Central</lt4:locationName>
+                                    <lt4:crs>MKC</lt4:crs>
+                                    <lt4:st>11:18</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Rugby</lt4:locationName>
+                                    <lt4:crs>RUG</lt4:crs>
+                                    <lt4:st>11:41</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Nuneaton</lt4:locationName>
+                                    <lt4:crs>NUN</lt4:crs>
+                                    <lt4:st>11:53</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Atherstone</lt4:locationName>
+                                    <lt4:crs>ATH</lt4:crs>
+                                    <lt4:st>12:00</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Tamworth</lt4:locationName>
+                                    <lt4:crs>TAM</lt4:crs>
+                                    <lt4:st>12:09</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Lichfield Trent Valley</lt4:locationName>
+                                    <lt4:crs>LTV</lt4:crs>
+                                    <lt4:st>12:15</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Rugeley Trent Valley</lt4:locationName>
+                                    <lt4:crs>RGL</lt4:crs>
+                                    <lt4:st>12:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stafford</lt4:locationName>
+                                    <lt4:crs>STA</lt4:crs>
+                                    <lt4:st>12:35</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stone</lt4:locationName>
+                                    <lt4:crs>SNE</lt4:crs>
+                                    <lt4:st>12:50</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stoke-on-Trent</lt4:locationName>
+                                    <lt4:crs>SOT</lt4:crs>
+                                    <lt4:st>13:02</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Kidsgrove</lt4:locationName>
+                                    <lt4:crs>KDG</lt4:crs>
+                                    <lt4:st>13:10</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Alsager</lt4:locationName>
+                                    <lt4:crs>ASG</lt4:crs>
+                                    <lt4:st>13:15</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Crewe</lt4:locationName>
+                                    <lt4:crs>CRE</lt4:crs>
+                                    <lt4:st>13:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:subsequentCallingPoints>
+                    </lt5:service>
+                    <lt5:service>
+                        <lt4:std>11:07</lt4:std>
+                        <lt4:etd>On time</lt4:etd>
+                        <lt4:operator>Virgin Trains</lt4:operator>
+                        <lt4:operatorCode>VT</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:serviceID>YJHk2f5xGe89gxoRn60N1Q==</lt4:serviceID>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>London Euston</lt4:locationName>
+                                <lt4:crs>EUS</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>Liverpool Lime Street</lt4:locationName>
+                                <lt4:crs>LIV</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:subsequentCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stafford</lt4:locationName>
+                                    <lt4:crs>STA</lt4:crs>
+                                    <lt4:st>12:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Crewe</lt4:locationName>
+                                    <lt4:crs>CRE</lt4:crs>
+                                    <lt4:st>12:41</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Runcorn</lt4:locationName>
+                                    <lt4:crs>RUN</lt4:crs>
+                                    <lt4:st>13:00</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Liverpool Lime Street</lt4:locationName>
+                                    <lt4:crs>LIV</lt4:crs>
+                                    <lt4:st>13:21</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:subsequentCallingPoints>
+                    </lt5:service>
+                    <lt5:service>
+                        <lt4:std>11:46</lt4:std>
+                        <lt4:etd>On time</lt4:etd>
+                        <lt4:operator>London Midland</lt4:operator>
+                        <lt4:operatorCode>LM</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:serviceID>ogLZ9kHBSvmzNNOcPZiQVA==</lt4:serviceID>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>London Euston</lt4:locationName>
+                                <lt4:crs>EUS</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>Crewe</lt4:locationName>
+                                <lt4:crs>CRE</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:subsequentCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Milton Keynes Central</lt4:locationName>
+                                    <lt4:crs>MKC</lt4:crs>
+                                    <lt4:st>12:18</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Rugby</lt4:locationName>
+                                    <lt4:crs>RUG</lt4:crs>
+                                    <lt4:st>12:41</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Nuneaton</lt4:locationName>
+                                    <lt4:crs>NUN</lt4:crs>
+                                    <lt4:st>12:53</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Atherstone</lt4:locationName>
+                                    <lt4:crs>ATH</lt4:crs>
+                                    <lt4:st>13:00</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Tamworth</lt4:locationName>
+                                    <lt4:crs>TAM</lt4:crs>
+                                    <lt4:st>13:09</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Lichfield Trent Valley</lt4:locationName>
+                                    <lt4:crs>LTV</lt4:crs>
+                                    <lt4:st>13:15</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Rugeley Trent Valley</lt4:locationName>
+                                    <lt4:crs>RGL</lt4:crs>
+                                    <lt4:st>13:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stafford</lt4:locationName>
+                                    <lt4:crs>STA</lt4:crs>
+                                    <lt4:st>13:38</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stone</lt4:locationName>
+                                    <lt4:crs>SNE</lt4:crs>
+                                    <lt4:st>13:50</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Stoke-on-Trent</lt4:locationName>
+                                    <lt4:crs>SOT</lt4:crs>
+                                    <lt4:st>14:02</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Kidsgrove</lt4:locationName>
+                                    <lt4:crs>KDG</lt4:crs>
+                                    <lt4:st>14:10</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Alsager</lt4:locationName>
+                                    <lt4:crs>ASG</lt4:crs>
+                                    <lt4:st>14:15</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Crewe</lt4:locationName>
+                                    <lt4:crs>CRE</lt4:crs>
+                                    <lt4:st>14:24</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:subsequentCallingPoints>
+                    </lt5:service>
+                </lt5:trainServices>
+            </GetStationBoardResult>
+        </GetDepBoardWithDetailsResponse>
+    </soap:Body>
+</soap:Envelope>

@@ -13,10 +13,19 @@ import java.net.URL;
  * Created by giovannilenguito on 28/02/2017.
  */
 public class ConnectionHelper {
-    final private  Logger LOGGER = Logger.getLogger(ConnectionHelper.class.getName());
+    /*
+    *
+    * Connection Helper
+    * Used to connect to a web service
+    *
+    * By Giovanni Lenguito
+    *
+    */
+    final private Logger LOGGER = Logger.getLogger(ConnectionHelper.class.getName());
     private HttpURLConnection connection;
 
-    public ConnectionHelper(URL url) throws Exception{
+    public ConnectionHelper(URL url) throws Exception {
+        //Sets up connection
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -24,19 +33,20 @@ public class ConnectionHelper {
         connection.setDoOutput(true);
     }
 
-    public String get(){
+    public String get() {
         try {
             //Make request
-            DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+            final DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.close();
 
 
             //Get response
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder response = new StringBuilder();
-            String line;
+            final InputStream inputStream = connection.getInputStream();
+            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            final StringBuilder response = new StringBuilder();
 
+            //Build string
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 response.append(line);
                 response.append('\r');
@@ -53,13 +63,9 @@ public class ConnectionHelper {
         }
     }
 
-    public void disconnect(){
-        if(connection != null){
+    public void disconnect() {
+        if (connection != null) {
             connection.disconnect();
         }
-    }
-
-    public HttpURLConnection getConnection() {
-        return connection;
     }
 }

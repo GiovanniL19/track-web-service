@@ -24,12 +24,12 @@ public class RequestFilter implements ContainerRequestFilter {
     final private Logger LOGGER = Logger.getLogger(RequestFilter.class.getName());
 
     @Override
-    public void filter(ContainerRequestContext containerRequestContext) throws IOException {
+    public void filter(final ContainerRequestContext containerRequestContext) throws IOException {
         //Get Authorization header in request
-        String authorization = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        final String authorization = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         //Extract token from Authorization header
-        String jwt = authorization.substring("Bearer".length()).trim();
+        final String jwt = authorization.substring("Bearer".length()).trim();
 
         LOGGER.info("Validating token...");
         //Validate the token, if token cannot be validated then request will abort
