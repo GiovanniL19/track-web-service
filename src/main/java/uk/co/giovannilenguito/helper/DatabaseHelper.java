@@ -67,7 +67,7 @@ public class DatabaseHelper {
         String key;
         String secondKey;
 
-        if(user_id.equals("null")){
+        if(user_id == null){
             key = city + hour + day;
             int secondHour = 0;
             if(hour + 1 == 25){

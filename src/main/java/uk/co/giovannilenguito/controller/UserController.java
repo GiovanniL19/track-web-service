@@ -107,7 +107,7 @@ public class UserController {
 
         //Set latest rev
         User userObject = parserFactory.toUser(user, id);
-        
+
         User foundUser = databaseHelper.getUser(null, null, id);
         userObject.set_rev(foundUser.get_rev());
         userObject.setRev(foundUser.getRev());

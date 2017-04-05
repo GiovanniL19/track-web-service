@@ -147,7 +147,7 @@ public class JourneyController {
 
             final String city = locationHelper.getCity(latitude, longitude);
 
-            final JSONArray journeys = recommendationController.getTodayByUser(user, city, getHourOfDay(), getDayOfWeek());
+            final JSONArray journeys = recommendationController.getToday(user, city, getHourOfDay(), getDayOfWeek(), false);
 
             return Response.ok(parserFactory.journeysResponse(journeys), MediaType.APPLICATION_JSON).build();
         }catch(Exception ex){

@@ -48,11 +48,18 @@ public class RecommendationController {
         return response;
     }
 
-    public JSONArray getTodayByUser(String user_id, String city, int hour, String day){
+    public JSONArray getToday(String user_id, String city, int hour, String day, boolean byUser){
         DatabaseHelper databaseHelper = new DatabaseHelper();
 
-        //Get from couchdb all documents with match user id, city and hour key
-        List<Journey> journeys = databaseHelper.getAllJourneysByKey(user_id, city, hour, day);
+        List<Journey> journeys;
+
+        if(byUser){
+            //Get from couchdb all documents with match user id, city and hour key
+            journeys = databaseHelper.getAllJourneysByKey(user_id, city, hour, day);
+        }else{
+            //Get from couchdb all documents with match, city and hour key
+            journeys = databaseHelper.getAllJourneysByKey(null, city, hour, day);
+        }
 
         //Sort array high count to low
         journeys = sortArray(journeys);

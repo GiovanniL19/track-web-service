@@ -50,7 +50,7 @@ public class JourneyControllerTest {
     public void getRecommendations() throws Exception {
         RecommendationController recommendationController = new RecommendationController();
 
-        JSONArray journeys = recommendationController.getTodayByUser("null", "Bonhill Street", 10, "Friday");
+        JSONArray journeys = recommendationController.getToday("null", "Bonhill Street", 10, "Friday", false);
         Assert.assertEquals(1, journeys.length());
     }
 
