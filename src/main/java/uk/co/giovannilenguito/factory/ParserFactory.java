@@ -142,7 +142,9 @@ public class ParserFactory {
         }
     }
 
-    private JSONObject getCallingPoint(final JSONObject point) {
+    private JSONArray getCallingPoint(final JSONObject point) {
+        JSONArray callingPoints = new JSONArray();
+
         //Get a single calling point
         JSONObject callingPoint = new JSONObject();
 
@@ -157,8 +159,9 @@ public class ParserFactory {
         callingPoint.put("st", point.get("lt4:st").toString());
         callingPoint.put("name", point.get("lt4:locationName").toString());
 
+        callingPoints.put(callingPoint);
         //Returns single calling point
-        return callingPoint;
+        return callingPoints;
     }
 
     private JSONArray getCallingPoints(final JSONArray allCallingPoints) {
