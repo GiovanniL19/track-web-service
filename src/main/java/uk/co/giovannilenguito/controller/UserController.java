@@ -103,8 +103,14 @@ public class UserController {
         user.put("id", id);
 
         databaseHelper = new DatabaseHelper();
+        //Get latests rev
 
+        //Set latest rev
         User userObject = parserFactory.toUser(user, id);
+        
+        User foundUser = databaseHelper.getUser(null, null, id);
+        userObject.set_rev(foundUser.get_rev());
+        userObject.setRev(foundUser.getRev());
 
         String rev = databaseHelper.putUser(userObject);
         databaseHelper.closeConnection();

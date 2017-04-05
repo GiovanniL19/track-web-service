@@ -661,13 +661,8 @@ public class ParserFactory {
             user.setUsername(json.getString("username"));
             user.setPassword(json.getString("password"));
 
-            if (json.has("image")) {
-                final Object imageObject = new JSONTokener(json.get("image").toString()).nextValue();
-                if (imageObject instanceof String) {
-                    if (!(imageObject.equals("null"))) {
-                        user.setImage(json.getString("image"));
-                    }
-                }
+            if (!json.isNull("image")) {
+                user.setImage(json.getString("image"));
             }
 
 
