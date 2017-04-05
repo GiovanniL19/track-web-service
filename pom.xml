@@ -19,7 +19,13 @@
     </developers>
 
     <build>
-        <finalName>Track Web Service</finalName>
+        <finalName>TrackWebService</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -29,10 +35,33 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <descriptorRefs>
+                        <discriptorRef>jar-with-dependencies</discriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <properties>
+        <javax-ejb-api>3.2</javax-ejb-api>
         <asm.version>3.3.1</asm.version>
         <lightcouch.version>0.1.8</lightcouch.version>
         <json.version>20140107</json.version>
@@ -46,6 +75,13 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api -->
+        <dependency>
+            <groupId>javax.ejb</groupId>
+            <artifactId>javax.ejb-api</artifactId>
+            <version>${javax-ejb-api}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/asm/asm -->
         <dependency>
             <groupId>asm</groupId>

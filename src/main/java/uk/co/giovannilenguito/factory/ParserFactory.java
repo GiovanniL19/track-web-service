@@ -44,9 +44,12 @@ public class ParserFactory {
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
         JSONObject results = response.getJSONObject("GetStationBoardResult");
-        JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
-        return trainServices;
+        if(!results.isNull("lt5:trainServices")) {
+            return results.getJSONObject("lt5:trainServices");
+        }else{
+            return null;
+        }
     }
 
     //Private methods
@@ -71,7 +74,13 @@ public class ParserFactory {
     private JSONObject getTrainServices(Object data, String type) {
         try {
             if (data instanceof SOAPMessage) {
-                return this.serviceXMLToJSON((SOAPMessage) data, type);
+                JSONObject result = this.serviceXMLToJSON((SOAPMessage) data, type);
+
+                if(result == null){
+                    return null;
+                }else{
+                    return result;
+                }
             } else if (data instanceof String) {
                 return this.xmlToJson((String) data, type);
             } else {
@@ -142,9 +151,7 @@ public class ParserFactory {
         }
     }
 
-    private JSONArray getCallingPoint(final JSONObject point) {
-        JSONArray callingPoints = new JSONArray();
-
+    private JSONObject getCallingPoint(final JSONObject point) {
         //Get a single calling point
         JSONObject callingPoint = new JSONObject();
 
@@ -159,9 +166,8 @@ public class ParserFactory {
         callingPoint.put("st", point.get("lt4:st").toString());
         callingPoint.put("name", point.get("lt4:locationName").toString());
 
-        callingPoints.put(callingPoint);
         //Returns single calling point
-        return callingPoints;
+        return callingPoint;
     }
 
     private JSONArray getCallingPoints(final JSONArray allCallingPoints) {
@@ -492,26 +498,36 @@ public class ParserFactory {
     public JSONObject departureBoardServices(final Object data, final String type) throws Exception {
         //Convert SOAPMessage or String into JSON object
         final JSONObject trainServices = this.getTrainServices(data, type);
-        final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
 
-        if (serviceObject instanceof JSONArray) {
-            //If service object is an array, it contains multiple trains
-            return this.getMultipleDepartingTrains((JSONArray) serviceObject);
-        } else {
-            //If service object is an object, it contains a single train
-            return this.getSingleDepartingTrain((JSONObject) serviceObject);
+        if(trainServices != null){
+            final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
+
+            if (serviceObject instanceof JSONArray) {
+                //If service object is an array, it contains multiple trains
+                return this.getMultipleDepartingTrains((JSONArray) serviceObject);
+            } else {
+                //If service object is an object, it contains a single train
+                return this.getSingleDepartingTrain((JSONObject) serviceObject);
+            }
+        }else{
+            return null;
         }
     }
 
     public JSONObject arrivalBoardServices(final Object data, final String type) throws Exception {
         //Convert SOAPMessage or String into JSON object
         final JSONObject trainServices = this.getTrainServices(data, type);
-        final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
 
-        if (serviceObject instanceof JSONArray) {
-            return this.getMultipleArrivalTrains((JSONArray) serviceObject);
-        } else {
-            return this.getSingleArrivalTrain((JSONObject) serviceObject);
+        if(trainServices != null) {
+            final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
+
+            if (serviceObject instanceof JSONArray) {
+                return this.getMultipleArrivalTrains((JSONArray) serviceObject);
+            } else {
+                return this.getSingleArrivalTrain((JSONObject) serviceObject);
+            }
+        }else{
+            return null;
         }
     }
 
@@ -776,13 +792,16 @@ public class ParserFactory {
         //Extract error message from exception
         LOGGER.warn(ex);
 
-        String message;
-        if (ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
-            message = "No Trains Running";
-        } else if (ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")) {
-            message = "";
-        } else {
-            message = ex.getMessage();
+        String message = "";
+        if(ex.getMessage() != null) {
+            if (ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
+                message = "No Trains Running";
+            } else if (ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")) {
+                message = "";
+            } else {
+                message = ex.getMessage();
+            }
+
         }
 
         return message;

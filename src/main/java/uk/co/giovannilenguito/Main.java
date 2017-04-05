@@ -7,7 +7,6 @@ import uk.co.giovannilenguito.filter.RequestFilter;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import uk.co.giovannilenguito.helper.DatabaseHelper;
 
 import java.io.IOException;
 import java.net.URI;

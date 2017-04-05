@@ -36,7 +36,11 @@ public class TrainController {
             final SOAPMessage response = soapRequestHelper.execute(message);
 
             final JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
-            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+            if(json != null) {
+                return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+            }else{
+                return Response.ok("{trains:[]}", MediaType.APPLICATION_JSON).build();
+            }
         } catch (Exception ex) {
             final String message = parserFactory.errorMessage(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
@@ -57,7 +61,12 @@ public class TrainController {
             SOAPMessage response = soapRequestHelper.execute(message);
 
             JSONObject json = parserFactory.departureBoardServices(response, "GetDepBoardWithDetailsResponse");
-            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+
+            if(json != null) {
+                return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+            }else{
+                return Response.ok("{trains:[]}", MediaType.APPLICATION_JSON).build();
+            }
         } catch (Exception ex) {
             LOGGER.warn(ex);
             String message = parserFactory.errorMessage(ex);
@@ -78,7 +87,11 @@ public class TrainController {
             SOAPMessage response = soapRequestHelper.execute(message);
 
             JSONObject json = parserFactory.arrivalBoardServices(response, "GetArrBoardWithDetailsResponse");
-            return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+            if(json != null) {
+                return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+            }else{
+                return Response.ok("{trains:[]}", MediaType.APPLICATION_JSON).build();
+            }
         } catch (Exception ex) {
             LOGGER.warn(ex);
             String message = parserFactory.errorMessage(ex);

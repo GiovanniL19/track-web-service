@@ -8,6 +8,7 @@ import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,8 +42,12 @@ public class JourneyControllerTest {
 
 
         //Change expected result accordingly
-        Assert.assertEquals(11, journey.getHour());
-        Assert.assertEquals("Tuesday", journey.getDay());
+        int hour = LocalDateTime.now().getHour();
+        String hourFormatted = String.valueOf(hour).split(":")[0];
+        int expectedHour = Integer.parseInt(hourFormatted);
+
+        Assert.assertEquals(expectedHour, journey.getHour());
+        Assert.assertEquals("Wednesday", journey.getDay());
 
     }
 
@@ -70,6 +75,6 @@ public class JourneyControllerTest {
         if(journey != null){
             exists = true;
         }
-        Assert.assertEquals(true, exists);
+        Assert.assertEquals(false, exists);
     }
 }
