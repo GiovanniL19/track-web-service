@@ -27,7 +27,7 @@ public class StationControllerTest {
         Method getAllStations = stationController.getClass().getDeclaredMethod("getAllStations");
         getAllStations.setAccessible(true);
 
-        Response responseAllStations = (Response) getAllStations.invoke(stationController, null);
+        Response responseAllStations = (Response) getAllStations.invoke(stationController);
 
 
         Response expectedResponse = Response.ok(MediaType.APPLICATION_JSON).build();
@@ -45,7 +45,7 @@ public class StationControllerTest {
         SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", "10", "EUS", "","","","");
         SOAPMessage response = soapRequestHelper.execute(soapMessage);
 
-        JSONObject json = parserFactory.stationMessage(response, "GetDepBoardWithDetailsResponse");
+        JSONObject json = parserFactory.getStationMessage(response, "GetDepBoardWithDetailsResponse");
         Assert.assertNotNull(json);
     }
 

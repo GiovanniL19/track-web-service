@@ -3,11 +3,19 @@ package uk.co.giovannilenguito.factory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
 import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
 import uk.co.giovannilenguito.model.Station;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,9 +26,40 @@ import static org.junit.Assert.*;
  * Created by giovannilenguito on 04/04/2017.
  */
 public class ParserFactoryTest {
+    List<String> files = new ArrayList<>();
+
+    final private ParserFactory PARSER;
+    String XML1;
+
+    public ParserFactoryTest() {
+        PARSER = new ParserFactory();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        ParserFactory parserFactory = new ParserFactory();
+        File xmlFile1 = new File("src/test/java/uk/co/giovannilenguito/data/getTrainsXML1.xml");
+
+        Reader fileReader = new FileReader(xmlFile1);
+
+        BufferedReader bufferedReader= new BufferedReader(fileReader);
+        StringBuilder stringBuilder= new StringBuilder();
+        String line = bufferedReader.readLine();
+
+        while (line != null) {
+            stringBuilder.append(line).append("\n");
+            line = bufferedReader.readLine();
+        }
+
+        XML1 = stringBuilder.toString();
+        bufferedReader.close();
+    }
+
     @Test
     public void departureBoardServices() throws Exception {
-
+        //Possibility 1
+        final JSONObject json = PARSER.departureBoardServices(XML1, "GetDepBoardWithDetailsResponse");
+        Assert.assertNotNull(json);
     }
 
     @Test

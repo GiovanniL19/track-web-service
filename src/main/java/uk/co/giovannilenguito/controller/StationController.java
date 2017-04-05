@@ -71,7 +71,7 @@ public class StationController {
             final SOAPMessage soapMessage = soapRequestHelper.createBoardWithDetailsMessage("GetDepBoardWithDetailsRequest", ROWS, crs.toUpperCase(), "","","","");
             final SOAPMessage response = soapRequestHelper.execute(soapMessage);
 
-            final JSONObject json = parserFactory.stationMessage(response, "GetDepBoardWithDetailsResponse");
+            final JSONObject json = parserFactory.getStationMessage(response, "GetDepBoardWithDetailsResponse");
             return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
         } catch (Exception ex) {
             LOGGER.warn(ex);

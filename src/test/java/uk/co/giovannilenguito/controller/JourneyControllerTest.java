@@ -25,18 +25,18 @@ public class JourneyControllerTest {
         journey.setType("journey");
 
         //Reflection
-        Method getHour = journeyController.getClass().getDeclaredMethod("getHourOfDay", null);
+        Method getHour = journeyController.getClass().getDeclaredMethod("getHourOfDay");
         getHour.setAccessible(true);
 
-        int hourOfDay = (int) getHour.invoke(journeyController, null);
+        int hourOfDay = (int) getHour.invoke(journeyController);
 
         journey.setHour(hourOfDay);
 
         //Reflection
-        Method getDayOfWeek = journeyController.getClass().getDeclaredMethod("getDayOfWeek", null);
+        Method getDayOfWeek = journeyController.getClass().getDeclaredMethod("getDayOfWeek");
         getDayOfWeek.setAccessible(true);
 
-        String dayOfWeek = (String) getDayOfWeek.invoke(journeyController, null);
+        String dayOfWeek = (String) getDayOfWeek.invoke(journeyController);
         journey.setDay(dayOfWeek);
 
 
