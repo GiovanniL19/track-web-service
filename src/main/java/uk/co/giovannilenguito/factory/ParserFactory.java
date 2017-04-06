@@ -182,7 +182,7 @@ public class ParserFactory {
         }
     }
 
-    private JSONObject getCallingPoint(final JSONObject point) {
+    private JSONObject getPoint(final JSONObject point) {
         //Get a single calling point
         JSONObject callingPoint = new JSONObject();
 
@@ -216,7 +216,7 @@ public class ParserFactory {
         return callingPoint;
     }
 
-    private JSONArray getCallingPoints(final JSONArray allCallingPoints) {
+    private JSONArray getPoints(final JSONArray allCallingPoints) {
         //Get multiple calling points from json array
         JSONArray callingPoints = new JSONArray();
 
@@ -260,7 +260,7 @@ public class ParserFactory {
         return callingPoints;
     }
 
-    private JSONArray getAllCallingPoints(final JSONObject callingAt){
+    private JSONArray getCallingPoints(final JSONObject callingAt){
         JSONArray callingPoints = new JSONArray();
 
         final Object callingPointListObject = new JSONTokener(callingAt.get("lt4:callingPointList").toString()).nextValue();
@@ -276,10 +276,10 @@ public class ParserFactory {
 
                 if (callingPointObject instanceof JSONArray) {
                     //Get multiple calling points
-                    callingPoints.put(this.getCallingPoints((JSONArray) callingPointObject));
+                    callingPoints.put(this.getPoints((JSONArray) callingPointObject));
                 } else if (callingPointObject instanceof JSONObject) {
                     //Get single calling point
-                    callingPoints.put(this.getCallingPoint((JSONObject) callingPointObject));
+                    callingPoints.put(this.getPoint((JSONObject) callingPointObject));
                 }
             }
 
@@ -293,25 +293,24 @@ public class ParserFactory {
             final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
             if (callingPointObject instanceof JSONArray) {
                 //Get multiple calling points
-                callingPoints.put(this.getCallingPoints((JSONArray) callingPointObject));
+                callingPoints.put(this.getPoints((JSONArray) callingPointObject));
             } else if (callingPointObject instanceof JSONObject) {
                 final JSONObject callingPoint = (JSONObject) callingPointObject;
 
                 //Puts the single calling point into an array
                 JSONArray arrayWrap = new JSONArray();
-                arrayWrap.put(this.getCallingPoint(callingPoint));
+                arrayWrap.put(this.getPoint(callingPoint));
                 callingPoints.put(arrayWrap);
             }
         }
         return callingPoints;
     }
 
-    private JSONObject getMultipleDepartingTrains(final JSONArray servicesArray) {
+    private JSONObject getDepartingTrains(final JSONArray services) {
         //Initialise all Services JSON Array
         JSONArray allServices = new JSONArray();
 
         LOGGER.info("Get departure services");
-        JSONArray services = servicesArray;
 
         for (int i = 0; i < services.length(); i++) {
             //Get current service from for loop iteration
@@ -342,7 +341,7 @@ public class ParserFactory {
             //Set up calling pints
             if (!service.isNull("lt5:subsequentCallingPoints")) {
                 final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-                train.put("callingPoints", getAllCallingPoints(callingAt));
+                train.put("callingPoints", getCallingPoints(callingAt));
             }
 
             allServices.put(train);
@@ -355,7 +354,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getSingleDepartingTrain(final JSONObject service) {
+    private JSONObject getDepartingTrain(final JSONObject service) {
         //When only one service has been found:
 
         //Initialise all Services JSON Array
@@ -371,7 +370,7 @@ public class ParserFactory {
         //If service contains calling points
         if (!service.isNull("lt5:subsequentCallingPoints")) {
             final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-            train.put("callingPoints", getAllCallingPoints(callingAt));
+            train.put("callingPoints", getCallingPoints(callingAt));
         }
 
         //Complete train json object
@@ -402,7 +401,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getMultipleArrivalTrains(final JSONArray services) {
+    private JSONObject getArrivingTrains(final JSONArray services) {
         JSONArray allServices = new JSONArray();
         LOGGER.info("Get arrival services");
 
@@ -431,7 +430,7 @@ public class ParserFactory {
             //Set up calling pints
             if (!service.isNull("lt5:previousCallingPoints")) {
                 final JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
-                train.put("callingPoints", getAllCallingPoints(callingAt));
+                train.put("callingPoints", getCallingPoints(callingAt));
             }
 
             //Put train in all services array
@@ -445,7 +444,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getSingleArrivalTrain(final JSONObject service) {
+    private JSONObject getArrivingTrain(final JSONObject service) {
         JSONArray allServices = new JSONArray();
 
         final JSONObject originFormatted = getOrigin(service);
@@ -456,7 +455,7 @@ public class ParserFactory {
         //Set up calling pints
         if (!service.isNull("lt5:previousCallingPoints")) {
             final JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
-            train.put("callingPoints", getAllCallingPoints(callingAt));
+            train.put("callingPoints", getCallingPoints(callingAt));
         }
 
         //Create train json object for client
@@ -499,10 +498,10 @@ public class ParserFactory {
 
             if (serviceObject instanceof JSONArray) {
                 //If service object is an array, it contains multiple trains
-                return this.getMultipleDepartingTrains((JSONArray) serviceObject);
+                return this.getDepartingTrains((JSONArray) serviceObject);
             } else {
                 //If service object is an object, it contains a single train
-                return this.getSingleDepartingTrain((JSONObject) serviceObject);
+                return this.getDepartingTrain((JSONObject) serviceObject);
             }
         }else{
             return null;
@@ -517,9 +516,9 @@ public class ParserFactory {
             final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
 
             if (serviceObject instanceof JSONArray) {
-                return this.getMultipleArrivalTrains((JSONArray) serviceObject);
+                return this.getArrivingTrains((JSONArray) serviceObject);
             } else {
-                return this.getSingleArrivalTrain((JSONObject) serviceObject);
+                return this.getArrivingTrain((JSONObject) serviceObject);
             }
         }else{
             return null;
@@ -799,6 +798,8 @@ public class ParserFactory {
         return message;
     }
 
+
+    //Client responses
     public String journeysResponse(final JSONArray journeys) {
         //Put in json response
         JSONObject response = new JSONObject();
