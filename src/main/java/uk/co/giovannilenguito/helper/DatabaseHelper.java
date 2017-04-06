@@ -16,18 +16,20 @@ import java.util.stream.Stream;
  * Created by giovannilenguito on 09/02/2017.
  */
 public class DatabaseHelper {
+    /*
+    * Database Helper
+    * For the web service to connect to CouchDB, the database will need to be running on the host provided
+    * with the correct username and password.
+    */
 
     final private static Logger LOGGER = Logger.getLogger(DatabaseHelper.class.getName());
-    /*
-    // For the web service to connect to CouchDB, the database will need to be running on the host provided with the correct username and password.
-    //
-    */
-    private final String DATABASE_NAME = "track";
-    private final String LOCAL_HOST = "localhost";
-    private final String PROTOCOL = "http";
-    private final String USERNAME = "admin";
-    private final String PASSWORD = "9999567890";
-    private final int PORT = 5984;
+
+    final private String DATABASE_NAME = "track";
+    final private String LOCAL_HOST = "localhost";
+    final private String PROTOCOL = "http";
+    final private String USERNAME = "admin";
+    final private String PASSWORD = "9999567890";
+    final private int PORT = 5984;
 
     CouchDbClient databaseClient;
 
@@ -43,15 +45,10 @@ public class DatabaseHelper {
         }
     }
 
-    //Close Connection (Needs to be called once response has been sent to client)
-    public void closeConnection(){
-        LOGGER.info("Database connection closed");
-        databaseClient.shutdown();
-    }
-
     //Journeys CRUD
     public Journey findJourney(final String combinedString){
         List<Journey> list = databaseClient.view("journeys/combined").includeDocs(true).startKey(combinedString).endKey(combinedString).query(Journey.class);
+
         if(list.size() != 0) {
             return list.get(0);
         }else{
@@ -197,5 +194,11 @@ public class DatabaseHelper {
     public Response deleteUser(final User user){
         //Remove user
         return databaseClient.remove(user);
+    }
+
+    //Close Connection (Needs to be called once response has been sent to client)
+    public void closeConnection(){
+        LOGGER.info("Database connection closed");
+        databaseClient.shutdown();
     }
 }
