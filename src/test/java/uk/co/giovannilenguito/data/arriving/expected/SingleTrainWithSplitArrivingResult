@@ -1,0 +1,180 @@
+{
+  "trains": [
+    {
+      "sta": "18:25",
+      "arrivalStatus": "On time",
+      "origin": {
+        "crs": "LIT, ORE",
+        "name": "Littlehampton & Ore"
+      },
+      "destination": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "trainSplits": true,
+      "operatorCode": "SN",
+      "type": "train",
+      "platform": 4,
+      "operator": "Southern",
+      "eta": "On time",
+      "arrivalTime": "18:14",
+      "id": "mQxf0Rzn7otNKo++08Br5Q==",
+      "callingPoints": [
+        [
+          {
+            "st": "17:14",
+            "at": "On time",
+            "crs": "LIT",
+            "name": "Littlehampton"
+          },
+          {
+            "st": "17:22",
+            "at": "On time",
+            "crs": "ANG",
+            "name": "Angmering"
+          },
+          {
+            "st": "17:26",
+            "at": "On time",
+            "crs": "GBS",
+            "name": "Goring-by-Sea"
+          },
+          {
+            "st": "17:29",
+            "at": "On time",
+            "crs": "DUR",
+            "name": "Durrington-on-Sea"
+          },
+          {
+            "st": "17:31",
+            "at": "On time",
+            "crs": "WWO",
+            "name": "West Worthing"
+          },
+          {
+            "st": "17:34",
+            "at": "On time",
+            "crs": "WRH",
+            "name": "Worthing"
+          },
+          {
+            "st": "17:38",
+            "at": "On time",
+            "crs": "LAC",
+            "name": "Lancing"
+          },
+          {
+            "st": "17:42",
+            "at": "On time",
+            "crs": "SSE",
+            "name": "Shoreham-by-Sea"
+          },
+          {
+            "st": "17:47",
+            "at": "On time",
+            "crs": "PLD",
+            "name": "Portslade"
+          },
+          {
+            "st": "17:50",
+            "at": "On time",
+            "crs": "HOV",
+            "name": "Hove"
+          },
+          {
+            "st": "17:54",
+            "at": "On time",
+            "crs": "PRP",
+            "name": "Preston Park"
+          },
+          {
+            "st": "18:14",
+            "crs": "HHE",
+            "name": "Haywards Heath",
+            "et": "On time"
+          }
+        ],
+        [
+          {
+            "st": "16:53",
+            "at": "On time",
+            "crs": "ORE",
+            "name": "Ore"
+          },
+          {
+            "st": "16:56",
+            "at": "On time",
+            "crs": "HGS",
+            "name": "Hastings"
+          },
+          {
+            "st": "17:00",
+            "at": "On time",
+            "crs": "SLQ",
+            "name": "St Leonards Warrior Square"
+          },
+          {
+            "st": "17:07",
+            "at": "On time",
+            "crs": "BEX",
+            "name": "Bexhill"
+          },
+          {
+            "st": "17:09",
+            "at": "On time",
+            "crs": "CLL",
+            "name": "Collington"
+          },
+          {
+            "st": "17:12",
+            "at": "On time",
+            "crs": "COB",
+            "name": "Cooden Beach"
+          },
+          {
+            "st": "17:18",
+            "at": "On time",
+            "crs": "PEV",
+            "name": "Pevensey & Westham"
+          },
+          {
+            "st": "17:22",
+            "at": "On time",
+            "crs": "HMD",
+            "name": "Hampden Park"
+          },
+          {
+            "st": "17:33",
+            "at": "On time",
+            "crs": "EBN",
+            "name": "Eastbourne"
+          },
+          {
+            "st": "17:39",
+            "at": "On time",
+            "crs": "PLG",
+            "name": "Polegate"
+          },
+          {
+            "st": "17:52",
+            "at": "On time",
+            "crs": "LWS",
+            "name": "Lewes"
+          },
+          {
+            "st": "18:00",
+            "at": "No report",
+            "crs": "PMP",
+            "name": "Plumpton"
+          },
+          {
+            "st": "18:14",
+            "at": "On time",
+            "crs": "HHE",
+            "name": "Haywards Heath"
+          }
+        ]
+      ]
+    }
+  ]
+}

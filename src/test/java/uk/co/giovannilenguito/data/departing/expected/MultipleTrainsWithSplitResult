@@ -1,1 +1,587 @@
-{"trains":[{"std":"16:49","arrivalStatus":"On time","origin":{"crs":"VIC","name":"London Victoria"},"destination":{"crs":"LIT, EBN","name":"Littlehampton & Eastbourne"},"trainSplits":true,"operatorCode":"SN","type":"train","operator":"Southern","platform":7,"etd":"16:52","arrivalTime":"17:47","id":"7hdpGMp2HFkOvNszzc8kqA==","callingPoints":[[{"st":"17:00","crs":"HHE","name":"Haywards Heath","et":"17:02"},{"st":"17:09","crs":"BUG","name":"Burgess Hill","et":"On time"},{"st":"17:20","crs":"HOV","name":"Hove","et":"On time"},{"st":"17:24","crs":"PLD","name":"Portslade","et":"On time"},{"st":"17:29","crs":"SSE","name":"Shoreham-by-Sea","et":"On time"},{"st":"17:33","crs":"LAC","name":"Lancing","et":"On time"},{"st":"17:38","crs":"WRH","name":"Worthing","et":"On time"},{"st":"17:40","crs":"WWO","name":"West Worthing","et":"On time"},{"st":"17:43","crs":"DUR","name":"Durrington-on-Sea","et":"On time"},{"st":"17:45","crs":"GBS","name":"Goring-by-Sea","et":"On time"},{"st":"17:49","crs":"ANG","name":"Angmering","et":"On time"},{"st":"17:59","crs":"LIT","name":"Littlehampton","et":"On time"}],[{"st":"17:00","crs":"HHE","name":"Haywards Heath","et":"On time"},{"st":"17:10","crs":"WVF","name":"Wivelsfield","et":"On time"},{"st":"17:21","crs":"LWS","name":"Lewes","et":"On time"},{"st":"17:31","crs":"BRK","name":"Berwick (Sussex)","et":"On time"},{"st":"17:36","crs":"PLG","name":"Polegate","et":"On time"},{"st":"17:40","crs":"HMD","name":"Hampden Park","et":"On time"},{"st":"17:47","crs":"EBN","name":"Eastbourne","et":"On time"}]]},{"std":"16:49","arrivalStatus":"17:13","etd":"16:51","arrivalTime":"17:11","origin":{"crs":"LBG","name":"London Bridge"},"destination":{"crs":"HRH","name":"Horsham"},"id":"P4u7x77lGWgCEvpzerRcoA==","operatorCode":"SN","type":"train","operator":"Southern","platform":3,"callingPoints":[[{"st":"16:53","crs":"TBD","name":"Three Bridges","et":"16:55"},{"st":"16:57","crs":"CRW","name":"Crawley","et":"16:59"},{"st":"17:00","crs":"IFI","name":"Ifield","et":"17:02"},{"st":"17:04","crs":"FGT","name":"Faygate","et":"17:06"},{"st":"17:08","crs":"LVN","name":"Littlehaven","et":"17:10"},{"st":"17:11","crs":"HRH","name":"Horsham","et":"17:13"}]]},{"std":"16:52","arrivalStatus":"On time","etd":"16:54","arrivalTime":"17:20","origin":{"crs":"VIC","name":"London Victoria"},"destination":{"crs":"BTN","name":"Brighton"},"id":"XtjUZMGDdUKDBrWmZE7tmg==","operatorCode":"SN","type":"train","operator":"Southern","platform":5,"callingPoints":[[{"st":"17:09","crs":"HSK","name":"Hassocks","et":"On time"},{"st":"17:20","crs":"BTN","name":"Brighton","et":"On time"}]]},{"std":"16:53","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:47","origin":{"crs":"HRH","name":"Horsham"},"destination":{"crs":"LBG","name":"London Bridge"},"id":"+nn0weFIcgH+TM0kMDRdAQ==","operatorCode":"SN","type":"train","operator":"Southern","platform":2,"callingPoints":[[{"st":"16:56","crs":"HOR","name":"Horley","et":"On time"},{"st":"17:00","crs":"SAF","name":"Salfords","et":"On time"},{"st":"17:03","crs":"ELD","name":"Earlswood (Surrey)","et":"On time"},{"st":"17:07","crs":"RDH","name":"Redhill","et":"On time"},{"st":"17:12","crs":"MHM","name":"Merstham","et":"On time"},{"st":"17:17","crs":"CDS","name":"Coulsdon South","et":"On time"},{"st":"17:20","crs":"PUR","name":"Purley","et":"On time"},{"st":"17:26","crs":"ECR","name":"East Croydon","et":"On time"},{"st":"17:31","crs":"NWD","name":"Norwood Junction","et":"On time"},{"st":"17:47","crs":"LBG","name":"London Bridge","et":"On time"}]]},{"std":"16:55","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:19","origin":{"crs":"VIC","name":"London Victoria"},"destination":{"crs":"HRH","name":"Horsham"},"id":"UZ8qrtf9JLJFOJ0+idssvg==","operatorCode":"SN","type":"train","operator":"Southern","platform":3,"callingPoints":[[{"st":"16:59","crs":"TBD","name":"Three Bridges","et":"On time"},{"st":"17:04","crs":"CRW","name":"Crawley","et":"On time"},{"st":"17:19","crs":"HRH","name":"Horsham","et":"On time"}]]},{"std":"16:56","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:29","origin":{"crs":"EBN","name":"Eastbourne"},"destination":{"crs":"VIC","name":"London Victoria"},"id":"dTdkqb4N8nIWyBh+8z29XQ==","operatorCode":"SN","type":"train","operator":"Southern","platform":4,"callingPoints":[[{"st":"17:10","crs":"ECR","name":"East Croydon","et":"On time"},{"st":"17:22","crs":"CLJ","name":"Clapham Junction","et":"On time"},{"st":"17:29","crs":"VIC","name":"London Victoria","et":"On time"}]]},{"std":"17:01","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:33","origin":{"crs":"GTW","name":"Gatwick Airport"},"destination":{"crs":"VIC","name":"London Victoria"},"id":"3zgxOsv1+JtLV02aPWcmUQ==","operatorCode":"GX","type":"train","operator":"Gatwick Express","platform":6,"callingPoints":[[{"st":"17:33","crs":"VIC","name":"London Victoria","et":"On time"}]]},{"std":"17:02","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:32","origin":{"crs":"VIC","name":"London Victoria"},"destination":{"crs":"BTN","name":"Brighton"},"id":"Cgcwf0E3Q9KUF1xPKdx+lA==","operatorCode":"GX","type":"train","operator":"Gatwick Express","platform":5,"callingPoints":[[{"st":"17:13","crs":"HHE","name":"Haywards Heath","et":"On time"},{"st":"17:18","crs":"BUG","name":"Burgess Hill","et":"On time"},{"st":"17:27","crs":"PRP","name":"Preston Park","et":"On time"},{"st":"17:32","crs":"BTN","name":"Brighton","et":"On time"}]]},{"std":"17:02","arrivalStatus":"On time","etd":"On time","arrivalTime":"17:08","origin":{"crs":"BDM","name":"Bedford"},"destination":{"crs":"TBD","name":"Three Bridges"},"id":"IJ7ZXaTtNxJ11KiIFPRY7A==","operatorCode":"TL","type":"train","operator":"Thameslink","platform":3,"callingPoints":[[{"st":"17:08","crs":"TBD","name":"Three Bridges","et":"On time"}]]},{"std":"17:03","arrivalStatus":"On time","etd":"On time","arrivalTime":"18:24","origin":{"crs":"GTW","name":"Gatwick Airport"},"destination":{"crs":"RDG","name":"Reading"},"id":"z6nUrhNSXea9CJSUf31vpA==","operatorCode":"GW","type":"train","operator":"Great Western Railway","platform":1,"callingPoints":[[{"st":"17:11","crs":"RDH","name":"Redhill","et":"On time"},{"st":"17:18","crs":"REI","name":"Reigate","et":"On time"},{"st":"17:25","crs":"DPD","name":"Dorking Deepdene","et":"On time"},{"st":"17:43","crs":"GLD","name":"Guildford","et":"On time"},{"st":"17:54","crs":"ASH","name":"Ash","et":"On time"},{"st":"17:58","crs":"NCM","name":"North Camp","et":"On time"},{"st":"18:02","crs":"FNN","name":"Farnborough North","et":"On time"},{"st":"18:06","crs":"BAW","name":"Blackwater","et":"On time"},{"st":"18:14","crs":"WKM","name":"Wokingham","et":"On time"},{"st":"18:24","crs":"RDG","name":"Reading","et":"On time"}]]}]}
+{
+  "trains": [
+    {
+      "std": "16:49",
+      "arrivalStatus": "On time",
+      "origin": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "destination": {
+        "crs": "LIT, EBN",
+        "name": "Littlehampton & Eastbourne"
+      },
+      "trainSplits": true,
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 7,
+      "etd": "16:52",
+      "arrivalTime": "17:47",
+      "id": "7hdpGMp2HFkOvNszzc8kqA==",
+      "callingPoints": [
+        [
+          {
+            "st": "17:00",
+            "crs": "HHE",
+            "name": "Haywards Heath",
+            "et": "17:02"
+          },
+          {
+            "st": "17:09",
+            "crs": "BUG",
+            "name": "Burgess Hill",
+            "et": "On time"
+          },
+          {
+            "st": "17:20",
+            "crs": "HOV",
+            "name": "Hove",
+            "et": "On time"
+          },
+          {
+            "st": "17:24",
+            "crs": "PLD",
+            "name": "Portslade",
+            "et": "On time"
+          },
+          {
+            "st": "17:29",
+            "crs": "SSE",
+            "name": "Shoreham-by-Sea",
+            "et": "On time"
+          },
+          {
+            "st": "17:33",
+            "crs": "LAC",
+            "name": "Lancing",
+            "et": "On time"
+          },
+          {
+            "st": "17:38",
+            "crs": "WRH",
+            "name": "Worthing",
+            "et": "On time"
+          },
+          {
+            "st": "17:40",
+            "crs": "WWO",
+            "name": "West Worthing",
+            "et": "On time"
+          },
+          {
+            "st": "17:43",
+            "crs": "DUR",
+            "name": "Durrington-on-Sea",
+            "et": "On time"
+          },
+          {
+            "st": "17:45",
+            "crs": "GBS",
+            "name": "Goring-by-Sea",
+            "et": "On time"
+          },
+          {
+            "st": "17:49",
+            "crs": "ANG",
+            "name": "Angmering",
+            "et": "On time"
+          },
+          {
+            "st": "17:59",
+            "crs": "LIT",
+            "name": "Littlehampton",
+            "et": "On time"
+          }
+        ],
+        [
+          {
+            "st": "17:00",
+            "crs": "HHE",
+            "name": "Haywards Heath",
+            "et": "On time"
+          },
+          {
+            "st": "17:10",
+            "crs": "WVF",
+            "name": "Wivelsfield",
+            "et": "On time"
+          },
+          {
+            "st": "17:21",
+            "crs": "LWS",
+            "name": "Lewes",
+            "et": "On time"
+          },
+          {
+            "st": "17:31",
+            "crs": "BRK",
+            "name": "Berwick (Sussex)",
+            "et": "On time"
+          },
+          {
+            "st": "17:36",
+            "crs": "PLG",
+            "name": "Polegate",
+            "et": "On time"
+          },
+          {
+            "st": "17:40",
+            "crs": "HMD",
+            "name": "Hampden Park",
+            "et": "On time"
+          },
+          {
+            "st": "17:47",
+            "crs": "EBN",
+            "name": "Eastbourne",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "16:49",
+      "arrivalStatus": "17:13",
+      "etd": "16:51",
+      "arrivalTime": "17:11",
+      "origin": {
+        "crs": "LBG",
+        "name": "London Bridge"
+      },
+      "destination": {
+        "crs": "HRH",
+        "name": "Horsham"
+      },
+      "id": "P4u7x77lGWgCEvpzerRcoA==",
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 3,
+      "callingPoints": [
+        [
+          {
+            "st": "16:53",
+            "crs": "TBD",
+            "name": "Three Bridges",
+            "et": "16:55"
+          },
+          {
+            "st": "16:57",
+            "crs": "CRW",
+            "name": "Crawley",
+            "et": "16:59"
+          },
+          {
+            "st": "17:00",
+            "crs": "IFI",
+            "name": "Ifield",
+            "et": "17:02"
+          },
+          {
+            "st": "17:04",
+            "crs": "FGT",
+            "name": "Faygate",
+            "et": "17:06"
+          },
+          {
+            "st": "17:08",
+            "crs": "LVN",
+            "name": "Littlehaven",
+            "et": "17:10"
+          },
+          {
+            "st": "17:11",
+            "crs": "HRH",
+            "name": "Horsham",
+            "et": "17:13"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "16:52",
+      "arrivalStatus": "On time",
+      "etd": "16:54",
+      "arrivalTime": "17:20",
+      "origin": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "destination": {
+        "crs": "BTN",
+        "name": "Brighton"
+      },
+      "id": "XtjUZMGDdUKDBrWmZE7tmg==",
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 5,
+      "callingPoints": [
+        [
+          {
+            "st": "17:09",
+            "crs": "HSK",
+            "name": "Hassocks",
+            "et": "On time"
+          },
+          {
+            "st": "17:20",
+            "crs": "BTN",
+            "name": "Brighton",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "16:53",
+      "arrivalStatus": "On time",
+      "etd": "On time",
+      "arrivalTime": "17:47",
+      "origin": {
+        "crs": "HRH",
+        "name": "Horsham"
+      },
+      "destination": {
+        "crs": "LBG",
+        "name": "London Bridge"
+      },
+      "id": "+nn0weFIcgH+TM0kMDRdAQ==",
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 2,
+      "callingPoints": [
+        [
+          {
+            "st": "16:56",
+            "crs": "HOR",
+            "name": "Horley",
+            "et": "On time"
+          },
+          {
+            "st": "17:00",
+            "crs": "SAF",
+            "name": "Salfords",
+            "et": "On time"
+          },
+          {
+            "st": "17:03",
+            "crs": "ELD",
+            "name": "Earlswood (Surrey)",
+            "et": "On time"
+          },
+          {
+            "st": "17:07",
+            "crs": "RDH",
+            "name": "Redhill",
+            "et": "On time"
+          },
+          {
+            "st": "17:12",
+            "crs": "MHM",
+            "name": "Merstham",
+            "et": "On time"
+          },
+          {
+            "st": "17:17",
+            "crs": "CDS",
+            "name": "Coulsdon South",
+            "et": "On time"
+          },
+          {
+            "st": "17:20",
+            "crs": "PUR",
+            "name": "Purley",
+            "et": "On time"
+          },
+          {
+            "st": "17:26",
+            "crs": "ECR",
+            "name": "East Croydon",
+            "et": "On time"
+          },
+          {
+            "st": "17:31",
+            "crs": "NWD",
+            "name": "Norwood Junction",
+            "et": "On time"
+          },
+          {
+            "st": "17:47",
+            "crs": "LBG",
+            "name": "London Bridge",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "16:55",
+      "arrivalStatus": "On time",
+      "etd": "On time",
+      "arrivalTime": "17:19",
+      "origin": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "destination": {
+        "crs": "HRH",
+        "name": "Horsham"
+      },
+      "id": "UZ8qrtf9JLJFOJ0+idssvg==",
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 3,
+      "callingPoints": [
+        [
+          {
+            "st": "16:59",
+            "crs": "TBD",
+            "name": "Three Bridges",
+            "et": "On time"
+          },
+          {
+            "st": "17:04",
+            "crs": "CRW",
+            "name": "Crawley",
+            "et": "On time"
+          },
+          {
+            "st": "17:19",
+            "crs": "HRH",
+            "name": "Horsham",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "16:56",
+      "arrivalStatus": "On time",
+      "etd": "On time",
+      "arrivalTime": "17:29",
+      "origin": {
+        "crs": "EBN, LIT",
+        "name": "Eastbourne & Littlehampton"
+      },
+      "destination": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "id": "dTdkqb4N8nIWyBh+8z29XQ==",
+      "operatorCode": "SN",
+      "type": "train",
+      "operator": "Southern",
+      "platform": 4,
+      "callingPoints": [
+        [
+          {
+            "st": "17:10",
+            "crs": "ECR",
+            "name": "East Croydon",
+            "et": "On time"
+          },
+          {
+            "st": "17:22",
+            "crs": "CLJ",
+            "name": "Clapham Junction",
+            "et": "On time"
+          },
+          {
+            "st": "17:29",
+            "crs": "VIC",
+            "name": "London Victoria",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "17:01",
+      "etd": "On time",
+      "origin": {
+        "crs": "GTW",
+        "name": "Gatwick Airport"
+      },
+      "destination": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "id": "3zgxOsv1+JtLV02aPWcmUQ==",
+      "operatorCode": "GX",
+      "type": "train",
+      "operator": "Gatwick Express",
+      "platform": 6,
+      "callingPoints": [
+        [
+          {
+            "st": "17:33",
+            "crs": "VIC",
+            "name": "London Victoria",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "17:02",
+      "arrivalStatus": "On time",
+      "etd": "On time",
+      "arrivalTime": "17:32",
+      "origin": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "destination": {
+        "crs": "BTN",
+        "name": "Brighton"
+      },
+      "id": "Cgcwf0E3Q9KUF1xPKdx+lA==",
+      "operatorCode": "GX",
+      "type": "train",
+      "operator": "Gatwick Express",
+      "platform": 5,
+      "callingPoints": [
+        [
+          {
+            "st": "17:13",
+            "crs": "HHE",
+            "name": "Haywards Heath",
+            "et": "On time"
+          },
+          {
+            "st": "17:18",
+            "crs": "BUG",
+            "name": "Burgess Hill",
+            "et": "On time"
+          },
+          {
+            "st": "17:27",
+            "crs": "PRP",
+            "name": "Preston Park",
+            "et": "On time"
+          },
+          {
+            "st": "17:32",
+            "crs": "BTN",
+            "name": "Brighton",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "17:02",
+      "etd": "On time",
+      "origin": {
+        "crs": "BDM",
+        "name": "Bedford"
+      },
+      "destination": {
+        "crs": "TBD",
+        "name": "Three Bridges"
+      },
+      "id": "IJ7ZXaTtNxJ11KiIFPRY7A==",
+      "operatorCode": "TL",
+      "type": "train",
+      "operator": "Thameslink",
+      "platform": 3,
+      "callingPoints": [
+        [
+          {
+            "st": "17:08",
+            "crs": "TBD",
+            "name": "Three Bridges",
+            "et": "On time"
+          }
+        ]
+      ]
+    },
+    {
+      "std": "17:03",
+      "arrivalStatus": "On time",
+      "etd": "On time",
+      "arrivalTime": "18:24",
+      "origin": {
+        "crs": "GTW",
+        "name": "Gatwick Airport"
+      },
+      "destination": {
+        "crs": "RDG",
+        "name": "Reading"
+      },
+      "id": "z6nUrhNSXea9CJSUf31vpA==",
+      "operatorCode": "GW",
+      "type": "train",
+      "operator": "Great Western Railway",
+      "platform": 1,
+      "callingPoints": [
+        [
+          {
+            "st": "17:11",
+            "crs": "RDH",
+            "name": "Redhill",
+            "et": "On time"
+          },
+          {
+            "st": "17:18",
+            "crs": "REI",
+            "name": "Reigate",
+            "et": "On time"
+          },
+          {
+            "st": "17:25",
+            "crs": "DPD",
+            "name": "Dorking Deepdene",
+            "et": "On time"
+          },
+          {
+            "st": "17:43",
+            "crs": "GLD",
+            "name": "Guildford",
+            "et": "On time"
+          },
+          {
+            "st": "17:54",
+            "crs": "ASH",
+            "name": "Ash",
+            "et": "On time"
+          },
+          {
+            "st": "17:58",
+            "crs": "NCM",
+            "name": "North Camp",
+            "et": "On time"
+          },
+          {
+            "st": "18:02",
+            "crs": "FNN",
+            "name": "Farnborough North",
+            "et": "On time"
+          },
+          {
+            "st": "18:06",
+            "crs": "BAW",
+            "name": "Blackwater",
+            "et": "On time"
+          },
+          {
+            "st": "18:14",
+            "crs": "WKM",
+            "name": "Wokingham",
+            "et": "On time"
+          },
+          {
+            "st": "18:24",
+            "crs": "RDG",
+            "name": "Reading",
+            "et": "On time"
+          }
+        ]
+      ]
+    }
+  ]
+}

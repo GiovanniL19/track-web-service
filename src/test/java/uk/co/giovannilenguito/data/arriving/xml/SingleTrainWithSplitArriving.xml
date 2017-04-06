@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <GetArrBoardWithDetailsResponse xmlns="http://thalesgroup.com/RTTI/2016-02-16/ldb/">
+            <GetStationBoardResult xmlns:lt3="http://thalesgroup.com/RTTI/2015-05-14/ldb/types"
+                                   xmlns:lt5="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+                                   xmlns:lt4="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+                                   xmlns:lt="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+                                   xmlns:lt2="http://thalesgroup.com/RTTI/2014-02-20/ldb/types">
+                <lt4:generatedAt>2017-04-06T18:13:40.415096+01:00</lt4:generatedAt>
+                <lt4:locationName>Gatwick Airport</lt4:locationName>
+                <lt4:crs>GTW</lt4:crs>
+                <lt4:nrccMessages>
+                    <lt:message>The ticket vending machines at this station are currently out of use.</lt:message>
+                </lt4:nrccMessages>
+                <lt4:platformAvailable>true</lt4:platformAvailable>
+                <lt5:trainServices>
+                    <lt5:service>
+                        <lt4:sta>18:25</lt4:sta>
+                        <lt4:eta>On time</lt4:eta>
+                        <lt4:platform>4</lt4:platform>
+                        <lt4:operator>Southern</lt4:operator>
+                        <lt4:operatorCode>SN</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:length>8</lt4:length>
+                        <lt4:serviceID>mQxf0Rzn7otNKo++08Br5Q==</lt4:serviceID>
+                        <lt5:rsid>SN121702</lt5:rsid>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>Littlehampton</lt4:locationName>
+                                <lt4:crs>LIT</lt4:crs>
+                            </lt4:location>
+                            <lt4:location>
+                                <lt4:locationName>Ore</lt4:locationName>
+                                <lt4:crs>ORE</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>London Victoria</lt4:locationName>
+                                <lt4:crs>VIC</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:previousCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Littlehampton</lt4:locationName>
+                                    <lt4:crs>LIT</lt4:crs>
+                                    <lt4:st>17:14</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Angmering</lt4:locationName>
+                                    <lt4:crs>ANG</lt4:crs>
+                                    <lt4:st>17:22</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Goring-by-Sea</lt4:locationName>
+                                    <lt4:crs>GBS</lt4:crs>
+                                    <lt4:st>17:26</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Durrington-on-Sea</lt4:locationName>
+                                    <lt4:crs>DUR</lt4:crs>
+                                    <lt4:st>17:29</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>West Worthing</lt4:locationName>
+                                    <lt4:crs>WWO</lt4:crs>
+                                    <lt4:st>17:31</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Worthing</lt4:locationName>
+                                    <lt4:crs>WRH</lt4:crs>
+                                    <lt4:st>17:34</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Lancing</lt4:locationName>
+                                    <lt4:crs>LAC</lt4:crs>
+                                    <lt4:st>17:38</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Shoreham-by-Sea</lt4:locationName>
+                                    <lt4:crs>SSE</lt4:crs>
+                                    <lt4:st>17:42</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Portslade</lt4:locationName>
+                                    <lt4:crs>PLD</lt4:crs>
+                                    <lt4:st>17:47</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Hove</lt4:locationName>
+                                    <lt4:crs>HOV</lt4:crs>
+                                    <lt4:st>17:50</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Preston Park</lt4:locationName>
+                                    <lt4:crs>PRP</lt4:crs>
+                                    <lt4:st>17:54</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Haywards Heath</lt4:locationName>
+                                    <lt4:crs>HHE</lt4:crs>
+                                    <lt4:st>18:14</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>8</lt4:length>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Ore</lt4:locationName>
+                                    <lt4:crs>ORE</lt4:crs>
+                                    <lt4:st>16:53</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Hastings</lt4:locationName>
+                                    <lt4:crs>HGS</lt4:crs>
+                                    <lt4:st>16:56</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>St Leonards Warrior Square</lt4:locationName>
+                                    <lt4:crs>SLQ</lt4:crs>
+                                    <lt4:st>17:00</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Bexhill</lt4:locationName>
+                                    <lt4:crs>BEX</lt4:crs>
+                                    <lt4:st>17:07</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Collington</lt4:locationName>
+                                    <lt4:crs>CLL</lt4:crs>
+                                    <lt4:st>17:09</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Cooden Beach</lt4:locationName>
+                                    <lt4:crs>COB</lt4:crs>
+                                    <lt4:st>17:12</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Pevensey &amp; Westham</lt4:locationName>
+                                    <lt4:crs>PEV</lt4:crs>
+                                    <lt4:st>17:18</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Hampden Park</lt4:locationName>
+                                    <lt4:crs>HMD</lt4:crs>
+                                    <lt4:st>17:22</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Eastbourne</lt4:locationName>
+                                    <lt4:crs>EBN</lt4:crs>
+                                    <lt4:st>17:33</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Polegate</lt4:locationName>
+                                    <lt4:crs>PLG</lt4:crs>
+                                    <lt4:st>17:39</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Lewes</lt4:locationName>
+                                    <lt4:crs>LWS</lt4:crs>
+                                    <lt4:st>17:52</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Plumpton</lt4:locationName>
+                                    <lt4:crs>PMP</lt4:crs>
+                                    <lt4:st>18:00</lt4:st>
+                                    <lt4:at>No report</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Haywards Heath</lt4:locationName>
+                                    <lt4:crs>HHE</lt4:crs>
+                                    <lt4:st>18:14</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:previousCallingPoints>
+                    </lt5:service>
+                </lt5:trainServices>
+            </GetStationBoardResult>
+        </GetArrBoardWithDetailsResponse>
+    </soap:Body>
+</soap:Envelope>

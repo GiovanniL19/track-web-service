@@ -1,0 +1,75 @@
+{
+  "trains": [
+    {
+      "sta": "18:08",
+      "arrivalStatus": "17:57",
+      "eta": "On time",
+      "arrivalTime": "17:54",
+      "origin": {
+        "crs": "TRI",
+        "name": "Tring"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "Xr00MT+jMMhVDep84NbGVg==",
+      "operatorCode": "LM",
+      "type": "train",
+      "platform": 11,
+      "operator": "London Midland",
+      "callingPoints": [
+        [
+          {
+            "st": "17:26",
+            "at": "On time",
+            "crs": "TRI",
+            "name": "Tring"
+          },
+          {
+            "st": "17:31",
+            "at": "On time",
+            "crs": "BKM",
+            "name": "Berkhamsted"
+          },
+          {
+            "st": "17:35",
+            "at": "On time",
+            "crs": "HML",
+            "name": "Hemel Hempstead"
+          },
+          {
+            "st": "17:38",
+            "at": "On time",
+            "crs": "APS",
+            "name": "Apsley"
+          },
+          {
+            "st": "17:41",
+            "at": "17:43",
+            "crs": "KGL",
+            "name": "Kings Langley"
+          },
+          {
+            "st": "17:46",
+            "at": "17:48",
+            "crs": "WFJ",
+            "name": "Watford Junction"
+          },
+          {
+            "st": "17:49",
+            "at": "17:51",
+            "crs": "BSH",
+            "name": "Bushey"
+          },
+          {
+            "st": "17:54",
+            "at": "17:57",
+            "crs": "HRW",
+            "name": "Harrow & Wealdstone"
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -52,7 +52,6 @@ public class ParserFactory {
         }
     }
 
-    //Private methods
     private JSONObject serviceXMLToJSON(final SOAPMessage xml, final String type) throws SOAPException, TransformerException {
 
         //Converts the SOAPMessage into a String
@@ -454,15 +453,10 @@ public class ParserFactory {
 
         train = new JSONObject();
 
-        if (!service.isNull("lt5:subsequentCallingPoints")) {
-            final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-            final JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
-            final JSONArray allCallingPoints = list.getJSONArray("lt4:callingPoint");
-
-
-            JSONArray callingPoints = new JSONArray();
-            allCallingPoints.put(this.getCallingPoints(allCallingPoints));
-            train.put("callingPoints", callingPoints);
+        //Set up calling pints
+        if (!service.isNull("lt5:previousCallingPoints")) {
+            final JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
+            train.put("callingPoints", getAllCallingPoints(callingAt));
         }
 
         //Create train json object for client
@@ -496,8 +490,6 @@ public class ParserFactory {
         return trains;
     }
 
-
-    //Public methods
     public JSONObject departureBoardServices(final Object data, final String type) throws Exception {
         //Convert SOAPMessage or String into JSON object
         final JSONObject trainServices = this.getTrainServices(data, type);
@@ -655,7 +647,6 @@ public class ParserFactory {
         }
     }
 
-    //To POJOs
     public User toUser(final JSONObject data, final String id) {
         try {
             final JSONObject json = data.getJSONObject("user");
@@ -780,7 +771,6 @@ public class ParserFactory {
         }
     }
 
-    //JSON Token to String
     public String toToken(final String token, final User user) {
         //Put token in json response
         JSONObject response = new JSONObject();
@@ -790,7 +780,6 @@ public class ParserFactory {
         return response.toString();
     }
 
-    //Parse Error messages
     public String errorMessage(final Exception ex) {
         //Extract error message from exception
         LOGGER.warn(ex);
@@ -802,7 +791,7 @@ public class ParserFactory {
             } else if (ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")) {
                 message = "";
             } else {
-                message = ex.getMessage();
+                message = "There was an error";
             }
 
         }
@@ -810,7 +799,6 @@ public class ParserFactory {
         return message;
     }
 
-    //Build responses for endpoints
     public String journeysResponse(final JSONArray journeys) {
         //Put in json response
         JSONObject response = new JSONObject();

@@ -1,8 +1,8 @@
 {
   "trains": [
     {
-      "std": "16:39",
       "arrivalStatus": "On time",
+      "std": "16:39",
       "origin": {
         "crs": "VIC",
         "name": "London Victoria"
@@ -14,8 +14,8 @@
       "trainSplits": true,
       "operatorCode": "SN",
       "type": "train",
-      "operator": "Southern",
       "platform": 7,
+      "operator": "Southern",
       "etd": "On time",
       "arrivalTime": "17:51",
       "id": "4tjgituRO7aOeZvj69N9vA==",

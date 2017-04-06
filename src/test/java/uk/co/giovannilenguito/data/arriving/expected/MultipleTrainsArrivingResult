@@ -1,0 +1,828 @@
+{
+  "trains": [
+    {
+      "sta": "18:08",
+      "arrivalStatus": "17:57",
+      "eta": "On time",
+      "arrivalTime": "17:54",
+      "origin": {
+        "crs": "TRI",
+        "name": "Tring"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "Xr00MT+jMMhVDep84NbGVg==",
+      "operatorCode": "LM",
+      "type": "train",
+      "operator": "London Midland",
+      "platform": 11,
+      "callingPoints": [
+        [
+          {
+            "st": "17:26",
+            "at": "On time",
+            "crs": "TRI",
+            "name": "Tring"
+          },
+          {
+            "st": "17:31",
+            "at": "On time",
+            "crs": "BKM",
+            "name": "Berkhamsted"
+          },
+          {
+            "st": "17:35",
+            "at": "On time",
+            "crs": "HML",
+            "name": "Hemel Hempstead"
+          },
+          {
+            "st": "17:38",
+            "at": "On time",
+            "crs": "APS",
+            "name": "Apsley"
+          },
+          {
+            "st": "17:41",
+            "at": "17:43",
+            "crs": "KGL",
+            "name": "Kings Langley"
+          },
+          {
+            "st": "17:46",
+            "at": "17:48",
+            "crs": "WFJ",
+            "name": "Watford Junction"
+          },
+          {
+            "st": "17:49",
+            "at": "17:51",
+            "crs": "BSH",
+            "name": "Bushey"
+          },
+          {
+            "st": "17:54",
+            "at": "17:57",
+            "crs": "HRW",
+            "name": "Harrow & Wealdstone"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:10",
+      "arrivalStatus": "On time",
+      "eta": "On time",
+      "arrivalTime": "16:20",
+      "origin": {
+        "crs": "GLC",
+        "name": "Glasgow Central"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "2H7iuQz9Hy3njIxnTkHp0A==",
+      "operatorCode": "VT",
+      "type": "train",
+      "operator": "Virgin Trains",
+      "platform": 6,
+      "callingPoints": [
+        [
+          {
+            "st": "13:40",
+            "at": "On time",
+            "crs": "GLC",
+            "name": "Glasgow Central"
+          },
+          {
+            "st": "14:49",
+            "at": "On time",
+            "crs": "CAR",
+            "name": "Carlisle"
+          },
+          {
+            "st": "15:24",
+            "at": "On time",
+            "crs": "OXN",
+            "name": "Oxenholme Lake District"
+          },
+          {
+            "st": "15:39",
+            "at": "On time",
+            "crs": "LAN",
+            "name": "Lancaster"
+          },
+          {
+            "st": "15:58",
+            "at": "On time",
+            "crs": "PRE",
+            "name": "Preston"
+          },
+          {
+            "st": "16:09",
+            "at": "On time",
+            "crs": "WGN",
+            "name": "Wigan North Western"
+          },
+          {
+            "st": "16:20",
+            "at": "On time",
+            "crs": "WBQ",
+            "name": "Warrington Bank Quay"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:11",
+      "arrivalStatus": "18:05",
+      "eta": "On time",
+      "arrivalTime": "18:01",
+      "origin": {
+        "crs": "WFJ",
+        "name": "Watford Junction"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "XY9Bm5JuIj4LpEJCUuVLfQ==",
+      "operatorCode": "LO",
+      "type": "train",
+      "operator": "London Overground",
+      "platform": 9,
+      "callingPoints": [
+        [
+          {
+            "st": "17:21",
+            "at": "On time",
+            "crs": "WFJ",
+            "name": "Watford Junction"
+          },
+          {
+            "st": "17:24",
+            "at": "On time",
+            "crs": "WFH",
+            "name": "Watford High Street"
+          },
+          {
+            "st": "17:26",
+            "at": "On time",
+            "crs": "BSH",
+            "name": "Bushey"
+          },
+          {
+            "st": "17:29",
+            "at": "On time",
+            "crs": "CPK",
+            "name": "Carpenders Park"
+          },
+          {
+            "st": "17:32",
+            "at": "On time",
+            "crs": "HTE",
+            "name": "Hatch End"
+          },
+          {
+            "st": "17:34",
+            "at": "On time",
+            "crs": "HDL",
+            "name": "Headstone Lane"
+          },
+          {
+            "st": "17:37",
+            "at": "17:40",
+            "crs": "HRW",
+            "name": "Harrow & Wealdstone"
+          },
+          {
+            "st": "17:39",
+            "at": "17:43",
+            "crs": "KNT",
+            "name": "Kenton"
+          },
+          {
+            "st": "17:41",
+            "at": "17:45",
+            "crs": "SOK",
+            "name": "South Kenton"
+          },
+          {
+            "st": "17:43",
+            "at": "17:47",
+            "crs": "NWB",
+            "name": "North Wembley"
+          },
+          {
+            "st": "17:45",
+            "at": "17:50",
+            "crs": "WMB",
+            "name": "Wembley Central"
+          },
+          {
+            "st": "17:48",
+            "at": "17:52",
+            "crs": "SBP",
+            "name": "Stonebridge Park"
+          },
+          {
+            "st": "17:50",
+            "at": "17:54",
+            "crs": "HDN",
+            "name": "Harlesden"
+          },
+          {
+            "st": "17:52",
+            "at": "17:57",
+            "crs": "WIJ",
+            "name": "Willesden Junction"
+          },
+          {
+            "st": "17:55",
+            "at": "17:59",
+            "crs": "KNL",
+            "name": "Kensal Green"
+          },
+          {
+            "st": "17:57",
+            "at": "18:01",
+            "crs": "QPW",
+            "name": "Queens Park (London)"
+          },
+          {
+            "st": "17:59",
+            "at": "18:03",
+            "crs": "KBN",
+            "name": "Kilburn High Road"
+          },
+          {
+            "st": "18:01",
+            "at": "18:05",
+            "crs": "SOH",
+            "name": "South Hampstead"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:15",
+      "arrivalStatus": "On time",
+      "eta": "18:10",
+      "arrivalTime": "17:23",
+      "origin": {
+        "crs": "BHM",
+        "name": "Birmingham New Street"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "cYq3gX+WSTbouK5mwuiAvg==",
+      "operatorCode": "VT",
+      "type": "train",
+      "operator": "Virgin Trains",
+      "platform": 16,
+      "callingPoints": [
+        [
+          {
+            "st": "16:50",
+            "at": "On time",
+            "crs": "BHM",
+            "name": "Birmingham New Street"
+          },
+          {
+            "st": "17:00",
+            "at": "On time",
+            "crs": "BHI",
+            "name": "Birmingham International"
+          },
+          {
+            "st": "17:11",
+            "at": "On time",
+            "crs": "COV",
+            "name": "Coventry"
+          },
+          {
+            "st": "17:23",
+            "at": "On time",
+            "crs": "RUG",
+            "name": "Rugby"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:18",
+      "arrivalStatus": "On time",
+      "eta": "On time",
+      "arrivalTime": "17:59",
+      "origin": {
+        "crs": "BHM",
+        "name": "Birmingham New Street"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "S5EO3XPVY4sxh1MWJzBxmQ==",
+      "operatorCode": "LM",
+      "type": "train",
+      "operator": "London Midland",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "15:54",
+            "at": "On time",
+            "crs": "BHM",
+            "name": "Birmingham New Street"
+          },
+          {
+            "st": "16:02",
+            "at": "On time",
+            "crs": "MGN",
+            "name": "Marston Green"
+          },
+          {
+            "st": "16:05",
+            "at": "On time",
+            "crs": "BHI",
+            "name": "Birmingham International"
+          },
+          {
+            "st": "16:11",
+            "at": "On time",
+            "crs": "BKW",
+            "name": "Berkswell"
+          },
+          {
+            "st": "16:14",
+            "at": "On time",
+            "crs": "THL",
+            "name": "Tile Hill"
+          },
+          {
+            "st": "16:17",
+            "at": "On time",
+            "crs": "CNL",
+            "name": "Canley"
+          },
+          {
+            "st": "16:21",
+            "at": "On time",
+            "crs": "COV",
+            "name": "Coventry"
+          },
+          {
+            "st": "16:32",
+            "at": "On time",
+            "crs": "RUG",
+            "name": "Rugby"
+          },
+          {
+            "st": "16:41",
+            "at": "On time",
+            "crs": "LBK",
+            "name": "Long Buckby"
+          },
+          {
+            "st": "17:05",
+            "at": "17:08",
+            "crs": "NMP",
+            "name": "Northampton"
+          },
+          {
+            "st": "17:17",
+            "at": "17:20",
+            "crs": "WOL",
+            "name": "Wolverton"
+          },
+          {
+            "st": "17:22",
+            "at": "17:25",
+            "crs": "MKC",
+            "name": "Milton Keynes Central"
+          },
+          {
+            "st": "17:27",
+            "at": "17:30",
+            "crs": "BLY",
+            "name": "Bletchley"
+          },
+          {
+            "st": "17:33",
+            "at": "17:36",
+            "crs": "LBZ",
+            "name": "Leighton Buzzard"
+          },
+          {
+            "st": "17:46",
+            "at": "On time",
+            "crs": "BKM",
+            "name": "Berkhamsted"
+          },
+          {
+            "st": "17:51",
+            "at": "On time",
+            "crs": "HML",
+            "name": "Hemel Hempstead"
+          },
+          {
+            "st": "17:59",
+            "at": "On time",
+            "crs": "WFJ",
+            "name": "Watford Junction"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:24",
+      "arrivalStatus": "17:49",
+      "eta": "On time",
+      "arrivalTime": "17:47",
+      "origin": {
+        "crs": "MAN",
+        "name": "Manchester Piccadilly"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "HxLqq5BOLXoJADBUbQ+8wQ==",
+      "operatorCode": "VT",
+      "type": "train",
+      "operator": "Virgin Trains",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "16:15",
+            "at": "16:17",
+            "crs": "MAN",
+            "name": "Manchester Piccadilly"
+          },
+          {
+            "st": "16:23",
+            "at": "16:26",
+            "crs": "SPT",
+            "name": "Stockport"
+          },
+          {
+            "st": "16:50",
+            "at": "16:52",
+            "crs": "SOT",
+            "name": "Stoke-on-Trent"
+          },
+          {
+            "st": "17:47",
+            "at": "17:49",
+            "crs": "MKC",
+            "name": "Milton Keynes Central"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:27",
+      "arrivalStatus": "17:58",
+      "eta": "18:30",
+      "arrivalTime": "17:53",
+      "origin": {
+        "crs": "NMP",
+        "name": "Northampton"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "WOfYFYtzE9axLUDLNV6AxA==",
+      "operatorCode": "LM",
+      "type": "train",
+      "operator": "London Midland",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "17:25",
+            "at": "On time",
+            "crs": "NMP",
+            "name": "Northampton"
+          },
+          {
+            "st": "17:37",
+            "at": "On time",
+            "crs": "WOL",
+            "name": "Wolverton"
+          },
+          {
+            "st": "17:41",
+            "at": "17:44",
+            "crs": "MKC",
+            "name": "Milton Keynes Central"
+          },
+          {
+            "st": "17:46",
+            "at": "17:50",
+            "crs": "BLY",
+            "name": "Bletchley"
+          },
+          {
+            "st": "17:53",
+            "at": "17:58",
+            "crs": "LBZ",
+            "name": "Leighton Buzzard"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:30",
+      "arrivalStatus": "18:25",
+      "eta": "On time",
+      "arrivalTime": "18:21",
+      "origin": {
+        "crs": "WFJ",
+        "name": "Watford Junction"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "1FI0aFC+kiU2KdrpiayYiQ==",
+      "operatorCode": "LO",
+      "type": "train",
+      "operator": "London Overground",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "17:41",
+            "at": "On time",
+            "crs": "WFJ",
+            "name": "Watford Junction"
+          },
+          {
+            "st": "17:44",
+            "at": "On time",
+            "crs": "WFH",
+            "name": "Watford High Street"
+          },
+          {
+            "st": "17:46",
+            "at": "On time",
+            "crs": "BSH",
+            "name": "Bushey"
+          },
+          {
+            "st": "17:49",
+            "at": "On time",
+            "crs": "CPK",
+            "name": "Carpenders Park"
+          },
+          {
+            "st": "17:52",
+            "at": "On time",
+            "crs": "HTE",
+            "name": "Hatch End"
+          },
+          {
+            "st": "17:54",
+            "at": "On time",
+            "crs": "HDL",
+            "name": "Headstone Lane"
+          },
+          {
+            "st": "17:57",
+            "at": "17:59",
+            "crs": "HRW",
+            "name": "Harrow & Wealdstone"
+          },
+          {
+            "st": "17:59",
+            "at": "18:02",
+            "crs": "KNT",
+            "name": "Kenton"
+          },
+          {
+            "st": "18:01",
+            "at": "18:05",
+            "crs": "SOK",
+            "name": "South Kenton"
+          },
+          {
+            "st": "18:03",
+            "at": "18:07",
+            "crs": "NWB",
+            "name": "North Wembley"
+          },
+          {
+            "st": "18:05",
+            "at": "18:09",
+            "crs": "WMB",
+            "name": "Wembley Central"
+          },
+          {
+            "st": "18:08",
+            "crs": "SBP",
+            "name": "Stonebridge Park",
+            "et": "18:12"
+          },
+          {
+            "st": "18:10",
+            "crs": "HDN",
+            "name": "Harlesden",
+            "et": "18:14"
+          },
+          {
+            "st": "18:12",
+            "crs": "WIJ",
+            "name": "Willesden Junction",
+            "et": "18:16"
+          },
+          {
+            "st": "18:15",
+            "crs": "KNL",
+            "name": "Kensal Green",
+            "et": "18:19"
+          },
+          {
+            "st": "18:17",
+            "crs": "QPW",
+            "name": "Queens Park (London)",
+            "et": "18:21"
+          },
+          {
+            "st": "18:19",
+            "crs": "KBN",
+            "name": "Kilburn High Road",
+            "et": "18:23"
+          },
+          {
+            "st": "18:21",
+            "crs": "SOH",
+            "name": "South Hampstead",
+            "et": "18:25"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:34",
+      "arrivalStatus": "18:03",
+      "eta": "On time",
+      "arrivalTime": "17:59",
+      "origin": {
+        "crs": "EDB",
+        "name": "Edinburgh"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "xspcJYhMXZMAMYL4R3cyFg==",
+      "operatorCode": "VT",
+      "type": "train",
+      "operator": "Virgin Trains",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "12:52",
+            "at": "On time",
+            "crs": "EDB",
+            "name": "Edinburgh"
+          },
+          {
+            "st": "12:57",
+            "at": "12:59",
+            "crs": "HYM",
+            "name": "Haymarket"
+          },
+          {
+            "st": "14:08",
+            "at": "On time",
+            "crs": "CAR",
+            "name": "Carlisle"
+          },
+          {
+            "st": "14:22",
+            "at": "14:24",
+            "crs": "PNR",
+            "name": "Penrith"
+          },
+          {
+            "st": "14:57",
+            "at": "14:59",
+            "crs": "LAN",
+            "name": "Lancaster"
+          },
+          {
+            "st": "15:17",
+            "at": "On time",
+            "crs": "PRE",
+            "name": "Preston"
+          },
+          {
+            "st": "15:28",
+            "at": "15:30",
+            "crs": "WGN",
+            "name": "Wigan North Western"
+          },
+          {
+            "st": "15:39",
+            "at": "On time",
+            "crs": "WBQ",
+            "name": "Warrington Bank Quay"
+          },
+          {
+            "st": "16:01",
+            "at": "On time",
+            "crs": "CRE",
+            "name": "Crewe"
+          },
+          {
+            "st": "16:45",
+            "at": "On time",
+            "crs": "WVH",
+            "name": "Wolverhampton"
+          },
+          {
+            "st": "16:55",
+            "at": "On time",
+            "crs": "SAD",
+            "name": "Sandwell & Dudley"
+          },
+          {
+            "st": "17:10",
+            "at": "On time",
+            "crs": "BHM",
+            "name": "Birmingham New Street"
+          },
+          {
+            "st": "17:20",
+            "at": "17:23",
+            "crs": "BHI",
+            "name": "Birmingham International"
+          },
+          {
+            "st": "17:31",
+            "at": "17:34",
+            "crs": "COV",
+            "name": "Coventry"
+          },
+          {
+            "st": "17:59",
+            "at": "18:03",
+            "crs": "MKC",
+            "name": "Milton Keynes Central"
+          }
+        ]
+      ]
+    },
+    {
+      "sta": "18:39",
+      "arrivalStatus": "18:05",
+      "eta": "On time",
+      "arrivalTime": "18:03",
+      "origin": {
+        "crs": "CTR",
+        "name": "Chester"
+      },
+      "destination": {
+        "crs": "EUS",
+        "name": "London Euston"
+      },
+      "id": "KM+8v6SvxAH87ydt5IE0Ew==",
+      "operatorCode": "VT",
+      "type": "train",
+      "operator": "Virgin Trains",
+      "platform": "Awaiting",
+      "callingPoints": [
+        [
+          {
+            "st": "16:35",
+            "at": "On time",
+            "crs": "CTR",
+            "name": "Chester"
+          },
+          {
+            "st": "16:56",
+            "at": "16:58",
+            "crs": "CRE",
+            "name": "Crewe"
+          },
+          {
+            "st": "18:03",
+            "at": "18:05",
+            "crs": "MKC",
+            "name": "Milton Keynes Central"
+          }
+        ]
+      ]
+    }
+  ]
+}
