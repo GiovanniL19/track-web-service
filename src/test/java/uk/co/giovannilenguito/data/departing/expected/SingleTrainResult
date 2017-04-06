@@ -1,0 +1,135 @@
+{
+  "trains": [
+    {
+      "arrivalStatus": "On time",
+      "std": "15:33",
+      "etd": "On time",
+      "arrivalTime": "20:42",
+      "origin": {
+        "crs": "PAD",
+        "name": "London Paddington"
+      },
+      "destination": {
+        "crs": "PNZ",
+        "name": "Penzance"
+      },
+      "id": "IFPrVdL/g1YzD97YpFgaOg==",
+      "operatorCode": "GW",
+      "type": "train",
+      "platform": 7,
+      "operator": "Great Western Railway",
+      "callingPoints": [
+        [
+          {
+            "st": "16:03",
+            "crs": "PEW",
+            "name": "Pewsey",
+            "et": "On time"
+          },
+          {
+            "st": "16:22",
+            "crs": "WSB",
+            "name": "Westbury",
+            "et": "On time"
+          },
+          {
+            "st": "16:41",
+            "crs": "CLC",
+            "name": "Castle Cary",
+            "et": "On time"
+          },
+          {
+            "st": "17:03",
+            "crs": "TAU",
+            "name": "Taunton",
+            "et": "On time"
+          },
+          {
+            "st": "17:18",
+            "crs": "TVP",
+            "name": "Tiverton Parkway",
+            "et": "On time"
+          },
+          {
+            "st": "17:33",
+            "crs": "EXD",
+            "name": "Exeter St Davids",
+            "et": "On time"
+          },
+          {
+            "st": "17:58",
+            "crs": "NTA",
+            "name": "Newton Abbot",
+            "et": "On time"
+          },
+          {
+            "st": "18:11",
+            "crs": "TOT",
+            "name": "Totnes",
+            "et": "On time"
+          },
+          {
+            "st": "18:39",
+            "crs": "PLY",
+            "name": "Plymouth",
+            "et": "On time"
+          },
+          {
+            "st": "19:05",
+            "crs": "LSK",
+            "name": "Liskeard",
+            "et": "On time"
+          },
+          {
+            "st": "19:18",
+            "crs": "BOD",
+            "name": "Bodmin Parkway",
+            "et": "On time"
+          },
+          {
+            "st": "19:30",
+            "crs": "PAR",
+            "name": "Par",
+            "et": "On time"
+          },
+          {
+            "st": "19:38",
+            "crs": "SAU",
+            "name": "St Austell",
+            "et": "On time"
+          },
+          {
+            "st": "19:58",
+            "crs": "TRU",
+            "name": "Truro",
+            "et": "On time"
+          },
+          {
+            "st": "20:10",
+            "crs": "RED",
+            "name": "Redruth",
+            "et": "On time"
+          },
+          {
+            "st": "20:18",
+            "crs": "CBN",
+            "name": "Camborne",
+            "et": "On time"
+          },
+          {
+            "st": "20:28",
+            "crs": "SER",
+            "name": "St Erth",
+            "et": "On time"
+          },
+          {
+            "st": "20:42",
+            "crs": "PNZ",
+            "name": "Penzance",
+            "et": "On time"
+          }
+        ]
+      ]
+    }
+  ]
+}

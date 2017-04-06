@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <GetDepBoardWithDetailsResponse xmlns="http://thalesgroup.com/RTTI/2016-02-16/ldb/">
+            <GetStationBoardResult xmlns:lt3="http://thalesgroup.com/RTTI/2015-05-14/ldb/types"
+                                   xmlns:lt5="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+                                   xmlns:lt4="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+                                   xmlns:lt="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+                                   xmlns:lt2="http://thalesgroup.com/RTTI/2014-02-20/ldb/types">
+                <lt4:generatedAt>2017-04-06T16:28:42.2229746+01:00</lt4:generatedAt>
+                <lt4:locationName>Gatwick Airport</lt4:locationName>
+                <lt4:crs>GTW</lt4:crs>
+                <lt4:nrccMessages>
+                    <lt:message>The ticket vending machines at this station are currently out of use.</lt:message>
+                </lt4:nrccMessages>
+                <lt4:platformAvailable>true</lt4:platformAvailable>
+                <lt5:trainServices>
+                    <lt5:service>
+                        <lt4:std>16:39</lt4:std>
+                        <lt4:etd>On time</lt4:etd>
+                        <lt4:platform>7</lt4:platform>
+                        <lt4:operator>Southern</lt4:operator>
+                        <lt4:operatorCode>SN</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:length>8</lt4:length>
+                        <lt4:serviceID>4tjgituRO7aOeZvj69N9vA==</lt4:serviceID>
+                        <lt5:rsid>SN231603</lt5:rsid>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>London Victoria</lt4:locationName>
+                                <lt4:crs>VIC</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>Portsmouth Harbour</lt4:locationName>
+                                <lt4:crs>PMH</lt4:crs>
+                                <lt4:via>via Horsham</lt4:via>
+                            </lt4:location>
+                            <lt4:location>
+                                <lt4:locationName>Bognor Regis</lt4:locationName>
+                                <lt4:crs>BOG</lt4:crs>
+                                <lt4:via>via Horsham</lt4:via>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:subsequentCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Three Bridges</lt4:locationName>
+                                    <lt4:crs>TBD</lt4:crs>
+                                    <lt4:st>16:43</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>8</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Crawley</lt4:locationName>
+                                    <lt4:crs>CRW</lt4:crs>
+                                    <lt4:st>16:47</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>8</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Horsham</lt4:locationName>
+                                    <lt4:crs>HRH</lt4:crs>
+                                    <lt4:st>16:55</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Barnham</lt4:locationName>
+                                    <lt4:crs>BAA</lt4:crs>
+                                    <lt4:st>17:27</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Chichester</lt4:locationName>
+                                    <lt4:crs>CCH</lt4:crs>
+                                    <lt4:st>17:35</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Fishbourne (West Sussex)</lt4:locationName>
+                                    <lt4:crs>FSB</lt4:crs>
+                                    <lt4:st>17:38</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Bosham</lt4:locationName>
+                                    <lt4:crs>BOH</lt4:crs>
+                                    <lt4:st>17:41</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Southbourne</lt4:locationName>
+                                    <lt4:crs>SOB</lt4:crs>
+                                    <lt4:st>17:46</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Emsworth</lt4:locationName>
+                                    <lt4:crs>EMS</lt4:crs>
+                                    <lt4:st>17:49</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Havant</lt4:locationName>
+                                    <lt4:crs>HAV</lt4:crs>
+                                    <lt4:st>17:53</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Bedhampton</lt4:locationName>
+                                    <lt4:crs>BDH</lt4:crs>
+                                    <lt4:st>17:56</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Hilsea</lt4:locationName>
+                                    <lt4:crs>HLS</lt4:crs>
+                                    <lt4:st>18:01</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Fratton</lt4:locationName>
+                                    <lt4:crs>FTN</lt4:crs>
+                                    <lt4:st>18:05</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Portsmouth &amp; Southsea</lt4:locationName>
+                                    <lt4:crs>PMS</lt4:crs>
+                                    <lt4:st>18:09</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Portsmouth Harbour</lt4:locationName>
+                                    <lt4:crs>PMH</lt4:crs>
+                                    <lt4:st>18:13</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Horsham</lt4:locationName>
+                                    <lt4:crs>HRH</lt4:crs>
+                                    <lt4:st>16:55</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Christs Hospital</lt4:locationName>
+                                    <lt4:crs>CHH</lt4:crs>
+                                    <lt4:st>17:06</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Billingshurst</lt4:locationName>
+                                    <lt4:crs>BIG</lt4:crs>
+                                    <lt4:st>17:12</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Pulborough</lt4:locationName>
+                                    <lt4:crs>PUL</lt4:crs>
+                                    <lt4:st>17:19</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Amberley</lt4:locationName>
+                                    <lt4:crs>AMY</lt4:crs>
+                                    <lt4:st>17:25</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Arundel</lt4:locationName>
+                                    <lt4:crs>ARU</lt4:crs>
+                                    <lt4:st>17:30</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Ford</lt4:locationName>
+                                    <lt4:crs>FOD</lt4:crs>
+                                    <lt4:st>17:38</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Barnham</lt4:locationName>
+                                    <lt4:crs>BAA</lt4:crs>
+                                    <lt4:st>17:42</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Bognor Regis</lt4:locationName>
+                                    <lt4:crs>BOG</lt4:crs>
+                                    <lt4:st>17:51</lt4:st>
+                                    <lt4:et>On time</lt4:et>
+                                    <lt4:length>4</lt4:length>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:subsequentCallingPoints>
+                    </lt5:service>
+                </lt5:trainServices>
+            </GetStationBoardResult>
+        </GetDepBoardWithDetailsResponse>
+    </soap:Body>
+</soap:Envelope>

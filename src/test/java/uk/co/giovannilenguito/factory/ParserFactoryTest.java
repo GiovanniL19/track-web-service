@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
  * Created by giovannilenguito on 04/04/2017.
  */
 public class ParserFactoryTest {
-    List<String> files = new ArrayList<>();
-
     final private ParserFactory PARSER;
-    String XML1;
+    private List<String> xmlStrings;
+    private List<String> results;
 
     public ParserFactoryTest() {
         PARSER = new ParserFactory();
@@ -37,29 +37,71 @@ public class ParserFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        ParserFactory parserFactory = new ParserFactory();
-        File xmlFile1 = new File("src/test/java/uk/co/giovannilenguito/data/getMultipleTrainsXML.xml");
+        List<File> files = new ArrayList();
+        List<File> resultFiles = new ArrayList();
 
-        Reader fileReader = new FileReader(xmlFile1);
+        xmlStrings = new ArrayList();
+        results = new ArrayList();
 
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        StringBuilder stringBuilder= new StringBuilder();
-        String line = bufferedReader.readLine();
+        files.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/xml/MultipleTrains.xml"));
+        files.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/xml/SingleTrain.xml"));
+        files.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/xml/MultipleTrainsWithSplit.xml"));
+        files.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/xml/SingleTrainWithSplit.xml"));
+        files.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/xml/NoTrains.xml"));
 
-        while (line != null) {
-            stringBuilder.append(line).append("\n");
-            line = bufferedReader.readLine();
+        resultFiles.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/expected/MultipleTrainsResult"));
+        resultFiles.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/expected/SingleTrainResult"));
+        resultFiles.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/expected/MultipleTrainsWithSplitResult"));
+        resultFiles.add(new File("src/test/java/uk/co/giovannilenguito/data/departing/expected/SingleTrainWithSplitResult"));
+        resultFiles.add(null);
+
+
+        for(int i = 0; i <= 1; i++){
+            List<File> array;
+
+            if(i == 0){
+                array = files;
+            }else{
+                array = resultFiles;
+            }
+
+            for(int j = 0; j < array.size(); j++) {
+                if (array.get(j) != null && i == 1 || i == 0) {
+                    Reader fileReader = new FileReader(array.get(j));
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = bufferedReader.readLine();
+
+                    while (line != null) {
+                        stringBuilder.append(line).append("\n");
+                        line = bufferedReader.readLine();
+                    }
+
+                    if (i == 0) {
+                        xmlStrings.add(stringBuilder.toString());
+                    } else {
+                        results.add(stringBuilder.toString());
+                    }
+                    bufferedReader.close();
+                }else{
+                    results.add("");
+                }
+            }
         }
-
-        XML1 = stringBuilder.toString();
-        bufferedReader.close();
     }
 
     @Test
     public void departureBoardServices() throws Exception {
-        //Possibility 1
-        final JSONObject json = PARSER.departureBoardServices(XML1, "GetDepBoardWithDetailsResponse");
-        Assert.assertNotNull(json);
+        //If arrays are empty, something went wrong
+        Assert.assertThat(xmlStrings.isEmpty(), is(false));
+        Assert.assertThat(results.isEmpty(), is(false));
+
+        //Compare the expected json with the parsed json from xml
+        for(int i = 0; i < xmlStrings.size(); i++){
+            JSONObject json = PARSER.departureBoardServices(xmlStrings.get(i), "GetDepBoardWithDetailsResponse");
+            Assert.assertEquals(new JSONObject(results.get(i)).toString(), json.toString());
+        }
     }
 
     @Test

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <GetDepBoardWithDetailsResponse xmlns="http://thalesgroup.com/RTTI/2016-02-16/ldb/">
+            <GetStationBoardResult xmlns:lt3="http://thalesgroup.com/RTTI/2015-05-14/ldb/types"
+                                   xmlns:lt5="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+                                   xmlns:lt4="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+                                   xmlns:lt="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+                                   xmlns:lt2="http://thalesgroup.com/RTTI/2014-02-20/ldb/types">
+                <lt4:generatedAt>2017-04-05T14:16:39.2033815+01:00</lt4:generatedAt>
+                <lt4:locationName>Reading</lt4:locationName>
+                <lt4:crs>RDG</lt4:crs>
+                <lt4:filterLocationName>Castle Cary</lt4:filterLocationName>
+                <lt4:filtercrs>CLC</lt4:filtercrs>
+                <lt4:platformAvailable>true</lt4:platformAvailable>
+            </GetStationBoardResult>
+        </GetDepBoardWithDetailsResponse>
+    </soap:Body>
+</soap:Envelope>

@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by giovannilenguito on 04/04/2017.
@@ -46,8 +47,11 @@ public class JourneyControllerTest {
         String hourFormatted = String.valueOf(hour).split(":")[0];
         int expectedHour = Integer.parseInt(hourFormatted);
 
+        Calendar calendar = Calendar.getInstance();
+        String today = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+
         Assert.assertEquals(expectedHour, journey.getHour());
-        Assert.assertEquals("Wednesday", journey.getDay());
+        Assert.assertEquals(today, journey.getDay());
 
     }
 
