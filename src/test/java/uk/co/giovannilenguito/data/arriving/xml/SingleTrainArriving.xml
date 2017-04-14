@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <GetArrBoardWithDetailsResponse xmlns="http://thalesgroup.com/RTTI/2016-02-16/ldb/">
+            <GetStationBoardResult xmlns:lt3="http://thalesgroup.com/RTTI/2015-05-14/ldb/types"
+                                   xmlns:lt5="http://thalesgroup.com/RTTI/2016-02-16/ldb/types"
+                                   xmlns:lt4="http://thalesgroup.com/RTTI/2015-11-27/ldb/types"
+                                   xmlns:lt="http://thalesgroup.com/RTTI/2012-01-13/ldb/types"
+                                   xmlns:lt2="http://thalesgroup.com/RTTI/2014-02-20/ldb/types">
+                <lt4:generatedAt>2017-04-06T18:10:11.1888799+01:00</lt4:generatedAt>
+                <lt4:locationName>London Euston</lt4:locationName>
+                <lt4:crs>EUS</lt4:crs>
+                <lt4:nrccMessages>
+                    <lt:message>&lt;P&gt;Until mid-2017, there will be a reduced escalator service at Euston London
+                        Underground station. During this time crowd control measures will be in place, please follow
+                        staff direction, and allow extra time for your journey. Alternatively please use nearby Kings
+                        Cross St Pancras (for the Victoria line and Northern line via Bank) or Warren Street (for the
+                        Northern line via Charing Cross).&lt;/P&gt;
+                        &lt;P&gt;During this time the passageway leading from platforms 8-11 at London Euston to Euston
+                        London Underground station, will close during busy times. For interchange between these
+                        services, customers must go via the National Rail concourse.&lt;/P&gt;
+                    </lt:message>
+                </lt4:nrccMessages>
+                <lt4:platformAvailable>true</lt4:platformAvailable>
+                <lt5:trainServices>
+                    <lt5:service>
+                        <lt4:sta>18:08</lt4:sta>
+                        <lt4:eta>On time</lt4:eta>
+                        <lt4:platform>11</lt4:platform>
+                        <lt4:operator>London Midland</lt4:operator>
+                        <lt4:operatorCode>LM</lt4:operatorCode>
+                        <lt4:serviceType>train</lt4:serviceType>
+                        <lt4:serviceID>Xr00MT+jMMhVDep84NbGVg==</lt4:serviceID>
+                        <lt5:origin>
+                            <lt4:location>
+                                <lt4:locationName>Tring</lt4:locationName>
+                                <lt4:crs>TRI</lt4:crs>
+                            </lt4:location>
+                        </lt5:origin>
+                        <lt5:destination>
+                            <lt4:location>
+                                <lt4:locationName>London Euston</lt4:locationName>
+                                <lt4:crs>EUS</lt4:crs>
+                            </lt4:location>
+                        </lt5:destination>
+                        <lt5:previousCallingPoints>
+                            <lt4:callingPointList>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Tring</lt4:locationName>
+                                    <lt4:crs>TRI</lt4:crs>
+                                    <lt4:st>17:26</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Berkhamsted</lt4:locationName>
+                                    <lt4:crs>BKM</lt4:crs>
+                                    <lt4:st>17:31</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Hemel Hempstead</lt4:locationName>
+                                    <lt4:crs>HML</lt4:crs>
+                                    <lt4:st>17:35</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Apsley</lt4:locationName>
+                                    <lt4:crs>APS</lt4:crs>
+                                    <lt4:st>17:38</lt4:st>
+                                    <lt4:at>On time</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Kings Langley</lt4:locationName>
+                                    <lt4:crs>KGL</lt4:crs>
+                                    <lt4:st>17:41</lt4:st>
+                                    <lt4:at>17:43</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Watford Junction</lt4:locationName>
+                                    <lt4:crs>WFJ</lt4:crs>
+                                    <lt4:st>17:46</lt4:st>
+                                    <lt4:at>17:48</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Bushey</lt4:locationName>
+                                    <lt4:crs>BSH</lt4:crs>
+                                    <lt4:st>17:49</lt4:st>
+                                    <lt4:at>17:51</lt4:at>
+                                </lt4:callingPoint>
+                                <lt4:callingPoint>
+                                    <lt4:locationName>Harrow &amp; Wealdstone</lt4:locationName>
+                                    <lt4:crs>HRW</lt4:crs>
+                                    <lt4:st>17:54</lt4:st>
+                                    <lt4:at>17:57</lt4:at>
+                                </lt4:callingPoint>
+                            </lt4:callingPointList>
+                        </lt5:previousCallingPoints>
+                    </lt5:service>
+                </lt5:trainServices>
+            </GetStationBoardResult>
+        </GetArrBoardWithDetailsResponse>
+    </soap:Body>
+</soap:Envelope>

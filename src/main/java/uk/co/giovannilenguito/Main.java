@@ -7,7 +7,6 @@ import uk.co.giovannilenguito.filter.RequestFilter;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import uk.co.giovannilenguito.helper.DatabaseHelper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,6 +16,7 @@ import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
+
 /**
  * Created by giovannilenguito on 09/02/2017.
  */
@@ -44,7 +44,7 @@ public class Main {
     }
 
 
-    private static Set<Class<?>> getEndpoints(){
+    private static Set<Class<?>> getEndpoints() {
         System.out.println("Setting up server");
         LOGGER.info("Setting up server");
 

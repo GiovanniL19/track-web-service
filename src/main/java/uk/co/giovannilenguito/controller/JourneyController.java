@@ -1,6 +1,5 @@
 package uk.co.giovannilenguito.controller;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.co.giovannilenguito.annotation.JWTRequired;
@@ -191,8 +190,12 @@ public class JourneyController {
                                           @PathParam("user") final String user) {
         databaseHelper = new DatabaseHelper();
 
+        from = from.substring(0, 1).toUpperCase() + from.substring(1).toLowerCase();
+        to = to.substring(0, 1).toUpperCase() + to.substring(1).toLowerCase();
+
+
         //Makes key and fixes capitals
-        final String key = StringUtils.capitalize(from) + StringUtils.capitalize(to) + user;
+        final String key = from + to + user;
 
         //Gets journey by key
         Journey journey = databaseHelper.getJourney(null, key);

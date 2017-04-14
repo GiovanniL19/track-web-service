@@ -19,13 +19,17 @@ public class StationControllerTest {
     public void getStations() throws Exception {
         StationController stationController = new StationController();
         Method getNearbyStations = stationController.getClass().getDeclaredMethod("getNearbyStations", String.class, String.class);
-        getNearbyStations.setAccessible(true);
+        if(!getNearbyStations.isAccessible()){
+            getNearbyStations.setAccessible(true);
+        }
 
         Response responseNearbyStations = (Response) getNearbyStations.invoke(stationController, "51.7435", "0.0212");
 
 
         Method getAllStations = stationController.getClass().getDeclaredMethod("getAllStations");
-        getAllStations.setAccessible(true);
+        if(!getAllStations.isAccessible()){
+            getAllStations.setAccessible(true);
+        }
 
         Response responseAllStations = (Response) getAllStations.invoke(stationController);
 

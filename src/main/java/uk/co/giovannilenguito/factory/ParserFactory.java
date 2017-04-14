@@ -44,12 +44,14 @@ public class ParserFactory {
         JSONObject body = envelope.getJSONObject("soap:Body");
         JSONObject response = body.getJSONObject(type);
         JSONObject results = response.getJSONObject("GetStationBoardResult");
-        JSONObject trainServices = results.getJSONObject("lt5:trainServices");
 
-        return trainServices;
+        if(!results.isNull("lt5:trainServices")) {
+            return results.getJSONObject("lt5:trainServices");
+        }else{
+            return null;
+        }
     }
 
-    //Private methods
     private JSONObject serviceXMLToJSON(final SOAPMessage xml, final String type) throws SOAPException, TransformerException {
 
         //Converts the SOAPMessage into a String
@@ -71,7 +73,13 @@ public class ParserFactory {
     private JSONObject getTrainServices(Object data, String type) {
         try {
             if (data instanceof SOAPMessage) {
-                return this.serviceXMLToJSON((SOAPMessage) data, type);
+                JSONObject result = this.serviceXMLToJSON((SOAPMessage) data, type);
+
+                if(result == null){
+                    return null;
+                }else{
+                    return result;
+                }
             } else if (data instanceof String) {
                 return this.xmlToJson((String) data, type);
             } else {
@@ -84,17 +92,49 @@ public class ParserFactory {
     }
 
     private JSONObject getOrigin(final JSONObject service) {
-        //Gets the origin station information from service jsonobject
-        //Create origin station
-        final JSONObject origin = service.getJSONObject("lt5:origin");
-        final JSONObject oLocation = origin.getJSONObject("lt4:location");
+        //Gets the origin station information from service json object
 
         //Puts parsed data into formatted json object
         JSONObject originFormatted = new JSONObject();
-        originFormatted.put("crs", oLocation.get("lt4:crs").toString());
-        originFormatted.put("name", oLocation.get("lt4:locationName").toString());
 
-        return originFormatted;
+        //Create origin station
+        final JSONObject origin = service.getJSONObject("lt5:origin");
+
+        if(!origin.isNull("lt4:location")) {
+            if(origin.get("lt4:location") instanceof JSONObject){
+                final JSONObject oLocation = origin.getJSONObject("lt4:location");
+                originFormatted.put("crs", oLocation.get("lt4:crs").toString());
+                originFormatted.put("name", oLocation.get("lt4:locationName").toString());
+
+                return originFormatted;
+            }else{
+                //if location is an array, loop through array and make a single json object from the multiple objects
+                final JSONArray locations = origin.getJSONArray("lt4:location");
+
+                String name = "";
+                String crs = "";
+
+                for (int i = 0; i < locations.length(); i++) {
+                    final JSONObject loc = locations.getJSONObject(i);
+
+                    if (!name.isEmpty()) {
+                        name = name + " & " + loc.get("lt4:locationName").toString();
+                        crs = crs + ", " + loc.get("lt4:crs").toString();
+                    } else {
+                        name = loc.get("lt4:locationName").toString();
+                        crs = loc.get("lt4:crs").toString();
+                    }
+                }
+
+                originFormatted.put("crs", crs);
+                originFormatted.put("name", name);
+
+                return originFormatted;
+            }
+        }else{
+            return null;
+        }
+
     }
 
     private JSONObject getDestination(final JSONObject service) {
@@ -142,26 +182,41 @@ public class ParserFactory {
         }
     }
 
-    private JSONObject getCallingPoint(final JSONObject point) {
+    private JSONObject getPoint(final JSONObject point) {
         //Get a single calling point
         JSONObject callingPoint = new JSONObject();
 
-        if (!point.isNull("lt4:at")) {
-            callingPoint.put("at", point.get("lt4:at").toString());
-        }
+        //If et, st and at exist, add to formatted json
         if (!point.isNull("lt4:et")) {
             callingPoint.put("et", point.get("lt4:et").toString());
+        }
+        if (!point.isNull("lt4:st")) {
+            callingPoint.put("st", point.get("lt4:st").toString());
+        }
+        if (!point.isNull("lt4:at")) {
+            callingPoint.put("at", point.getString("lt4:at"));
         }
 
         callingPoint.put("crs", point.get("lt4:crs").toString());
         callingPoint.put("st", point.get("lt4:st").toString());
         callingPoint.put("name", point.get("lt4:locationName").toString());
 
+        if (!callingPoint.isNull("lt4:at")) {
+            train.put("arrivalStatus", callingPoint.get("lt4:at"));
+        }else if (!callingPoint.isNull("lt4:et")) {
+            train.put("arrivalStatus", callingPoint.get("lt4:et"));
+        }
+
+
+        if (!callingPoint.isNull("lt4:st")) {
+            train.put("arrivalTime", callingPoint.get("lt4:st"));
+        }
+
         //Returns single calling point
         return callingPoint;
     }
 
-    private JSONArray getCallingPoints(final JSONArray allCallingPoints) {
+    private JSONArray getPoints(final JSONArray allCallingPoints) {
         //Get multiple calling points from json array
         JSONArray callingPoints = new JSONArray();
 
@@ -173,12 +228,15 @@ public class ParserFactory {
             locationFormatted.put("crs", location.get("lt4:crs").toString());
             locationFormatted.put("name", location.get("lt4:locationName").toString());
 
-            //If et and st exist, add to formatted json
+            //If et, st and at exist, add to formatted json
             if (!location.isNull("lt4:et")) {
                 locationFormatted.put("et", location.get("lt4:et").toString());
             }
             if (!location.isNull("lt4:st")) {
                 locationFormatted.put("st", location.get("lt4:st").toString());
+            }
+            if (!location.isNull("lt4:at")) {
+                locationFormatted.put("at", location.getString("lt4:at"));
             }
 
             //Add the calling point to an array of calling points
@@ -186,8 +244,15 @@ public class ParserFactory {
 
             //Set arrival information on train json object
             if (j + 1 == allCallingPoints.length()) {
-                train.put("arrivalStatus", location.get("lt4:et"));
-                train.put("arrivalTime", location.get("lt4:st"));
+                if (!location.isNull("lt4:at")) {
+                    train.put("arrivalStatus", location.get("lt4:at"));
+                }else if (!location.isNull("lt4:et")) {
+                    train.put("arrivalStatus", location.get("lt4:et"));
+                }
+
+                if (!location.isNull("lt4:st")) {
+                    train.put("arrivalTime", location.get("lt4:st"));
+                }
             }
         }
 
@@ -195,37 +260,57 @@ public class ParserFactory {
         return callingPoints;
     }
 
-    private JSONArray getPreviousCallingPoints(final JSONArray allCallingPoints) {
-        //Gets previous calling points
+    private JSONArray getCallingPoints(final JSONObject callingAt){
         JSONArray callingPoints = new JSONArray();
 
-        for (int j = 0; j < allCallingPoints.length(); j++) {
-            final JSONObject location = allCallingPoints.getJSONObject(j);
+        final Object callingPointListObject = new JSONTokener(callingAt.get("lt4:callingPointList").toString()).nextValue();
+        if (callingPointListObject instanceof JSONArray) {
+            //If the train splits, there will ba an array of calling points arrays,
+            //for example [[callingPoints],[callingPoints]]
 
+            final JSONArray list = callingAt.getJSONArray("lt4:callingPointList");
 
-            //Formatted raw json object
-            JSONObject locationFormatted = new JSONObject();
-            locationFormatted.put("crs", location.getString("lt4:crs"));
-            locationFormatted.put("st", location.getString("lt4:st"));
-            locationFormatted.put("name", location.getString("lt4:locationName"));
+            for (int j = 0; j < list.length(); j++) {
+                final JSONObject item = list.getJSONObject(j);
+                final Object callingPointObject = new JSONTokener(item.get("lt4:callingPoint").toString()).nextValue();
 
-            if (!location.isNull("lt4:at")) {
-                locationFormatted.put("at", location.getString("lt4:at"));
+                if (callingPointObject instanceof JSONArray) {
+                    //Get multiple calling points
+                    callingPoints.put(this.getPoints((JSONArray) callingPointObject));
+                } else if (callingPointObject instanceof JSONObject) {
+                    //Get single calling point
+                    callingPoints.put(this.getPoint((JSONObject) callingPointObject));
+                }
             }
 
-            //Add calling point to array
-            callingPoints.put(locationFormatted);
-        }
+            //Update train json object, add calling points
+            train.put("trainSplits", true);
 
+        } else if (callingPointListObject instanceof JSONObject) {
+            //If the train only has one set of calling points (train does not split)
+            final JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
+
+            final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
+            if (callingPointObject instanceof JSONArray) {
+                //Get multiple calling points
+                callingPoints.put(this.getPoints((JSONArray) callingPointObject));
+            } else if (callingPointObject instanceof JSONObject) {
+                final JSONObject callingPoint = (JSONObject) callingPointObject;
+
+                //Puts the single calling point into an array
+                JSONArray arrayWrap = new JSONArray();
+                arrayWrap.put(this.getPoint(callingPoint));
+                callingPoints.put(arrayWrap);
+            }
+        }
         return callingPoints;
     }
 
-    private JSONObject getMultipleDepartingTrains(final JSONArray servicesArray) {
+    private JSONObject getDepartingTrains(final JSONArray services) {
         //Initialise all Services JSON Array
         JSONArray allServices = new JSONArray();
 
         LOGGER.info("Get departure services");
-        JSONArray services = servicesArray;
 
         for (int i = 0; i < services.length(); i++) {
             //Get current service from for loop iteration
@@ -256,58 +341,7 @@ public class ParserFactory {
             //Set up calling pints
             if (!service.isNull("lt5:subsequentCallingPoints")) {
                 final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-
-                JSONArray callingPoints = new JSONArray();
-
-                final Object callingPointListObject = new JSONTokener(callingAt.get("lt4:callingPointList").toString()).nextValue();
-                if (callingPointListObject instanceof JSONArray) {
-                    //If the train splits, there will ba an array of calling points arrays,
-                    //for example [[callingPoints],[callingPoints]]
-
-                    final JSONArray list = callingAt.getJSONArray("lt4:callingPointList");
-
-                    for (int j = 0; j < list.length(); j++) {
-                        final JSONObject item = list.getJSONObject(j);
-                        final Object callingPointObject = new JSONTokener(item.get("lt4:callingPoint").toString()).nextValue();
-
-                        if (callingPointObject instanceof JSONArray) {
-                            //Get multiple calling points
-                            callingPoints.put(this.getCallingPoints((JSONArray) callingPointObject));
-                        } else if (callingPointObject instanceof JSONObject) {
-                            //Get single calling point
-                            callingPoints.put(this.getCallingPoint((JSONObject) callingPointObject));
-                        }
-                    }
-
-                    //Update train json object, add calling points
-                    train.put("trainSplits", true);
-                    train.put("callingPoints", callingPoints);
-
-                } else if (callingPointListObject instanceof JSONObject) {
-                    //If the train only has one set of calling points (train does not split)
-                    final JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
-
-                    final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
-                    if (callingPointObject instanceof JSONArray) {
-                        //Get multiple calling points
-                        callingPoints.put(this.getCallingPoints((JSONArray) callingPointObject));
-                    } else if (callingPointObject instanceof JSONObject) {
-                        final JSONObject callingPoint = (JSONObject) callingPointObject;
-
-                        //Puts the single calling point into an array
-                        JSONArray arrayWrap = new JSONArray();
-                        arrayWrap.put(this.getCallingPoint(callingPoint));
-                        callingPoints.put(arrayWrap);
-
-
-                        train.put("arrivalStatus", callingPoint.get("lt4:et"));
-                        train.put("arrivalTime", callingPoint.get("lt4:st"));
-                    }
-
-
-                    //Adds calling points to train json object
-                    train.put("callingPoints", callingPoints);
-                }
+                train.put("callingPoints", getCallingPoints(callingAt));
             }
 
             allServices.put(train);
@@ -320,7 +354,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getSingleDepartingService(final JSONObject service) {
+    private JSONObject getDepartingTrain(final JSONObject service) {
         //When only one service has been found:
 
         //Initialise all Services JSON Array
@@ -336,12 +370,7 @@ public class ParserFactory {
         //If service contains calling points
         if (!service.isNull("lt5:subsequentCallingPoints")) {
             final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-            final JSONArray allCallingPoints = callingAt.getJSONObject("lt4:callingPointList").getJSONArray("lt4:callingPoint");
-
-            //Get all calling points and put in trains json object
-            JSONArray callingPoints = new JSONArray();
-            allCallingPoints.put(this.getCallingPoints(allCallingPoints));
-            train.put("callingPoints", callingPoints);
+            train.put("callingPoints", getCallingPoints(callingAt));
         }
 
         //Complete train json object
@@ -372,7 +401,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getMultipleArrivalTrains(final JSONArray services) {
+    private JSONObject getArrivingTrains(final JSONArray services) {
         JSONArray allServices = new JSONArray();
         LOGGER.info("Get arrival services");
 
@@ -401,26 +430,7 @@ public class ParserFactory {
             //Set up calling pints
             if (!service.isNull("lt5:previousCallingPoints")) {
                 final JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
-                final JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
-                final Object callingPointObject = new JSONTokener(list.get("lt4:callingPoint").toString()).nextValue();
-
-                if (callingPointObject instanceof JSONArray) {
-                    final JSONArray allCallingPoints = (JSONArray) callingPointObject;
-                    //Get calling points
-                    JSONArray callingPoints = new JSONArray();
-                    callingPoints.put(this.getPreviousCallingPoints(allCallingPoints));
-                    //Put calling points in train json object
-                    train.put("callingPoints", callingPoints);
-                } else {
-                    final JSONObject callingPoint = (JSONObject) callingPointObject;
-
-                    //Get calling points
-                    JSONArray callingPoints = new JSONArray();
-                    callingPoints.put(this.getCallingPoint(callingPoint));
-
-                    //Put calling point in train json object
-                    train.put("callingPoints", callingPoints);
-                }
+                train.put("callingPoints", getCallingPoints(callingAt));
             }
 
             //Put train in all services array
@@ -434,7 +444,7 @@ public class ParserFactory {
         return trains;
     }
 
-    private JSONObject getSingleArrivalTrain(final JSONObject service) {
+    private JSONObject getArrivingTrain(final JSONObject service) {
         JSONArray allServices = new JSONArray();
 
         final JSONObject originFormatted = getOrigin(service);
@@ -442,15 +452,10 @@ public class ParserFactory {
 
         train = new JSONObject();
 
-        if (!service.isNull("lt5:subsequentCallingPoints")) {
-            final JSONObject callingAt = service.getJSONObject("lt5:subsequentCallingPoints");
-            final JSONObject list = callingAt.getJSONObject("lt4:callingPointList");
-            final JSONArray allCallingPoints = list.getJSONArray("lt4:callingPoint");
-
-
-            JSONArray callingPoints = new JSONArray();
-            allCallingPoints.put(this.getCallingPoints(allCallingPoints));
-            train.put("callingPoints", callingPoints);
+        //Set up calling pints
+        if (!service.isNull("lt5:previousCallingPoints")) {
+            final JSONObject callingAt = service.getJSONObject("lt5:previousCallingPoints");
+            train.put("callingPoints", getCallingPoints(callingAt));
         }
 
         //Create train json object for client
@@ -484,31 +489,39 @@ public class ParserFactory {
         return trains;
     }
 
-
-    //Public methods
     public JSONObject departureBoardServices(final Object data, final String type) throws Exception {
         //Convert SOAPMessage or String into JSON object
         final JSONObject trainServices = this.getTrainServices(data, type);
-        final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
 
-        if (serviceObject instanceof JSONArray) {
-            //If service object is an array, it contains multiple trains
-            return this.getMultipleDepartingTrains((JSONArray) serviceObject);
-        } else {
-            //If service object is an object, it contains a single train
-            return this.getSingleDepartingService((JSONObject) serviceObject);
+        if(trainServices != null){
+            final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
+
+            if (serviceObject instanceof JSONArray) {
+                //If service object is an array, it contains multiple trains
+                return this.getDepartingTrains((JSONArray) serviceObject);
+            } else {
+                //If service object is an object, it contains a single train
+                return this.getDepartingTrain((JSONObject) serviceObject);
+            }
+        }else{
+            return null;
         }
     }
 
     public JSONObject arrivalBoardServices(final Object data, final String type) throws Exception {
         //Convert SOAPMessage or String into JSON object
         final JSONObject trainServices = this.getTrainServices(data, type);
-        final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
 
-        if (serviceObject instanceof JSONArray) {
-            return this.getMultipleArrivalTrains((JSONArray) serviceObject);
-        } else {
-            return this.getSingleArrivalTrain((JSONObject) serviceObject);
+        if(trainServices != null) {
+            final Object serviceObject = new JSONTokener(trainServices.get("lt5:service").toString()).nextValue();
+
+            if (serviceObject instanceof JSONArray) {
+                return this.getArrivingTrains((JSONArray) serviceObject);
+            } else {
+                return this.getArrivingTrain((JSONObject) serviceObject);
+            }
+        }else{
+            return null;
         }
     }
 
@@ -633,7 +646,6 @@ public class ParserFactory {
         }
     }
 
-    //To POJOs
     public User toUser(final JSONObject data, final String id) {
         try {
             final JSONObject json = data.getJSONObject("user");
@@ -758,7 +770,6 @@ public class ParserFactory {
         }
     }
 
-    //JSON Token to String
     public String toToken(final String token, final User user) {
         //Put token in json response
         JSONObject response = new JSONObject();
@@ -768,24 +779,27 @@ public class ParserFactory {
         return response.toString();
     }
 
-    //Parse Error messages
     public String errorMessage(final Exception ex) {
         //Extract error message from exception
         LOGGER.warn(ex);
 
-        String message;
-        if (ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
-            message = "No Trains Running";
-        } else if (ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")) {
-            message = "";
-        } else {
-            message = ex.getMessage();
+        String message = "";
+        if(ex.getMessage() != null) {
+            if (ex.getMessage().equals("JSONObject[\"lt5:trainServices\"] not found.")) {
+                message = "No Trains Running";
+            } else if (ex.getMessage().equals("JSONObject[\"GetDepBoardWithDetailsResponse\"] not found.")) {
+                message = "";
+            } else {
+                message = "There was an error";
+            }
+
         }
 
         return message;
     }
 
-    //Build responses for endpoints
+
+    //Client responses
     public String journeysResponse(final JSONArray journeys) {
         //Put in json response
         JSONObject response = new JSONObject();

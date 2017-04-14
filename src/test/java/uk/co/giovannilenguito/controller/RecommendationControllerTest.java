@@ -32,7 +32,9 @@ public class RecommendationControllerTest {
         databaseHelper.closeConnection();
 
         Method buildResponse = recommendationController.getClass().getDeclaredMethod("buildResponse", int.class, List.class);
-        buildResponse.setAccessible(true);
+        if(!buildResponse.isAccessible()){
+            buildResponse.setAccessible(true);
+        }
 
         JSONArray response = (JSONArray) buildResponse.invoke(recommendationController, 5, journeys);
         Assert.assertEquals(1, response.length());

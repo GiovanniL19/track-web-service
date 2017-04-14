@@ -1,0 +1,174 @@
+{
+  "trains": [
+    {
+      "arrivalStatus": "On time",
+      "std": "16:39",
+      "origin": {
+        "crs": "VIC",
+        "name": "London Victoria"
+      },
+      "destination": {
+        "crs": "PMH, BOG",
+        "name": "Portsmouth Harbour & Bognor Regis"
+      },
+      "trainSplits": true,
+      "operatorCode": "SN",
+      "type": "train",
+      "platform": 7,
+      "operator": "Southern",
+      "etd": "On time",
+      "arrivalTime": "17:51",
+      "id": "4tjgituRO7aOeZvj69N9vA==",
+      "callingPoints": [
+        [
+          {
+            "st": "16:43",
+            "crs": "TBD",
+            "name": "Three Bridges",
+            "et": "On time"
+          },
+          {
+            "st": "16:47",
+            "crs": "CRW",
+            "name": "Crawley",
+            "et": "On time"
+          },
+          {
+            "st": "16:55",
+            "crs": "HRH",
+            "name": "Horsham",
+            "et": "On time"
+          },
+          {
+            "st": "17:27",
+            "crs": "BAA",
+            "name": "Barnham",
+            "et": "On time"
+          },
+          {
+            "st": "17:35",
+            "crs": "CCH",
+            "name": "Chichester",
+            "et": "On time"
+          },
+          {
+            "st": "17:38",
+            "crs": "FSB",
+            "name": "Fishbourne (West Sussex)",
+            "et": "On time"
+          },
+          {
+            "st": "17:41",
+            "crs": "BOH",
+            "name": "Bosham",
+            "et": "On time"
+          },
+          {
+            "st": "17:46",
+            "crs": "SOB",
+            "name": "Southbourne",
+            "et": "On time"
+          },
+          {
+            "st": "17:49",
+            "crs": "EMS",
+            "name": "Emsworth",
+            "et": "On time"
+          },
+          {
+            "st": "17:53",
+            "crs": "HAV",
+            "name": "Havant",
+            "et": "On time"
+          },
+          {
+            "st": "17:56",
+            "crs": "BDH",
+            "name": "Bedhampton",
+            "et": "On time"
+          },
+          {
+            "st": "18:01",
+            "crs": "HLS",
+            "name": "Hilsea",
+            "et": "On time"
+          },
+          {
+            "st": "18:05",
+            "crs": "FTN",
+            "name": "Fratton",
+            "et": "On time"
+          },
+          {
+            "st": "18:09",
+            "crs": "PMS",
+            "name": "Portsmouth & Southsea",
+            "et": "On time"
+          },
+          {
+            "st": "18:13",
+            "crs": "PMH",
+            "name": "Portsmouth Harbour",
+            "et": "On time"
+          }
+        ],
+        [
+          {
+            "st": "16:55",
+            "crs": "HRH",
+            "name": "Horsham",
+            "et": "On time"
+          },
+          {
+            "st": "17:06",
+            "crs": "CHH",
+            "name": "Christs Hospital",
+            "et": "On time"
+          },
+          {
+            "st": "17:12",
+            "crs": "BIG",
+            "name": "Billingshurst",
+            "et": "On time"
+          },
+          {
+            "st": "17:19",
+            "crs": "PUL",
+            "name": "Pulborough",
+            "et": "On time"
+          },
+          {
+            "st": "17:25",
+            "crs": "AMY",
+            "name": "Amberley",
+            "et": "On time"
+          },
+          {
+            "st": "17:30",
+            "crs": "ARU",
+            "name": "Arundel",
+            "et": "On time"
+          },
+          {
+            "st": "17:38",
+            "crs": "FOD",
+            "name": "Ford",
+            "et": "On time"
+          },
+          {
+            "st": "17:42",
+            "crs": "BAA",
+            "name": "Barnham",
+            "et": "On time"
+          },
+          {
+            "st": "17:51",
+            "crs": "BOG",
+            "name": "Bognor Regis",
+            "et": "On time"
+          }
+        ]
+      ]
+    }
+  ]
+}

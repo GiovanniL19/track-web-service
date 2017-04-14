@@ -8,8 +8,10 @@ import uk.co.giovannilenguito.helper.DatabaseHelper;
 import uk.co.giovannilenguito.model.Journey;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by giovannilenguito on 04/04/2017.
@@ -26,7 +28,9 @@ public class JourneyControllerTest {
 
         //Reflection
         Method getHour = journeyController.getClass().getDeclaredMethod("getHourOfDay");
-        getHour.setAccessible(true);
+        if(!getHour.isAccessible()){
+            getHour.setAccessible(true);
+        }
 
         int hourOfDay = (int) getHour.invoke(journeyController);
 
@@ -34,15 +38,24 @@ public class JourneyControllerTest {
 
         //Reflection
         Method getDayOfWeek = journeyController.getClass().getDeclaredMethod("getDayOfWeek");
-        getDayOfWeek.setAccessible(true);
+        if(!getDayOfWeek.isAccessible()){
+            getDayOfWeek.setAccessible(true);
+        }
 
         String dayOfWeek = (String) getDayOfWeek.invoke(journeyController);
         journey.setDay(dayOfWeek);
 
 
         //Change expected result accordingly
-        Assert.assertEquals(11, journey.getHour());
-        Assert.assertEquals("Tuesday", journey.getDay());
+        int hour = LocalDateTime.now().getHour();
+        String hourFormatted = String.valueOf(hour).split(":")[0];
+        int expectedHour = Integer.parseInt(hourFormatted);
+
+        Calendar calendar = Calendar.getInstance();
+        String today = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+
+        Assert.assertEquals(expectedHour, journey.getHour());
+        Assert.assertEquals(today, journey.getDay());
 
     }
 
@@ -70,6 +83,6 @@ public class JourneyControllerTest {
         if(journey != null){
             exists = true;
         }
-        Assert.assertEquals(true, exists);
+        Assert.assertEquals(false, exists);
     }
 }

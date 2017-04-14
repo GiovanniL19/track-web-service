@@ -24,7 +24,9 @@ public class UserControllerTest {
 
         UserController userController = new UserController();
         Method buildToken = userController.getClass().getDeclaredMethod("buildToken", JSONObject.class);
-        buildToken.setAccessible(true);
+        if(!buildToken.isAccessible()){
+            buildToken.setAccessible(true);
+        }
 
         JSONObject credentials = new JSONObject();
         credentials.put("username", username);
