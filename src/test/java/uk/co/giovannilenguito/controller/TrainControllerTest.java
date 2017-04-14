@@ -18,14 +18,19 @@ public class TrainControllerTest {
         TrainController trainController = new TrainController();
 
         Method getDepartureBoard = trainController.getClass().getDeclaredMethod("getDepartureBoard", String.class);
-        getDepartureBoard.setAccessible(true);
+        if(!getDepartureBoard.isAccessible()){
+            getDepartureBoard.setAccessible(true);
+        }
 
         Method getArrivalBoard = trainController.getClass().getDeclaredMethod("getArrivalBoard", String.class);
-        getArrivalBoard.setAccessible(true);
+        if(!getArrivalBoard.isAccessible()){
+            getArrivalBoard.setAccessible(true);
+        }
 
         Method findTrains = trainController.getClass().getDeclaredMethod("findTrains", String.class, String.class, String.class);
-        findTrains.setAccessible(true);
-
+        if(!findTrains.isAccessible()){
+            findTrains.setAccessible(true);
+        }
 
         Response departureBoardResponse = (Response) getDepartureBoard.invoke(trainController, "EUS");
         Response arrivalBoardResponse = (Response) getArrivalBoard.invoke(trainController, "EUS");
