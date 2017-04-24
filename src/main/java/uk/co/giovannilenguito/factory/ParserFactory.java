@@ -201,17 +201,15 @@ public class ParserFactory {
         callingPoint.put("st", point.get("lt4:st").toString());
         callingPoint.put("name", point.get("lt4:locationName").toString());
 
-        if (!callingPoint.isNull("lt4:at")) {
-            train.put("arrivalStatus", callingPoint.get("lt4:at"));
-        }else if (!callingPoint.isNull("lt4:et")) {
-            train.put("arrivalStatus", callingPoint.get("lt4:et"));
+        if (!point.isNull("lt4:at")) {
+            train.put("arrivalStatus", point.get("lt4:at"));
+        }else if (!point.isNull("lt4:et")) {
+            train.put("arrivalStatus", point.get("lt4:et"));
         }
 
-
-        if (!callingPoint.isNull("lt4:st")) {
-            train.put("arrivalTime", callingPoint.get("lt4:st"));
+        if (!point.isNull("lt4:st")) {
+            train.put("arrivalTime", point.get("lt4:st"));
         }
-
         //Returns single calling point
         return callingPoint;
     }
